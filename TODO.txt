@@ -1,0 +1,5 @@
+For new AsciiMachine github update, I want to create:
+1.Class log; +
+2. Namespace ascii; +
+3. Multiple system of sf::Text(To Object class). +
+4.class Object - parent of classes Block, Entity, Item and etc; +

@@ -1,8 +1,10 @@
-#pragma once
-#include <iostream>
-#include <fstream>
-#include <SFML/Graphics.hpp>
-std::string GetSpriteResources(std::string PathToSprite){
+Sprite::Sprite(){
+    logs.WriteLog("Sprite class is created");
+}
+Sprite::~Sprite(){
+    logs.WriteLog("Sprite class is destroyed");
+}
+std::string Sprite::GetSpriteResources(std::string PathToSprite){
     std::ifstream PathFile(PathToSprite);
     std::string strh;
     std::string str;
@@ -21,7 +23,7 @@ std::string GetSpriteResources(std::string PathToSprite){
     return str;
 }
 
-void LoadSprite(sf::Text sprite, sf::RenderWindow& window, float x, float y, int SpriteNum = 1){
+void Sprite::LoadSprite(sf::Text sprite, sf::RenderWindow& window, float x, float y, int SpriteNum = 1){
     std::string Sprite = sprite.getString();
     int saveX = x;
     int loop = 0;
