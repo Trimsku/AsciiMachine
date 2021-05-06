@@ -1,19 +1,41 @@
+/***************************************************
+****************************************************
+AsciiMachine - Engine for create ascii games. Enjoy!
+AsciiMachine is a free game engine, but you are:
+    1. Don't copyright product. 
+
+        You cannot to pose as an a project as your own 
+        without the permission of Trimsky.
+
+    2. You cannot to pose as an modified versions as your own.
+
+If these conditions are met, you can use the product.
+Copyright 2021-2021
+*****************************************************
+****************************************************/
 #pragma once
 #include <vector>
 #include <tuple>
 #include "utils.hpp"
 #include "assertvariables.hpp" //- TODO making system.
-#include "Object.hpp"
+#include "BaseGUI.hpp"
 namespace ascii{
 
     class Server{
+        private:
+            #ifdef ENABLE_GUI_BASE
+                std::vector<BaseGUI*> BGUI_Object;
+                std::vector<std::string> BGUI_names;
+            #endif
         public:
+            #ifdef ENABLE_GUI_BASE
+                std::vector<std::string> update(BaseGUI *obj);
+                void sendStatus(BaseGUI *obj);
+                void refreshBGUI();
+            #endif
+
             Server();
             ~Server();
-            #ifdef ENABLE_OBJECT
-                std::vector<Object*> OObject;
-            #endif
-            void SendStatus(Object *obj);
     };
     #include "Server.cpp"
     

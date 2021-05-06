@@ -1,21 +1,48 @@
+/***************************************************
+****************************************************
+AsciiMachine - Engine for create ascii games. Enjoy!
+AsciiMachine is a free game engine, but you are:
+    1. Don't copyright product. 
+
+        You can't pose as an a project as your own 
+        without the permission of Trimsky.
+
+    2. You can't pose as an modified versions as your own.
+
+If these conditions are met, you can use the product.
+Copyright 2021-2021
+*****************************************************
+****************************************************/
+
 #pragma once
-#include <iostream>
 #include <SFML/Graphics.hpp>
 #include <string>
-#include "Object.hpp"
+#include "BaseGUI.hpp"
 #include "assertvariables.hpp"
+
 namespace ascii{
-    class Entity : public Object
+    class Entity : public BaseGUI
     {
     private:
         std::string Name;
+        float Attack;
+        float hp;
     public:
-        int x,y;
         Entity(std::string Name0);
         virtual ~Entity();
-        int Attack;
-        int Move;
+        void MinusHP(float minHP);
+        void PlusHP(float plusHP);
+
+        // Getters
+
+        void setAttack(float attack);
+        void setHP(float HP);
+        
+        // Setters
+        
+        float getHP();
         std::string getName();
+        float getAttack();
     };
     #include "Entity.cpp"
 }

@@ -1,6 +1,3 @@
-
-
-
 /***************************************************
 ****************************************************
 AsciiMachine - Engine for create ascii games. Enjoy!
@@ -13,15 +10,29 @@ AsciiMachine is a free game engine, but you are:
     2. You cannot to pose as an modified versions as your own.
 
 If these conditions are met, you can use the product.
-Copyright 2021-2021.
+Copyright 2021-2021
 *****************************************************
 ****************************************************/
 
 #pragma once
-#define OBJECT_COUNT_ERROR "SIZE IS MORE THAN SIZE OF SPRITES."
-#define ENABLE_GUI_BASE
-#include "Log.hpp"
-ascii::Log logs("log.txt");
-#include "BaseGUI.hpp"
-//ascii::GUIBase NoneOf("None");
-//TODO: create system.
+#include <string>
+#include <SFML/Graphics.hpp>
+#include "assertvariables.hpp"
+namespace ascii{
+    
+    class BaseGUI{
+        private:
+            std::string Name;
+            float x0,y0, x1, y1;
+        public:
+            BaseGUI(std::string Name);
+            void setHitbox(float x01, float y01, float x02, float y02);
+            float getY0();
+            float getX0();
+            float getY1();
+            float getX1();
+            std::string getName();
+    };
+    #include "BaseGUI.cpp"
+
+}

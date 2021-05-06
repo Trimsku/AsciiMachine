@@ -1,5 +1,14 @@
 For new AsciiMachine github update, I want to create:
-1.Class log; +
-2. Namespace ascii; +
-3. Multiple system of sf::Text(To Object class). +
-4.class Object - parent of classes Block, Entity, Item and etc; +
+
+    1.Class log; +
+    2. Namespace ascii; +
+    3. Multiple system of sf::Text(To Object class). +
+    4.class Object - parent of classes Block, Entity, Item and etc; +
+
+For new AsciiMachine github update, I want to create:
+
+    1. Add comments to code ( only English ); - 
+    2. Add readme.md( about files and rtxt format); -
+    3. Create Hitbox update(); +
+    4. transform .hpp files - i dont
+    5. Create functions for center,right,left by x,y; by object. + 

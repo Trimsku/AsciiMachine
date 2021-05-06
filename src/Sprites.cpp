@@ -1,10 +1,11 @@
 Sprite::Sprite(){
-    logs.WriteLog("Sprite class is created");
+    logs.writeLog("Sprite class is created");
 }
 Sprite::~Sprite(){
-    logs.WriteLog("Sprite class is destroyed");
+    logs.writeLog("Sprite class is destroyed");
 }
-std::string Sprite::GetSpriteResources(std::string PathToSprite){
+
+std::string Sprite::getSpriteResources(std::string PathToSprite){
     std::ifstream PathFile(PathToSprite);
     std::string strh;
     std::string str;
@@ -23,7 +24,9 @@ std::string Sprite::GetSpriteResources(std::string PathToSprite){
     return str;
 }
 
-void Sprite::LoadSprite(sf::Text sprite, sf::RenderWindow& window, float x, float y, int SpriteNum = 1){
+
+
+void Sprite::loadSprite(sf::Text sprite, sf::RenderWindow& window, float x, float y, int SpriteNum = 1){
     std::string Sprite = sprite.getString();
     int saveX = x;
     int loop = 0;
@@ -41,7 +44,7 @@ void Sprite::LoadSprite(sf::Text sprite, sf::RenderWindow& window, float x, floa
             i+=2;
             for(; Sprite[i] != ']'; i++) size += Sprite[i];
             i++;
-            sprite.setCharacterSize(ConvertToInt(size));
+            sprite.setCharacterSize(convertStringToInt(size));
             size = "";
         }
         if(Sprite[i] == '[' && Sprite[i+1] == '@'){
@@ -57,7 +60,7 @@ void Sprite::LoadSprite(sf::Text sprite, sf::RenderWindow& window, float x, floa
             i++;
 
             /*rgb(Number, ConvertRGBtoInt(r), ConvertRGBtoInt(g), ConvertRGBtoInt(b));*/
-            sprite.setFillColor(sf::Color( ConvertToInt(r), ConvertToInt(g), ConvertToInt(b)));
+            sprite.setFillColor(sf::Color( convertStringToInt(r), convertStringToInt(g), convertStringToInt(b)));
             r ="", g = "", b = "";
         }
         if(Sprite[i] == '\n') {
