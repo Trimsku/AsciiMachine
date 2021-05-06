@@ -5,7 +5,7 @@ build:
 run:
 	./bin/AsciiMachine
 clean:
-	rm ./*.gch
+	rm ./bin/*
 
 #git-init:
 #	git add .
