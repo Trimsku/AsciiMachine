@@ -7,7 +7,7 @@ Server::~Server(){
 void Server::sendStatus(BaseGUI *obj){
     BGUI_Object.push_back(obj);
 }
-std::vector<std::string> Server::update(BaseGUI *obj){
+void Server::update(BaseGUI *obj){
     for(int i = 0; i < BGUI_Object.size(); i++){
         if(obj->getName() != BGUI_Object[i]->getName()){
 
@@ -29,10 +29,18 @@ std::vector<std::string> Server::update(BaseGUI *obj){
             continue;
         }
     }
-    return BGUI_names;
 }
 
-void Server::refreshBGUI(){
+void Server::refresh(){
+    #ifdef ENABLE_GUI_BASE
     BGUI_names.clear();
     BGUI_names.shrink_to_fit();
+    #endif
+}
+
+bool Server::lookfor(std::string name){
+    for(int i=0; i < BGUI_names.size(); i++){
+        if(BGUI_names[i] == name) return true;
+    }
+    return false;
 }

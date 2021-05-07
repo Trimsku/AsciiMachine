@@ -18,7 +18,7 @@ Copyright 2021-2021
 #include <SFML/Graphics.hpp>
 #include <string>
 #include "BaseGUI.hpp"
-#include "assertvariables.hpp"
+#include "GlobalVars.hpp"
 
 namespace ascii{
     class Entity : public BaseGUI

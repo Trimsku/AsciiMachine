@@ -18,14 +18,18 @@ Copyright 2021-2021
 #include <string>
 #include <math.h>
 #include <ctype.h>
+#include <fstream>
+#include <iostream>
+#include <SFML/Graphics.hpp>
 #if WIN32
     #include <window.h>
 #else
     #include <X11/Xlib.h>
 #endif
 
+
 namespace ascii{
-    #if WIN32
+    #ifdef _WIN32
             width  = (int) GetSystemMetrics(SM_CXSCREEN);
             height = (int) GetSystemMetrics(SM_CYSCREEN);
     #else
@@ -40,7 +44,7 @@ namespace ascii{
         return torgb;
     }
     void setDisplayYX(int &width, int &height) {
-        #if WIN32
+        #ifdef _WIN32
             width  = (int) GetSystemMetrics(SM_CXSCREEN);
             height = (int) GetSystemMetrics(SM_CYSCREEN);
         #else
@@ -49,14 +53,14 @@ namespace ascii{
         #endif
     }
     int getDisplayX(){
-        #if WIN32
+        #ifdef _WIN32
             return (int) GetSystemMetrics(SM_CYSCREEN);
         #else
             return scrn->width;
         #endif
     }
     int getDisplayY(){
-        #if WIN32
+        #ifdef _WIN32
             return (int) GetSystemMetrics(SM_CXSCREEN);
         #else
             return scrn->height;
@@ -120,7 +124,24 @@ namespace ascii{
         }
         return mcol;
     }
-
+    std::string getFileResources(std::string path_to_file){
+        std::ifstream PathFile(path_to_file);
+        std::string strh;
+        std::string str;
+        if (!PathFile.is_open()) {
+            std::cerr<<"Файл \033[1;31m"<<path_to_file<<"\033[0m не существует\n";
+            exit(0);
+        } 
+        while(!PathFile.eof()){
+            getline(PathFile, strh);
+            str = str + strh.c_str();
+            if (!PathFile.eof()){
+                str += '\n';
+            }
+        }
+        PathFile.close();
+        return str;
+    }
     int getCenterX(){
         return ascii::getDisplayX()/2;
     }

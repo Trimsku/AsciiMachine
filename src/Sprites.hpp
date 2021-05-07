@@ -19,7 +19,7 @@ Copyright 2021-2021
 #include <fstream>
 #include <SFML/Graphics.hpp>
 #include "utils.hpp"
-#include "assertvariables.hpp"
+#include "GlobalVars.hpp"
 namespace ascii
 {
     
@@ -27,8 +27,7 @@ namespace ascii
         public:
             Sprite();
             ~Sprite();
-            std::string getSpriteResources(std::string PathToSprite);
-            void loadSprite(sf::Text sprite, sf::RenderWindow& window, float x, float y, int SpriteNum);
+            void loadSprite(sf::Text sprite, float x, float y, int SpriteNum);
             //void LoadSprite(sf::Text sprite, sf::RenderWindow& window, std::string x, std::string y, int SpriteNum);
     };
     #include "Sprites.cpp"

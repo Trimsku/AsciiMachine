@@ -17,7 +17,7 @@ Copyright 2021-2021
 #include <vector>
 #include <tuple>
 #include "utils.hpp"
-#include "assertvariables.hpp" //- TODO making system.
+#include "GlobalVars.hpp" //- TODO making system.
 #include "BaseGUI.hpp"
 namespace ascii{
 
@@ -29,13 +29,14 @@ namespace ascii{
             #endif
         public:
             #ifdef ENABLE_GUI_BASE
-                std::vector<std::string> update(BaseGUI *obj);
+                void update(BaseGUI *obj);
                 void sendStatus(BaseGUI *obj);
-                void refreshBGUI();
+                bool lookfor(std::string name);
             #endif
 
             Server();
             ~Server();
+            void refresh();
     };
     #include "Server.cpp"
     

@@ -17,7 +17,7 @@ Copyright 2021-2021
 #pragma once
 #include <string>
 #include <SFML/Graphics.hpp>
-#include "assertvariables.hpp"
+#include "GlobalVars.hpp"
 namespace ascii{
     
     class BaseGUI{

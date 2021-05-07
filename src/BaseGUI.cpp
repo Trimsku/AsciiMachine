@@ -4,6 +4,7 @@ std::string BaseGUI::getName(){
 BaseGUI::BaseGUI(std::string Name0){
     Name = Name0;
 }
+
 void BaseGUI::setHitbox( float x01, float y01, float x02, float y02){
     x0 = x01;
     y0 = y01;
