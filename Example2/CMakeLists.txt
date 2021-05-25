@@ -8,7 +8,7 @@ project(ascii_simple)
 file(GLOB BUILD_CPP "../AsciiMachineCurrent/API/src/*.cpp")
 
 # SFML include
-find_package(SFML 2.5.1 COMPONENTS graphics window system REQUIRED)
+find_package(SFML 2 COMPONENTS graphics window system REQUIRED)
 include_directories( ${SFML_INCLUDE_DIRS} )
 
 # Add AsciiSimple.o and libAscii.so ( or .dll )

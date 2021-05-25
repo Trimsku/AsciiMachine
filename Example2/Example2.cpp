@@ -60,16 +60,12 @@ int main() {
         window.clear();
         //SCENE_DRAW
         // Process events
-        sf::Event event;
-        while (window.pollEvent(event)){
-            if (event.type == sf::Event::Closed)
-                window.close();
-        }
+        EVENT;
+        EVENT_CLOSED(Q);
 
         GUI_CLOCKS_TIMER(PlayerStand, 750);
 
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) window.close();
-        else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)){
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)){
             GUI_O_ANIMATED_MV(Player, PlayerStand, 0.3, 0);
         }
         else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
