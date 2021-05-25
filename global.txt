@@ -1,3 +1,0 @@
-name: test(100,100), Fullscreen;
-version: 0.0.1;
-enable: all;
