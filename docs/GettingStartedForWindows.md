@@ -21,7 +21,7 @@ Grab them from Example ( Copy from `Example1/` dir in path/to/AsciiMachine/Examp
 1. Create main.cpp and paste this code:
 
 ```cpp
-\#define GLOBAL_SIZE 50
+#define GLOBAL_SIZE 50
 #include "AsciiMachineCurrent/API/include/GUI_o.hpp"
 #include "AsciiMachineCurrent/API/include/utils.hpp"
 
