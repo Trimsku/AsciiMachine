@@ -25,20 +25,11 @@ namespace ascii {
         PathFile.close();
         return str;
     }   
-
-    int convertStringToInt(std::string rgb){
-        int torgb = 0;
-        for(int i = 0; i < rgb.length(); i++){
-            torgb += rgb[i] * pow(10, rgb.length() - i - 1); 
-        }
-        return torgb;
-    } 
-
     int getFileAnimationsCount(std::string path_to_file){
         std::string txtFormat = getFileResources(path_to_file);
         int counter = 1;
-        for(int i = 0; i < txtFormat.length(); i++){
-            if(txtFormat[i] == '[' && txtFormat[i+1] == '#' && txtFormat[i+2] == (char)((counter+1)+(int)'0') ){
+        for(long unsigned int i = 0; i < txtFormat.length(); i++){
+            if(txtFormat[i] == '[' && txtFormat[i+1] == '#' && txtFormat[i+2] == static_cast<char>((counter+1)+'0') ){
                 counter++;
             }
         }

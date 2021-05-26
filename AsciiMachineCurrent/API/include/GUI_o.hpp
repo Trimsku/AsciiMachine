@@ -21,23 +21,23 @@ namespace ascii
             //! ****************
             //! *   Default    *
             //! ****************
-
+            virtual ~GUI_o();
             GUI_o(std::string name_);
             std::string getName();
-            int getX();
-            int getY();
+            float getX();
+            float getY();
             void MoveX(float x_);
             void MoveY(float y_);
-            void setGlobalXY(int x_, int y_);
+            void setGlobalXY(float x_, float y_);
 
             //! ****************************
             //! *  Animation and sprites.  *
             //! ****************************
 
             #ifdef GLOBAL_SIZE
-                void newSprites(std::string path_to_file, std::string name, int size = GLOBAL_SIZE);
+                void newSprites(std::string path_to_file, std::string name, unsigned int size = GLOBAL_SIZE);
             #else //
-                void newSprites(std::string path_to_file, std::string name, int size);
+                void newSprites(std::string path_to_file, std::string name, unsigned int size);
             #endif
             bool isFontLoaded(std::string path_to_file);
             void loadSprite(std::string sprite_, sf::RenderTarget* window, int sprite_num_ = 1);

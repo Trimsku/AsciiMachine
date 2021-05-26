@@ -18,7 +18,7 @@ std::string ascii::Palitra::getPalitraName() {
 
 void ascii::Palitra::printColors() {
     std::cout<<'\n';
-    for(int i = 0; i < colornames.size(); i++){
+    for(long unsigned int i = 0; i < colornames.size(); i++){
         std::cout <<getPalitraName() << "::" << colornames[i] <<":\tr: " << r[i] << "\tg: "<< g[i] << "\tb: " << b[i] << "\ta: " << a[i] << "\n";
     }
     std::cout<<'\n';

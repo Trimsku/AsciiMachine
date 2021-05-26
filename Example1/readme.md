@@ -1,8 +1,6 @@
-Run this:
-`cd build`
-( build/ in Example1 folder )
-```
-cmake ..
+Go to AsciiMachine build directory and run this command:
+```cmake
+cmake .. -DSIMPLE_PROGRAMS ON
 make
-./AsciiSimple
+./AsciiSimple2
 ```

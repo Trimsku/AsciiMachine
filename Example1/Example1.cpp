@@ -7,7 +7,7 @@ int main() {
     sf::RenderWindow window(sf::VideoMode(1000,1000), "Ascii-G", sf::Style::Fullscreen);
     ascii::GUI_o HelloWorld("HelloWorld");
     HelloWorld.setGlobalXY(0,0);
-    HelloWorld.isFontLoaded("../font/10894.otf");
+    HelloWorld.isFontLoaded("../Example1/font/10894.otf");
     HelloWorld.newSprites("Hello World!", "HW");
 
     while (window.isOpen()) {

@@ -9,10 +9,10 @@
 namespace ascii {
     class Scene {
         private:
-            int getChunkX(int global_x);
-            int getChunkY(int global_y);
+            float getChunkX(float global_x);
+            float getChunkY(float global_y);
 
-            int widthOfScreen, heightOfScreen;
+            float widthOfScreen, heightOfScreen;
             signed int x_chunk_now = 1, y_chunk_now = 1;
             std::vector<Vector2dlocalInfo> CoordsOfObjects;
             std::vector<GUI_o> Objects;
@@ -20,7 +20,7 @@ namespace ascii {
             std::string path_to_font; 
         public:
             sf::RenderTexture ttexture;
-            void setWidthAndHeight(int width, int height);
+            void setWidthAndHeight(float width, float height);
             void PushObject(GUI_o object, bool createcopy = false);
             void AnonymousSettings(int size, std::string path_to_font_);
 

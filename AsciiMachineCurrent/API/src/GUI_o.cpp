@@ -1,5 +1,8 @@
 #include "../include/GUI_o.hpp"
 #include "../include/utils.hpp"
+
+ascii::GUI_o::~GUI_o() {}
+
 std::string ascii::GUI_o::getName(){
     return name;
 }
@@ -9,15 +12,15 @@ ascii::GUI_o::GUI_o(std::string name_)
     name = name_;
 }
 
-void ascii::GUI_o::setGlobalXY(int x_, int y_){
+void ascii::GUI_o::setGlobalXY(float x_, float y_){
     coords.global_x = x_;
     coords.global_y = y_;
 }
 
-int ascii::GUI_o::getX(){
+float ascii::GUI_o::getX(){
     return coords.global_x;
 }
-int ascii::GUI_o::getY(){
+float ascii::GUI_o::getY(){
     return coords.global_y;
 }
 
@@ -59,7 +62,7 @@ void ascii::GUI_o::printSignals(){
 
 
 bool ascii::GUI_o::isOneSprite(std::string fsprite){
-    for(int i = 0; i < fsprite.length(); i++) {
+    for(long unsigned int i = 0; i < fsprite.length(); i++) {
         if(fsprite[i] == '[' && fsprite[i+1] == '#' && fsprite[i+2] == '1') {
             return false;
         }
@@ -68,14 +71,14 @@ bool ascii::GUI_o::isOneSprite(std::string fsprite){
 }
 
 void ascii::GUI_o::loadSprite(std::string name, sf::RenderTarget* window, int sprite_num_) {
-    int x_ = getX();
-    int y_ = getY();
+    float x_ = getX();
+    float y_ = getY();
     int loop;
     // Init sprite_ for working. Start
     sf::Text sprite_;
-    int j;
+    long unsigned int j;
     if(name != "anonymous") {
-        j = 0;
+        j = 0.0;
         for(auto& sprite : spritesNames) {
             if(sprite == name) {
                 sprite_  = sprites[j];
@@ -95,13 +98,13 @@ void ascii::GUI_o::loadSprite(std::string name, sf::RenderTarget* window, int sp
     std::string Sprite = sprite_.getString();
 
     bool is1sprite = isOneSprite(Sprite);
-    int saveX = x_;
+    float saveX = x_;
     std::string r,g,b, size;
 
     if ( is1sprite ) loop = 1;
     else loop = 0;
 
-    for(int i = 0; i < Sprite.length(); i++){
+    for(long unsigned int i = 0; i < Sprite.length(); i++){
         sprite_.setPosition(x_,y_);
 
         if( is1sprite == false ) {
@@ -128,62 +131,27 @@ void ascii::GUI_o::loadSprite(std::string name, sf::RenderTarget* window, int sp
                 for(; isdigit(Sprite[i]); i++)  b+=Sprite[i];
                 i++;
 
-                sprite_.setFillColor(sf::Color( convertStringToInt(r), convertStringToInt(g), convertStringToInt(b)));
+                sprite_.setFillColor(sf::Color( convertStringToInt<sf::Uint8>(r), convertStringToInt<sf::Uint8>(g), convertStringToInt<sf::Uint8>(b) ) );
                 r ="", g = "", b = "";
                 }
                 
             if(Sprite[i] == '\n') {
-                y_ += sprite_.getCharacterSize();
+                y_ += static_cast<float>(sprite_.getCharacterSize());
                 x_=saveX;
                 sprite_.setPosition(x_, y_); 
                 continue;
             }
-            x_+=sprite_.getCharacterSize()/2;
+            x_+=static_cast<float>(sprite_.getCharacterSize()/2);
             sprite_.setPosition(x_ ,y_);
         
             sprite_.setString(Sprite[i]);	
             window->draw(sprite_);
         }
     }
-    /*else {
-
-        for(int i = 0; i < Sprite.length(); i++){
-            sprite_.setPosition(x_,y_);
-        
-            if(Sprite[i] == '[' && Sprite[i+1] == '@'){
-                i+=2;
-                while(Sprite[i] == ' ') i++;
-                for(; isdigit(Sprite[i]); i++) r+=Sprite[i];
-                i++;
-
-                while(Sprite[i] == ' ') i++;
-                for(; isdigit(Sprite[i]); i++)  g+=Sprite[i];
-                i++;
-
-                while(Sprite[i] == ' ') i++;
-                for(; isdigit(Sprite[i]); i++)  b+=Sprite[i];
-                i++;
-
-                sprite_.setFillColor(sf::Color( convertStringToInt(r), convertStringToInt(g), convertStringToInt(b)));
-                r ="", g = "", b = "";
-            }
-            if(Sprite[i] == '\n') {
-                y_ += sprite_.getCharacterSize();
-                x_=saveX;
-                sprite_.setPosition(x_, y_); 
-                continue;
-            }
-            x_+=sprite_.getCharacterSize()/2;
-            sprite_.setPosition(x_ ,y_);
-        
-            sprite_.setString(Sprite[i]);	
-            window->draw(sprite_);
-        }
-    }*/
 }
 
 
-void ascii::GUI_o::newSprites(std::string path_to_file, std::string name, int size) {
+void ascii::GUI_o::newSprites(std::string path_to_file, std::string name, unsigned int size) {
     sf::Text textureInfo(ascii::getFileResources(path_to_file), font, size );
     sprites.push_back(textureInfo);
     spritesNames.push_back(name);

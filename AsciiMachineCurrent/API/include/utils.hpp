@@ -19,7 +19,14 @@
 namespace ascii {
 
     std::string getFileResources(std::string path_to_file);
-    int convertStringToInt(std::string rgb); 
+    template<typename T>
+    T convertStringToInt(std::string rgb){
+        T torgb = 0;
+        for(T i = 0; i < rgb.length(); i++){
+            torgb += static_cast<T>(rgb[i] * pow(10, rgb.length() - i - 1)); 
+        }
+        return torgb;
+    } 
     int getFileAnimationsCount(std::string path_to_file);
 
 } // namespace ascii

@@ -1,7 +1,7 @@
 #include "../include/Scene.hpp"
 
 
-void ascii::Scene::setWidthAndHeight(int width_, int height_) {
+void ascii::Scene::setWidthAndHeight(float width_, float height_) {
     widthOfScreen = width_;
     heightOfScreen = height_;
 }
@@ -9,7 +9,7 @@ void ascii::Scene::setWidthAndHeight(int width_, int height_) {
 
 void ascii::Scene::PushObject(GUI_o object, bool createcopy) {
     bool copy = false;
-    int i = 0;
+    unsigned int i = 0;
     if( createcopy == false ) {
 
         for(auto &object_ : Objects){
@@ -23,25 +23,25 @@ void ascii::Scene::PushObject(GUI_o object, bool createcopy) {
     }
     if( copy ) {
         Objects[i] = object;
-        CoordsOfObjects[i].local_x = object.getX() - ( getChunkX ( object.getX() ) - 1 ) * widthOfScreen; 
-        CoordsOfObjects[i].local_y = object.getY() - ( getChunkY ( object.getY() ) - 1 ) * heightOfScreen;
-        CoordsOfObjects[i].x_chunk = getChunkX( object.getX() );
-        CoordsOfObjects[i].y_chunk = getChunkY( object.getY() );
+        CoordsOfObjects[i].local_x = object.getX() - ( getChunkX ( object.getX() ) - 1.f ) * widthOfScreen; 
+        CoordsOfObjects[i].local_y = object.getY() - ( getChunkY ( object.getY() ) - 1.f ) * heightOfScreen;
+        CoordsOfObjects[i].x_chunk = static_cast<int>(getChunkX( object.getX() ) );
+        CoordsOfObjects[i].y_chunk = static_cast<int>(getChunkY( object.getY() ) );
     }
     else {
         Objects.push_back(object);
         Vector2dlocalInfo info;
-        info.local_x = object.getX() - ( getChunkX ( object.getX() ) - 1 ) * widthOfScreen; 
-        info.local_y = object.getY() - ( getChunkY ( object.getY() ) - 1 ) * heightOfScreen;
-        info.x_chunk = getChunkX( object.getX() );
-        info.y_chunk = getChunkY( object.getY() );
+        info.local_x = object.getX() - ( getChunkX ( object.getX() ) - 1.f ) * widthOfScreen; 
+        info.local_y = object.getY() - ( getChunkY ( object.getY() ) - 1.f ) * heightOfScreen;
+        info.x_chunk = static_cast<int>(getChunkX( object.getX() ) );
+        info.y_chunk = static_cast<int>(getChunkY( object.getY() ) );
         CoordsOfObjects.push_back(info);
     }
 }
 
-int ascii::Scene::getChunkX( int global_x ) {
-    int chunk = 1;
-    int x = global_x;
+float ascii::Scene::getChunkX( float global_x ) {
+    float chunk = 1;
+    float x = global_x;
     while( !(x <= widthOfScreen) ){
         x -= widthOfScreen;
         chunk++;
@@ -49,9 +49,9 @@ int ascii::Scene::getChunkX( int global_x ) {
     return chunk;
 }
 
-int ascii::Scene::getChunkY( int global_y ) {
-    int chunk = 1;
-    int y = global_y;
+float ascii::Scene::getChunkY( float global_y ) {
+    float chunk = 1;
+    float y = global_y;
     while( !(y <= heightOfScreen) ){
         y -= heightOfScreen;
         chunk++;
@@ -61,7 +61,7 @@ int ascii::Scene::getChunkY( int global_y ) {
 
 
 void ascii::Scene::DrawMap() {
-    int j = 0;
+    long unsigned int j = 0;
     int counter = 0;
     std::cout << '\n';
     for (auto &i : CoordsOfObjects)
