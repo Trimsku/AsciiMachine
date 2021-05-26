@@ -2,7 +2,7 @@
 
 On this page, you can get started with the following instructions:
 
-#### Requirements( install it ):  SFML, git, g++ and CMake.
+## Requirements( install it ):  SFML, git, g++ and CMake.
 
 0. Create your main folder.
 `mkdir Tutorial`
