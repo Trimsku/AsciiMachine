@@ -1,9 +1,8 @@
-#How to get started?
+# How to get started?
 
 On this page, you can get started with the following instructions:
 
-#####Requirements( install it ):
-#####SFML, git, g++ and CMake.
+## Requirements( install it ): SFML, git, g++ and CMake.
 
 ### You can create and copy folders in GUI
 
@@ -21,7 +20,8 @@ Grab them from Example ( Copy from `Example1/` dir in path/to/AsciiMachine/Examp
 
 1. Create main.cpp and paste this code:
 
-```\#define GLOBAL_SIZE 50
+```cpp
+\#define GLOBAL_SIZE 50
 #include "AsciiMachineCurrent/API/include/GUI_o.hpp"
 #include "AsciiMachineCurrent/API/include/utils.hpp"
 
@@ -48,7 +48,7 @@ int main() {
 
 4. Create CMakeLists.txt with the following code:
 
-```
+```cmake
 #Version of cmake minimum required.
 cmake_minimum_required(VERSION 3.0  FATAL_ERROR)	 
 
@@ -92,6 +92,6 @@ cmake ..
 And finally:
 Go to your main folder and run AsciiSimple
 
-This tutorial is very bad. Please, are you, yes you help me with AsciiMachine in windows? 
+This tutorial is very bad. Please, help me with AsciiMachine in Windows? 
 
 Thanks for read a tutorial!

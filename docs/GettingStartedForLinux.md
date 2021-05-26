@@ -1,9 +1,8 @@
-#How to get started?
+# How to get started?
 
 On this page, you can get started with the following instructions:
 
-#####Requirements( install it ):
-#####SFML and git
+## Requirements( install it ):  SFML, git, g++ and CMake.
 
 0. Create your main folder.
 `mkdir Tutorial`
@@ -16,16 +15,16 @@ And copy Example.
 And go to your main folder
 
 2. Create textures/ and font/ folders.
-So far, we don't need more, more and more textures and fonts.
 Grab them from Example.
-```
+```make
 mv Example/font .
 mv Example/textures .
 ```
 
 3. Create main.cpp and paste this code:
 
-```\#define GLOBAL_SIZE 50
+```cpp
+#define GLOBAL_SIZE 50
 #include "AsciiMachineCurrent/API/include/GUI_o.hpp"
 #include "AsciiMachineCurrent/API/include/utils.hpp"
 
@@ -52,7 +51,7 @@ int main() {
 
 4. Create CMakeLists.txt with the following code:
 
-```
+```cmake
 #Version of cmake minimum required.
 cmake_minimum_required(VERSION 3.0  FATAL_ERROR)	 
 
