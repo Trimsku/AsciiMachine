@@ -1,2 +1,0 @@
-/usr/bin/ar qc libAscii.a CMakeFiles/Ascii.dir/AsciiMachineCurrent/API/src/AsciiSignal.cpp.o CMakeFiles/Ascii.dir/AsciiMachineCurrent/API/src/Color.cpp.o CMakeFiles/Ascii.dir/AsciiMachineCurrent/API/src/Entity.cpp.o CMakeFiles/Ascii.dir/AsciiMachineCurrent/API/src/GUI_o.cpp.o CMakeFiles/Ascii.dir/AsciiMachineCurrent/API/src/Scene.cpp.o CMakeFiles/Ascii.dir/AsciiMachineCurrent/API/src/Server.cpp.o CMakeFiles/Ascii.dir/AsciiMachineCurrent/API/src/utils.cpp.o
-/usr/bin/ranlib libAscii.a

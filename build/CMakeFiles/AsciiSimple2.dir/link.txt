@@ -1,1 +1,0 @@
-/usr/bin/c++ -rdynamic CMakeFiles/AsciiSimple2.dir/Example2/Example2.cpp.o -o AsciiSimple2  libAscii.a /usr/lib/libsfml-graphics.so.2.5.1 /usr/lib/libsfml-window.so.2.5.1 /usr/lib/libsfml-system.so.2.5.1 
