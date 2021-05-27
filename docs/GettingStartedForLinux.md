@@ -5,23 +5,21 @@ On this page, you can get started with the following instructions:
 ## Requirements( install it ):  SFML, git, g++ and CMake.
 
 0. Create your main folder.
-`mkdir Tutorial`
+```
+mkdir Tutorial && cd Tutorial 
+```
 
 1. Clone repository and copy the current version.
 `git clone https://github.com/Trimsku/AsciiMachine`
-`mv /path/to/AsciiMachine/AsciiMachineCurrent /path/to/your/project`
-And copy Example.
-`mv /path/to/AsciiMachine/Example .`
-And go to your main folder
+`cp AsciiMachine/AsciiMachineCurrent -r .` ( In Tutorial/ folder)
 
-2. Create textures/ and font/ folders.
-Grab them from Example.
-```make
-mv Example/font .
-mv Example/textures .
+1. Create (textures/ is folder with .rtxt files) textures/ and font/ folders.
+Grab them from Example ( we don't need textures/, because in project with entities or items, I recommend create textures/ folder).
+```
+cp AsciiMachine/Example1/font -r .
 ```
 
-3. Create main.cpp and paste this code:
+5. Create main.cpp and paste this code:
 
 ```cpp
 #define GLOBAL_SIZE 50
@@ -49,41 +47,34 @@ int main() {
 }
 ```
 
-4. Create CMakeLists.txt with the following code:
+6. Create CMakeLists.txt with the following code:
 
 ```cmake
 #Version of cmake minimum required.
 cmake_minimum_required(VERSION 3.0  FATAL_ERROR)	 
 
 #Project name
-project(ascii_simple)
-
-#BUILD_CPP has got all .cpp files of the project/
-file(GLOB BUILD_CPP "../AsciiMachineRemake/API/src/*.cpp")
+project(ascii_simple )
 
 # SFML include
-find_package(SFML 2.5.1 COMPONENTS graphics window system REQUIRED)
+find_package(SFML 2 COMPONENTS graphics window system REQUIRED)
+find_package(SFML 2.5.1 COMPONENTS graphics window system)
 include_directories( ${SFML_INCLUDE_DIRS} )
 
-# Add AsciiSimple.o and libAscii.so ( or .dll )
-add_library(Ascii SHARED ${BUILD_CPP})
-add_executable(AsciiSimple ../Example/Simple.cpp)	
+# Add AsciiSimple.o  and libAscii.a
+add_subdirectory(AsciiMachine)
+add_executable(AsciiSimple ../main.cpp)	
 
 # AsciiSimple build
 target_include_directories(AsciiSimple PRIVATE "${PROJECT_BINARY_DIR}")
 target_link_libraries(AsciiSimple sfml-graphics)
 install(TARGETS AsciiSimple DESTINATION bin)
 
-# libAscii( .so or .dll ) build.
-target_include_directories(Ascii PRIVATE "${PROJECT_BINARY_DIR}")
-target_link_libraries(Ascii sfml-graphics)
-install(TARGETS Ascii DESTINATION bin)
-
-# Merge AsciiSimple.o and libAscii.so ( or .dll )
+# Merge AsciiSimple.o and libAscii.a
 target_link_libraries(AsciiSimple Ascii)
 ```
 
-And finally in main folder:
+And finally in build/ folder( In tutorial ):
 
 ```
 mkdir build && cd build

@@ -1,12 +1,7 @@
-#Version of cmake minimum required.
-cmake_minimum_required(VERSION 3.0  FATAL_ERROR)	 
+#Version of cmake minimum required. 
 
-#Project name
-project(ascii_simple VERSION 0.0.1 LANGUAGES CXX)
-
-configure_file(AsciiConfig.h.in TutorialConfig.h)
-
-option(SIMPLE_PROGRAMS "Create simple programs?" OFF)
+configure_file(AsciiConfig.h.in AsciiConfig.h)
+option(USE_PROGS "Create simple programs?" OFF)
 
 add_compile_options(
     # All warnings are errors.
@@ -44,7 +39,7 @@ include_directories( ${SFML_INCLUDE_DIRS} )
 add_library(Ascii STATIC ${BUILD_CPP})
 
 # If you want to include simple programs
-if(SIMPLE_PROGRAMS)
+if(USE_SPROGS)
     add_executable(AsciiSimple1 Example1/Example1.cpp)
     add_executable(AsciiSimple2 Example2/Example2.cpp)
     # AsciiSimple1 build
