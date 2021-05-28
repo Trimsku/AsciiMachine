@@ -1,8 +1,26 @@
 * 0.0.15 
-New scene system. For run&&display scene use 
-scene.DisplayMap() in while. 
-Mew utils functions: getMaxCols() - return maximum 
-size of columns and get
+1. New scene system. For run&&display scene use 
+scene.DisplayMap() in while.
+A
+2. New utils functions: getMaxCols() - return maximum 
+size of columns and getRows() - return rows in 
+sprite.
+
+3. All system( for user ) working in global x,y. 
+But you can use <GUI_o>.local_x_on = true or 
+<GUI_o>.local_y_on = true; For create object local x,y
+
+4. Objects can locate in two chunks( on this version
+on x) for example:
+
+                 |
+             ____|__
+            /    |  \
+            \    |  /
+-----------------+----------------
+     (0,1)             (1,1)
+
+0.0.14, 0.0.13 - fix bugs.
 
 * 0.0.12
 Create docs 100% works on linux.
