@@ -1,6 +1,9 @@
+* 0.0.15 
+
+
 * 0.0.12
 Create docs 100% works on linux.
-( Guys if don't working: install SFML and cmake )
+( Guys, if don't work: install SFML and cmake )
 
 * 0.0.11
 I am testing with w-options 
