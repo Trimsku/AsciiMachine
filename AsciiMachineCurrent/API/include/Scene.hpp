@@ -1,6 +1,5 @@
 #pragma once
 #include <vector>
-#include <tuple>
 #include <string>
 #include "GUI_o.hpp"
 #include "Vector2d.hpp"
