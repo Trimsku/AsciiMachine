@@ -3,6 +3,13 @@
 #include <fstream>
 #include <iostream>
 #include <math.h>
+#include <vector>
+#include <SFML/Graphics.hpp>
+#if WIN32
+    #include <window.h>
+#else
+    #include <X11/Xlib.h>
+#endif
 
 #define SIG_BREAK 1
 #define SIG_ERR 0
@@ -28,5 +35,15 @@ namespace ascii {
         return torgb;
     } 
     int getFileAnimationsCount(std::string path_to_file);
+    signed int getChunkX(signed int global_x);
+    signed int getChunkY(signed int global_y);
+
+    int getDisplayWidth();
+    int getDisplayHeight();
+
+    // Sprite utils
+    int getMaxCol(sf::Text sprite, int SpriteNum = 1);
+    int getRows(sf::Text TextR, int SpriteNum = 1);
+    bool isOneSprite(std::string fsprite);
 
 } // namespace ascii

@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Wed May 26 20:17:15 2021
+# Make data base, printed on Fri May 28 11:10:38 2021
 
 # Variables
 
@@ -21,7 +21,7 @@ SNAP_INSTANCE_KEY =
 # environment
 GJS_DEBUG_OUTPUT = stderr
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-2acfbf44-7730-4988-86fd-b43fbf97e634.sock
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-935fbf21-85e9-4bb5-a0a3-2b9317dd4b9c.sock
 # environment
 VSCODE_CWD = /home/trimsky
 # environment
@@ -59,7 +59,7 @@ VSCODE_LOG_STACK = false
 # environment
 LANG = C
 # environment
-XAUTHORITY = /run/user/1000/.mutter-Xwaylandauth.MMYZ30
+XAUTHORITY = /run/user/1000/.mutter-Xwaylandauth.AZEH40
 # default
 .LOADED := 
 # environment
@@ -111,7 +111,7 @@ LC_COLLATE = C
 # environment
 VSCODE_VERBOSE_LOGGING = true
 # environment
-VSCODE_PID = 3946
+VSCODE_PID = 7930
 # environment
 XDG_SESSION_TYPE = wayland
 # automatic
@@ -121,7 +121,7 @@ BAMF_DESKTOP_FILE_HINT = /var/lib/snapd/desktop/applications/code_code.desktop
 # makefile (from 'Makefile', line 60)
 CMAKE_SOURCE_DIR = /home/trimsky/AsciiMachine
 # environment
-SESSION_MANAGER = local/manjaro:@/tmp/.ICE-unix/1474,unix/manjaro:/tmp/.ICE-unix/1474
+SESSION_MANAGER = local/manjaro:@/tmp/.ICE-unix/7383,unix/manjaro:/tmp/.ICE-unix/7383
 # automatic
 *F = $(notdir $*)
 # environment
@@ -157,7 +157,7 @@ MAKE = $(MAKE_COMMAND)
 # environment
 SNAP_COOKIE = uWR-PTdzdLDqrgpmRCDcrE0hJ5C7GenB9WF1jiMeVy47p9R_a9l9
 # environment
-PATH = /home/trimsky/.local/bin:/home/trimsky/.local/bin:/usr/local/bin:/usr/bin:/var/lib/snapd/snap/bin:/usr/local/sbin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/usr/lib/jvm/default/bin
+PATH = /home/trimsky/.local/bin:/home/trimsky/.local/bin:/home/trimsky/.local/bin:/usr/local/bin:/usr/bin:/var/lib/snapd/snap/bin:/usr/local/sbin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/usr/lib/jvm/default/bin:/usr/lib/jvm/default/bin
 # environment
 LESS_TERMCAP_se = [0m
 # default
@@ -173,7 +173,7 @@ LESS_TERMCAP_mb = [01;32m
 # environment
 SNAP = /snap/code/65
 # environment
-INVOCATION_ID = 201006ea612f4095a01d2cdb9b956b2a
+INVOCATION_ID = 68d0348e23c54fc28abad7213cb1e52f
 # environment
 SNAP_REVISION = 65
 # environment
@@ -225,9 +225,9 @@ SNAP_DATA = /var/snap/code/65
 # environment
 SNAP_CONTEXT = uWR-PTdzdLDqrgpmRCDcrE0hJ5C7GenB9WF1jiMeVy47p9R_a9l9
 # environment
-MANAGERPID = 1428
+MANAGERPID = 1473
 # environment
-GIO_LAUNCHED_DESKTOP_FILE_PID = 3907
+GIO_LAUNCHED_DESKTOP_FILE_PID = 7893
 # environment
 QT_STYLE_OVERRIDE = kvantum
 # environment
@@ -241,7 +241,7 @@ XDG_RUNTIME_DIR = /run/user/1000
 # environment
 GDK_PIXBUF_MODULE_FILE = /home/trimsky/snap/code/common/.cache/gdk-pixbuf-loaders.cache
 # environment
-JOURNAL_STREAM = 8:21171
+JOURNAL_STREAM = 8:81696
 # environment
 XDG_SESSION_CLASS = user
 # environment
@@ -298,9 +298,9 @@ SNAP_LIBRARY_PATH = /var/lib/snapd/lib/gl:/var/lib/snapd/lib/gl32:/var/lib/snapd
 
 # RCS: could not be stat'd.
 # SCCS: could not be stat'd.
-# . (device 66306, inode 2228966): 16 files, no impossibilities.
+# . (device 66306, inode 2228966): 23 files, no impossibilities.
 
-# 16 files, no impossibilities in 3 directories.
+# 23 files, no impossibilities in 3 directories.
 
 # Implicit Rules
 
@@ -430,7 +430,7 @@ AsciiMachineCurrent/API/src/GUI_o.cpp.o:
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2021-05-26 11:53:04.039556311
+#  Last modified 2021-05-28 10:42:20.286426624
 #  File has been updated.
 #  Successfully updated.
 
@@ -587,9 +587,9 @@ AsciiMachineCurrent/API/src/utils.i: AsciiMachineCurrent/API/src/utils.cpp.i
 .DEFAULT:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
+ 
 #  File has not been updated.
 
- 
 list_install_components/fast: list_install_components
 #  Phony target (prerequisite of .PHONY).
 #  Implicit rule search has not been done.
@@ -874,11 +874,11 @@ install/local/fast: preinstall/fast
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
- 
 #  recipe to execute (from 'Makefile', line 88):
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
 	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
 
+ 
 .PHONY: default_target cmake_force install/strip install/strip/fast install/local install/local/fast edit_cache edit_cache/fast install install/fast list_install_components list_install_components/fast rebuild_cache rebuild_cache/fast all clean clean/fast preinstall preinstall/fast depend Ascii Ascii/fast AsciiMachineCurrent/API/src/AsciiSignal.o AsciiMachineCurrent/API/src/AsciiSignal.cpp.o AsciiMachineCurrent/API/src/AsciiSignal.i AsciiMachineCurrent/API/src/AsciiSignal.cpp.i AsciiMachineCurrent/API/src/AsciiSignal.s AsciiMachineCurrent/API/src/AsciiSignal.cpp.s AsciiMachineCurrent/API/src/Color.o AsciiMachineCurrent/API/src/Color.cpp.o AsciiMachineCurrent/API/src/Color.i AsciiMachineCurrent/API/src/Color.cpp.i AsciiMachineCurrent/API/src/Color.s AsciiMachineCurrent/API/src/Color.cpp.s AsciiMachineCurrent/API/src/Entity.o AsciiMachineCurrent/API/src/Entity.cpp.o AsciiMachineCurrent/API/src/Entity.i AsciiMachineCurrent/API/src/Entity.cpp.i AsciiMachineCurrent/API/src/Entity.s AsciiMachineCurrent/API/src/Entity.cpp.s AsciiMachineCurrent/API/src/GUI_o.o AsciiMachineCurrent/API/src/GUI_o.cpp.o AsciiMachineCurrent/API/src/GUI_o.i AsciiMachineCurrent/API/src/GUI_o.cpp.i AsciiMachineCurrent/API/src/GUI_o.s AsciiMachineCurrent/API/src/GUI_o.cpp.s AsciiMachineCurrent/API/src/Scene.o AsciiMachineCurrent/API/src/Scene.cpp.o AsciiMachineCurrent/API/src/Scene.i AsciiMachineCurrent/API/src/Scene.cpp.i AsciiMachineCurrent/API/src/Scene.s AsciiMachineCurrent/API/src/Scene.cpp.s AsciiMachineCurrent/API/src/Server.o AsciiMachineCurrent/API/src/Server.cpp.o AsciiMachineCurrent/API/src/Server.i AsciiMachineCurrent/API/src/Server.cpp.i AsciiMachineCurrent/API/src/Server.s AsciiMachineCurrent/API/src/Server.cpp.s AsciiMachineCurrent/API/src/utils.o AsciiMachineCurrent/API/src/utils.cpp.o AsciiMachineCurrent/API/src/utils.i AsciiMachineCurrent/API/src/utils.cpp.i AsciiMachineCurrent/API/src/utils.s AsciiMachineCurrent/API/src/utils.cpp.s help cmake_check_build_system
 #  Implicit rule search has not been done.
 #  Modification time never checked.
@@ -907,12 +907,12 @@ install/strip: preinstall
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 99 / storage = 2299 B / avg = 23 B
-# current buf: size = 8162 B / used = 2299 B / count = 99 / avg = 23 B
+# strcache buffers: 1 (0) / strings = 106 / storage = 2401 B / avg = 22 B
+# current buf: size = 8162 B / used = 2401 B / count = 106 / avg = 22 B
 
-# strcache performance: lookups = 413 / hit rate = 76%
+# strcache performance: lookups = 420 / hit rate = 74%
 # hash-table stats:
-# Load=99/8192=1%, Rehash=0, Collisions=0/413=0%
-# Finished Make data base on Wed May 26 20:17:15 2021
+# Load=106/8192=1%, Rehash=0, Collisions=0/420=0%
+# Finished Make data base on Fri May 28 11:10:38 2021
 
  

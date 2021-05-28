@@ -29,10 +29,7 @@ Copyright 2021-2021
 
 
 namespace ascii{
-    #ifdef _WIN32
-            width  = (int) GetSystemMetrics(SM_CXSCREEN);
-            height = (int) GetSystemMetrics(SM_CYSCREEN);
-    #else
+    #ifdef __linux__
         Display* disp = XOpenDisplay(NULL);
         Screen*  scrn = DefaultScreenOfDisplay(disp);
     #endif
@@ -67,7 +64,7 @@ namespace ascii{
         #endif
     }
     int getRows(sf::Text TextR, int SpriteNum = 1){
-        int row = 0;
+        int row = 1;
         int loop = 0;
         std::string TextRR = (std::string)TextR.getString();
         for(int i = 0; i < TextRR.length(); i++){
@@ -84,7 +81,7 @@ namespace ascii{
                     row++;
             }
         }
-        return row+1;
+        return row;
     }
     int getMaxCol(sf::Text TextMaxC, int SpriteNum = 1){
         int colrowssize = 0;

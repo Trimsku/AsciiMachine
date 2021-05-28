@@ -13,22 +13,22 @@ ascii::GUI_o::GUI_o(std::string name_)
 }
 
 void ascii::GUI_o::setGlobalXY(float x_, float y_){
-    coords.global_x = x_;
-    coords.global_y = y_;
+    g_coords.global_x = x_;
+    g_coords.global_y = y_;
 }
 
-float ascii::GUI_o::getX(){
-    return coords.global_x;
+signed int ascii::GUI_o::getX(){
+    return g_coords.global_x;
 }
-float ascii::GUI_o::getY(){
-    return coords.global_y;
+signed int ascii::GUI_o::getY(){
+    return g_coords.global_y;
 }
 
 void ascii::GUI_o::MoveX(float x_) {
-    coords.global_x += (x_);
+    g_coords.global_x += (x_);
 }
 void ascii::GUI_o::MoveY(float y_) {
-    coords.global_y += (y_);
+    g_coords.global_y += (y_);
 }
 
 //! ******************
@@ -61,18 +61,26 @@ void ascii::GUI_o::printSignals(){
 //! *****************************************
 
 
-bool ascii::GUI_o::isOneSprite(std::string fsprite){
-    for(long unsigned int i = 0; i < fsprite.length(); i++) {
-        if(fsprite[i] == '[' && fsprite[i+1] == '#' && fsprite[i+2] == '1') {
-            return false;
-        }
-    }
-    return true;
-}
-
+// Give name of sprite: newSprites(path_to_file, name /*<--------- this name*/)
 void ascii::GUI_o::loadSprite(std::string name, sf::RenderTarget* window, int sprite_num_) {
-    float x_ = getX();
-    float y_ = getY();
+    signed int x_;
+    signed int y_;
+    if(!local_coords_x_on) {
+        if(getX() < 0 ) {
+            x_ = getX() + getDisplayWidth() * (ascii::getChunkX( getX() ) + 1);
+        }
+        else{
+            x_ = getX() - getDisplayWidth() * (ascii::getChunkX( getX() ) - 1);
+        }
+    } else {
+        x_ = g_coords.global_x;
+    }
+    if (getY() < 0 ) {
+        y_ = getY() + getDisplayHeight() * (ascii::getChunkY( getY() ) + 1);
+    }
+    else{
+        y_ = getY() - getDisplayHeight() * (ascii::getChunkY( getY() ) - 1);
+    }
     int loop;
     // Init sprite_ for working. Start
     sf::Text sprite_;
@@ -97,7 +105,7 @@ void ascii::GUI_o::loadSprite(std::string name, sf::RenderTarget* window, int sp
     }
     std::string Sprite = sprite_.getString();
 
-    bool is1sprite = isOneSprite(Sprite);
+    bool is1sprite = ascii::isOneSprite(Sprite);
     float saveX = x_;
     std::string r,g,b, size;
 
@@ -174,4 +182,12 @@ void ascii::GUI_o::clearSprites(){
     sprites.shrink_to_fit();
     spritesNames.clear();
     spritesNames.shrink_to_fit();
+}
+
+sf::Text ascii::GUI_o::getElement(int element_c) {
+    if( 0 > element_c || element_c > sprites.size()){
+        std::cout<<"getElement() function, given "<<element_c<<", but "<<(element_c<0?"smaller than 0":"greater than sprites.size()")<<'\n';
+        exit(0);
+    }
+    return sprites[element_c];
 }

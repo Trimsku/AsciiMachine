@@ -15,17 +15,19 @@ namespace ascii
             std::vector<sf::Text> sprites; // Vector with sprites ( from txt to std::string );
             std::vector<std::string> spritesNames; // Vector with sprite name.
             sf::Font font;
-            Vector2d coords; // TODO: Create z coordinate.
+            Vector2d g_coords; // TODO: Create z coordinate.
         public:
-
+            bool local_coords_x_on = false;
+            bool local_coords_y_on = false;
             //! ****************
             //! *   Default    *
             //! ****************
             virtual ~GUI_o();
             GUI_o(std::string name_);
             std::string getName();
-            float getX();
-            float getY();
+        
+            signed int getX();
+            signed int getY();
             void MoveX(float x_);
             void MoveY(float y_);
             void setGlobalXY(float x_, float y_);
@@ -41,8 +43,8 @@ namespace ascii
             #endif
             bool isFontLoaded(std::string path_to_file);
             void loadSprite(std::string sprite_, sf::RenderTarget* window, int sprite_num_ = 1);
-            bool isOneSprite(std::string fsprite);
             void clearSprites();
+            sf::Text getElement(int element_c);
             //! *********************
             //! *      Signal       *
             //! *********************

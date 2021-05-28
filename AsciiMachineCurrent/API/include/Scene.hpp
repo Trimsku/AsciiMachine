@@ -8,25 +8,29 @@
 
 namespace ascii {
     class Scene {
-        private:
-            float getChunkX(float global_x);
-            float getChunkY(float global_y);
+        protected:
 
             float widthOfScreen, heightOfScreen;
             signed int x_chunk_now = 1, y_chunk_now = 1;
+            signed int x_chunk_map, y_chunk_map;
             std::vector<Vector2dlocalInfo> CoordsOfObjects;
             std::vector<GUI_o> Objects;
             int anonymous_size;
-            std::string path_to_font; 
+            std::string path_to_font;
         public:
             sf::RenderTexture ttexture;
+            sf::Sprite MapTexture;
             void setWidthAndHeight(float width, float height);
             void PushObject(GUI_o object, bool createcopy = false);
             void AnonymousSettings(int size, std::string path_to_font_);
+            void chunk_x_change(signed int to_change_);
+            void chunk_y_change(signed int to_change_);
 
-            void pushAnonymousObject(std::string path_to_file, int global_x, int global_y, bool createcopy = true);
+            // Map manipulations.
             void DrawMap();
             void ClearMap();
+
+            // Display
             void DisplayMap(sf::RenderWindow *window);
     };
 }

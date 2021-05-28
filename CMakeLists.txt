@@ -1,11 +1,14 @@
 #Version of cmake minimum required. 
+cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
+
+project(ascii_simple )
 
 configure_file(AsciiConfig.h.in AsciiConfig.h)
 option(USE_PROGS "Create simple programs?" OFF)
 
 add_compile_options(
     # All warnings are errors.
-    -Werror
+    # -Werror
     # For more information.
     -Wall
     -Wextra
@@ -13,7 +16,7 @@ add_compile_options(
     # Options
     -Wcast-align
     -Wcast-qual
-    -Wconversion
+    #-Wconversion
     -Wctor-dtor-privacy
     -Wenum-compare
     -Wfloat-equal
@@ -21,9 +24,8 @@ add_compile_options(
     -Wold-style-cast
     -Woverloaded-virtual
     -Wredundant-decls
-    -Wsign-conversion
+    # -Wsign-conversion
     -Wsign-promo
-    
     -O2
 )
 
@@ -33,13 +35,16 @@ file(GLOB BUILD_CPP "AsciiMachineCurrent/API/src/*.cpp")
 # SFML include
 find_package(SFML 2 COMPONENTS graphics window system REQUIRED)
 find_package(SFML 2.5.1 COMPONENTS graphics window system)
+find_package(X11)
 include_directories( ${SFML_INCLUDE_DIRS} )
+include_directories(${X11_INCLUDE_DIR})
 
 # Add AsciiSimple.o and libAscii.so ( or .dll )
 add_library(Ascii STATIC ${BUILD_CPP})
+target_link_libraries(Ascii ${X11_LIBRARIES})
 
 # If you want to include simple programs
-if(USE_SPROGS)
+if(USE_PROGS)
     add_executable(AsciiSimple1 Example1/Example1.cpp)
     add_executable(AsciiSimple2 Example2/Example2.cpp)
     # AsciiSimple1 build
@@ -58,7 +63,10 @@ target_link_libraries(Ascii sfml-graphics)
 install(TARGETS Ascii DESTINATION bin)
 
 # Merge AsciiSimple.o and libAscii.so ( or .dll )
-if(SIMPLE_PROGRAMS)
-    target_link_libraries(AsciiSimple1 Ascii)
-    target_link_libraries(AsciiSimple2 Ascii)
+if(USE_PROGS)
+    # Example1 link
+    target_link_libraries(AsciiSimple1 ${X11_LIBRARIES} Ascii)
+
+    #Example2 link
+    target_link_libraries(AsciiSimple2 ${X11_LIBRARIES} Ascii) 
 endif()
