@@ -1,5 +1,8 @@
 * 0.0.15 
-
+New scene system. For run&&display scene use 
+scene.DisplayMap() in while. 
+Mew utils functions: getMaxCols() - return maximum 
+size of columns and get
 
 * 0.0.12
 Create docs 100% works on linux.
