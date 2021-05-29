@@ -1,4 +1,0 @@
-1.create global.txt and parser for global.txt +
-2.create normal timers - no, i don't create this.
-3. delete while with shared search and create function "lookfor"    
-    - is a function for search elements in vector. +
