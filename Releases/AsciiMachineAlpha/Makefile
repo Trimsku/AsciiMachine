@@ -1,4 +1,4 @@
-
++
 
 build:
 	g++ -c test.cpp
