@@ -1,0 +1,17 @@
+int counter = 0;
+
+
+...
+
+
+/*if(Objects[j].getName() == Objects[j+1].getName()){
+    counter++;
+} else {
+    if(counter == 0){
+        //std::cout<<"Object name['"<<Objects[j].getName()<<"'] is loaded (static) \n";
+    }
+    else {
+        //std::cout<<"Object name['"<<Objects[j].getName()<<"'] is loaded "<<counter<<" times (static)\n";
+        counter = 0;
+    }
+}*/
