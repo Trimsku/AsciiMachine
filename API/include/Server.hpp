@@ -1,4 +1,4 @@
-/*#pragma once
+#pragma once
 #include <vector>
 #include "GUI_o.hpp"
 namespace ascii
@@ -6,6 +6,6 @@ namespace ascii
     
     class Server {
         private:
-
+            
     };
-} // namespace ascii */
+} // namespace ascii 
