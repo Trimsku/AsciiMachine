@@ -29,9 +29,3 @@ namespace ascii{
         float getAttack();
     };
 }
-
-#ifdef TESTING
-void test(){
-    std::cout<<"Testing";
-}
-#endif

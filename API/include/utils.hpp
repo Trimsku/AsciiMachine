@@ -45,5 +45,6 @@ namespace ascii {
     int getMaxCol(sf::Text sprite, int SpriteNum = 1);
     int getRows(sf::Text TextR, int SpriteNum = 1);
     bool isOneSprite(std::string fsprite);
+    std::string getCurrentDir(std::string File);
 
 } // namespace ascii

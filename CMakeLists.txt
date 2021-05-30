@@ -30,7 +30,7 @@ add_compile_options(
 )
 
 #BUILD_CPP has got all .cpp files of the project/
-file(GLOB BUILD_CPP "AsciiMachineCurrent/API/src/*.cpp")
+file(GLOB BUILD_CPP "API/src/*.cpp")
 
 # SFML include
 find_package(SFML 2 COMPONENTS graphics window system REQUIRED)

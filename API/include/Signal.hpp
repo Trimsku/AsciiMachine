@@ -4,7 +4,6 @@
 #define SIG_ERR 0
 
 namespace ascii {
-
     template<typename T>
     void signal(T *object, std::string message) {
         object->send(message);

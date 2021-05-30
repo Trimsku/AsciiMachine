@@ -71,6 +71,7 @@ namespace ascii {
             return scrn->width;
         #endif
     }
+    
     int getDisplayHeight(){
         #ifdef _WIN32
             return (int) GetSystemMetrics(SM_CYSCREEN);
@@ -156,5 +157,17 @@ namespace ascii {
             }
         }
         return true;
+    }
+    std::string getCurrentDir(std::string File) {
+        std::string Dir;
+        for(int i = File.size() ; i > 0; i--) {
+            if(File[i] == '/'){
+                for(int j = 0; j <= i; j++){
+                    Dir+=File[j];
+                }
+                break;
+            }
+        }
+        return Dir;
     }
 } // namespace ascii

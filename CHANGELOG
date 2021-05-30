@@ -1,4 +1,22 @@
-* 0.0.15 
+*******************************
+*    3.1.2 - version.         *
+*******************************
+*    3 - release              *
+*    1 - add content          *
+*    2 - bug fixes            *
+*******************************
+* 0.2.1 
+1. New scene system - 
+     add anonymous in GUI_o, 
+     normal settings for anonymous object.
+
+2. Create configuration class - Configuration. 
+ConfigurationBind - class for binding a config. 
+
+* 0.1.2 
+ Bug fixes.
+
+* 0.1.1 
 1. New scene system. For run&&display scene use 
 scene.DisplayMap() in while.
 A

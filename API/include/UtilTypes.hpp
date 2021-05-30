@@ -13,3 +13,5 @@ struct Vector2d
     float global_x;
     float global_y;
 };
+
+

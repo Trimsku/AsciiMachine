@@ -6,7 +6,7 @@
 namespace ascii {
 
     class ASignal {
-        private:
+        protected:
             std::vector<std::string> signal_out;
         public:
             virtual ~ASignal() { }

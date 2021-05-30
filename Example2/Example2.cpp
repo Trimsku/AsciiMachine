@@ -1,16 +1,20 @@
-#define GLOBAL_SIZE 50
-#define ANONYMOUS_SIZE 50
-#define FONT_PATH "../Example2/font/10894.otf"
+#define FONT_NAME "10894.otf"
 #include <SFML/Graphics.hpp>
-#include "../AsciiMachineCurrent/API/include/utils.hpp"
-#include "../AsciiMachineCurrent/API/include/Entity.hpp"
-#include "../AsciiMachineCurrent/API/include/Scene.hpp"
-#include "../AsciiMachineCurrent/API/include/Color.hpp"
-#include "../AsciiMachineCurrent/API/include/Server.hpp"
-
+#include "../API/include/utils.hpp"
+#include "../API/include/Entity.hpp"
+#include "../API/include/Scene.hpp"
+#include "../API/include/Color.hpp"
+#include "../API/include/Server.hpp"
+#include "../API/include/Config.hpp"
 
 int main() {
-    USE_ANONYMOUS;
+    //USE_ANONYMOUS;
+    ascii::Configuration config;
+    config.global_size = 50;
+    config.heightOfScreen = ascii::getDisplayHeight();
+    config.widthOfScreen = ascii::getDisplayWidth();
+    config.path_to_main = ascii::getCurrentDir(__FILE__);
+    config.font_name = "10894.otf";
 
     sf::RenderWindow window(sf::VideoMode(1000,1000), "Ascii-G", sf::Style::Fullscreen);
     window.setActive(false);
@@ -21,23 +25,21 @@ int main() {
     myNewPalitra.PushColor("green", 20, 200, 10);
     myNewPalitra.printColors();
     
-    ascii::Scene scene;
-    scene.setWidthAndHeight(ascii::getDisplayWidth(), ascii::getDisplayHeight());
-    scene.AnonymousSettings(50, "../Example2/font/10894.otf");
-
+    ascii::Scene scene(config);
     ascii::Entity Player("player");
+    Player.Bind(config);
     Player.setGlobalXY(100,0);
-    Player.isFontLoaded("../Example2/font/10894.otf");
-    Player.newSprites("../Example2/textures/PlayerStand.rtxt", "PlayerStand");
-    GENERATE_GUI_O_CLOCKS_FOR_ANIMATIONS(PlayerStand, "../Example2/textures/PlayerStand.rtxt");
+    Player.isFontLoaded("10894.otf");
+    Player.newSprites("PlayerStand");
+    GENERATE_GUI_O_CLOCKS_FOR_ANIMATIONS(PlayerStand, "PlayerStand");
 
 
     for(float i = -250; i < ascii::getDisplayWidth()/2; i+=250){
-        ANONYMOUS_OBJECT("__________", i, 150);
+        scene.PushAnonymousObject("__________", i, 150, false);
     }
 
     for(float i = -(ascii::getDisplayWidth()/2); i < 0; i+=250){
-        ANONYMOUS_OBJECT("__________", i, 150);
+        scene.PushAnonymousObject("__________", i, 150, false);
     }
 
     std::string Str = "[@94,64,8]";
@@ -46,14 +48,14 @@ int main() {
     }
 
     for(float j = 200; j < ascii::getDisplayHeight(); j+=30){
-        ANONYMOUS_OBJECT(Str, 0, j);
+        scene.PushAnonymousObject(Str, 0, j, false);
     }
     for(float j = 200; j < ascii::getDisplayHeight(); j+=30){
-        ANONYMOUS_OBJECT(Str, -(ascii::getDisplayWidth()/2), j);
+        scene.PushAnonymousObject(Str, -(ascii::getDisplayWidth()/2), j, false);
     }
 
-    ANONYMOUS_OBJECT("../Example2/textures/B.rtxt", 150, 50)
-    ANONYMOUS_OBJECT("../Example2/textures/B.rtxt", 1850, 50)
+    scene.PushAnonymousObject("Stone", 150, 50);
+    scene.PushAnonymousObject("Stone", -100, 50);
     while (window.isOpen())
     {
         window.clear();

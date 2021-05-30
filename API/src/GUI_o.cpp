@@ -3,13 +3,13 @@
 
 ascii::GUI_o::~GUI_o() {}
 
-std::string ascii::GUI_o::getName(){
-    return name;
-}
-
 ascii::GUI_o::GUI_o(std::string name_)
 {
     name = name_;
+} 
+
+std::string ascii::GUI_o::getName(){
+    return name;
 }
 
 void ascii::GUI_o::setGlobalXY(float x_, float y_){
@@ -83,22 +83,24 @@ void ascii::GUI_o::loadSprite(std::string name, sf::RenderTarget* window, int sp
     }
     int loop;
     // Init sprite_ for working. Start
+    // Look for "name" in vector sprites.
+    // For example "PlayerStand" - name, and program lookfor "PlayerStand".
     sf::Text sprite_;
     long unsigned int j;
     if(name != "anonymous") {
-        j = 0.0;
-        for(auto& sprite : spritesNames) {
-            if(sprite == name) {
-                sprite_  = sprites[j];
+        j = 0;
+        for(auto& sprite : sprites) {
+            if(sprite.second == name) {
+                sprite_  = sprites[j].first;
                 break;
             }
             j++;
         } 
     } else {
-        j = spritesNames.size() - 1;
+        j = sprites.size() - 1;
         for(; j > 0; j--){
-            if(spritesNames[j] == "anonymous"){
-                sprite_ = sprites[j];
+            if(sprites[j].second == "anonymous"){
+                sprite_ = sprites[j].first;
                 break;
             }
         }
@@ -159,35 +161,36 @@ void ascii::GUI_o::loadSprite(std::string name, sf::RenderTarget* window, int sp
 }
 
 
-void ascii::GUI_o::newSprites(std::string path_to_file, std::string name, unsigned int size) {
-    sf::Text textureInfo(ascii::getFileResources(path_to_file), font, size );
-    sprites.push_back(textureInfo);
-    spritesNames.push_back(name);
+void ascii::GUI_o::newSprites(std::string filename, bool is_file) {
+    sf::Text textureInfo;
+    if( is_file ) {
+        textureInfo = { ascii::getFileResources(config.path_to_main+"textures/"+filename+".rtxt"), font, config.global_size };
+    } else {
+        textureInfo = { filename, font, config.global_size };
+    }
+    if(is_anonymous_o == True) {
+        sprites.push_back({textureInfo, "anonymous"});
+    } else {
+        sprites.push_back({textureInfo, filename});
+    }
 }
 
 
-bool ascii::GUI_o::isFontLoaded(std::string path_to_file) {
-    if(!font.loadFromFile(path_to_file)) {
-        std::cout<<"FONT NOT LOADED\n";
+void ascii::GUI_o::isFontLoaded(std::string fontname) {
+    if(!font.loadFromFile(config.path_to_main+"font/"+fontname)) {
+        std::cout<<"FONT NOT LOADED in "<<getName()<<'\n';
         exit(0);
     }
-    else{
-        return true;
-    }
-    exit(0);
-}
-
-void ascii::GUI_o::clearSprites(){
-    sprites.clear();
-    sprites.shrink_to_fit();
-    spritesNames.clear();
-    spritesNames.shrink_to_fit();
 }
 
 sf::Text ascii::GUI_o::getElement(int element_c) {
     if( 0 > element_c || element_c > sprites.size()){
-        std::cout<<"getElement() function, given "<<element_c<<", but "<<(element_c<0?"smaller than 0":"greater than sprites.size()")<<'\n';
+        std::cout<<"ascii::GUI_o::getElement("<<element_c<<"), but "<<(element_c<0?"smaller than 0":"greater than sprites.size()")<<'\n';
         exit(0);
     }
-    return sprites[element_c];
+    return sprites[element_c].first;
+}
+
+void ascii::GUI_o::setAnonymous() {
+    is_anonymous_o = true;
 }

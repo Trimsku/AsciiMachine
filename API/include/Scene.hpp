@@ -1,27 +1,30 @@
 #pragma once
 #include <vector>
 #include <string>
+#include <iostream>
 #include "GUI_o.hpp"
-#include "Vector2d.hpp"
+#include "UtilTypes.hpp"
 #include "utils.hpp"
+#include "Config.hpp"
 
 namespace ascii {
-    class Scene {
+    class Scene : protected ConfigurationBind{
         protected:
-
-            float widthOfScreen, heightOfScreen;
             signed int x_chunk_now = 1, y_chunk_now = 1;
             signed int x_chunk_map, y_chunk_map;
+            
             std::vector<Vector2dlocalInfo> CoordsOfObjects;
             std::vector<GUI_o> Objects;
-            int anonymous_size;
-            std::string path_to_font;
-        public:
+            // Anonymous objects.
+            GUI_o anonymous_object;
+            // SFML-types.
             sf::RenderTexture ttexture;
             sf::Sprite MapTexture;
-            void setWidthAndHeight(float width, float height);
+        public:
+
+            Scene(Configuration cbind);
             void PushObject(GUI_o object, bool createcopy = false);
-            void AnonymousSettings(int size, std::string path_to_font_);
+            void PushAnonymousObject(std::string path_to_file, signed int global_x, signed int global_y, bool is_file = true);
             void chunk_x_change(signed int to_change_);
             void chunk_y_change(signed int to_change_);
 
@@ -34,10 +37,11 @@ namespace ascii {
     };
 }
 
-#define ANONYMOUS_OBJECT(path_to_file, global_x, global_y) \
+/*#define ANONYMOUS_OBJECT(path_to_file, global_x, global_y) \
     AnonymousObject.setGlobalXY( global_x , global_y ); \
     AnonymousObject.isFontLoaded(FONT_PATH); \
     AnonymousObject.newSprites(path_to_file, "anonymous"); \
     scene.PushObject(AnonymousObject, true);
 
 #define USE_ANONYMOUS ascii::GUI_o AnonymousObject("anonymous");
+*/

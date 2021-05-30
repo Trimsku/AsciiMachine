@@ -2,20 +2,21 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <utility>
 #include <SFML/Graphics.hpp>
 #include "AsciiSignal.hpp"
-#include "Vector2d.hpp"
+#include "UtilTypes.hpp"
+#include "Config.hpp"
 
 namespace ascii
 {
-    class GUI_o : ASignal{
+    class GUI_o : protected ASignal, public ConfigurationBind{
         private:
             std::string name; // Name of GUI_o object.
-            std::vector<std::string> signal_out; //signal's "mail".
-            std::vector<sf::Text> sprites; // Vector with sprites ( from txt to std::string );
-            std::vector<std::string> spritesNames; // Vector with sprite name.
-            sf::Font font;
+            std::vector<std::pair<sf::Text, std::string>> sprites; // Sprites: texture and texture_name; 
+            sf::Font font; // Font
             Vector2d g_coords; // TODO: Create z coordinate.
+            bool is_anonymous_o = false;
         public:
             bool local_coords_x_on = false;
             bool local_coords_y_on = false;
@@ -35,16 +36,12 @@ namespace ascii
             //! ****************************
             //! *  Animation and sprites.  *
             //! ****************************
-
-            #ifdef GLOBAL_SIZE
-                void newSprites(std::string path_to_file, std::string name, unsigned int size = GLOBAL_SIZE);
-            #else //
-                void newSprites(std::string path_to_file, std::string name, unsigned int size);
-            #endif
-            bool isFontLoaded(std::string path_to_file);
+            void newSprites(std::string filename, bool is_file = true);
+            void isFontLoaded(std::string fontname);
             void loadSprite(std::string sprite_, sf::RenderTarget* window, int sprite_num_ = 1);
             void clearSprites();
             sf::Text getElement(int element_c);
+            void setAnonymous();
             //! *********************
             //! *      Signal       *
             //! *********************

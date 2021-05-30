@@ -17,14 +17,14 @@ Render  |______/_\_______|________________|--->x
  chunk with  (1, 1)          (2, 1)       
            player.
 */
-
-void ascii::Scene::setWidthAndHeight(float width_, float height_) {
-    widthOfScreen = width_;
-    heightOfScreen = height_;
-    if(!ttexture.create(widthOfScreen, heightOfScreen))
+ascii::Scene::Scene(Configuration cbind) : anonymous_object("anonymous") {  
+    Bind(cbind);
+    anonymous_object.Bind(cbind);
+    if(!ttexture.create(config.widthOfScreen, config.heightOfScreen)){
+        std::cout<<"Config error: \n\theight: "<<config.heightOfScreen<<"\n\twidth: "<<config.widthOfScreen<<'\n';
         exit(0);
+    }
 }
-
 
 void ascii::Scene::PushObject(GUI_o object, bool createcopy) {
     bool copy = false;
@@ -128,12 +128,6 @@ void ascii::Scene::chunk_y_change(signed int to_change_) {
     y_chunk_now += to_change_;
 }
 
-void ascii::Scene::AnonymousSettings(int size_, std::string path_to_font_) {
-    anonymous_size = size_;
-    path_to_font = path_to_font_;
-}
-
-
 void ascii::Scene::DrawMap() {
     long unsigned int j = 0;
     std::cout << "Map chunk(x,y):"<<x_chunk_now<<','<<y_chunk_now<<" is start drawing\n";
@@ -157,4 +151,12 @@ void ascii::Scene::DisplayMap(sf::RenderWindow *window) {
         x_chunk_map = x_chunk_now;
     }
     window->draw(MapTexture);
+}
+
+void ascii::Scene::PushAnonymousObject(std::string path_to_file,  signed int global_x, signed int global_y, bool is_file) {
+    anonymous_object.setGlobalXY( global_x , global_y );
+    anonymous_object.setAnonymous();
+    anonymous_object.isFontLoaded(config.font_name);
+    anonymous_object.newSprites(path_to_file, is_file); 
+    PushObject(anonymous_object, true);
 }
