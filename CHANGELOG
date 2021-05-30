@@ -5,6 +5,8 @@
 *    1 - add content          *
 *    2 - bug fixes            *
 *******************************
+* 0.2.2 Fix bug with player animation. Tutorials don't correct with this version.
+
 * 0.2.1 
 1. New scene system - 
      add anonymous in GUI_o, 

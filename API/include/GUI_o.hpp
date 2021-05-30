@@ -54,7 +54,7 @@ namespace ascii
 
 
 #define GENERATE_GUI_O_CLOCKS_FOR_ANIMATIONS(nameofanimated, path_to_file) \
-    int nameofanimated##counter##max = ascii::getFileAnimationsCount(path_to_file); \
+    int nameofanimated##counter##max = ascii::getFileAnimationsCount(ascii::getCurrentDir(__FILE__)+"textures/"+path_to_file+".rtxt"); \
     int nameofanimated##counter = 0; \
     sf::Clock nameofanimated; 
 
