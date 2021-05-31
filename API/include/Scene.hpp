@@ -15,16 +15,16 @@ namespace ascii {
             
             std::vector<Vector2dlocalInfo> CoordsOfObjects;
             std::vector<GUI_o> Objects;
-            // Anonymous objects.
-            GUI_o anonymous_object;
             // SFML-types.
             sf::RenderTexture ttexture;
             sf::Sprite MapTexture;
+            GUI_o aobj;
         public:
-
+            // From
             Scene(Configuration cbind);
             void PushObject(GUI_o object, bool createcopy = false);
-            void PushAnonymousObject(std::string path_to_file, signed int global_x, signed int global_y, bool is_file = true);
+            void addAnonymousObject(std::string name, std::string path_to_file, signed int global_x, signed int global_y, bool createcopy = true, bool is_file = true);
+            void loadAObject(std::string name, std::string path_to_file, signed int global_x, signed int global_y, bool is_file = true);
             void chunk_x_change(signed int to_change_);
             void chunk_y_change(signed int to_change_);
 
@@ -33,15 +33,13 @@ namespace ascii {
             void ClearMap();
 
             // Display
-            void DisplayMap(sf::RenderWindow *window);
+            void DisplayMap();
+            void updateMap();
     };
 }
 
-/*#define ANONYMOUS_OBJECT(path_to_file, global_x, global_y) \
-    AnonymousObject.setGlobalXY( global_x , global_y ); \
-    AnonymousObject.isFontLoaded(FONT_PATH); \
-    AnonymousObject.newSprites(path_to_file, "anonymous"); \
-    scene.PushObject(AnonymousObject, true);
+#define addText(name, text, global_x, global_y, createcopy) addAnonymousObject(name, text, global_x, global_y, createcopy, false)
+#define addFromFile(name, path_to_file, global_x, global_y, createcopy) addAnonymousObject(name, path_to_file, global_x, global_y, createcopy, true)
 
-#define USE_ANONYMOUS ascii::GUI_o AnonymousObject("anonymous");
-*/
+#define loadText(name, path_to_file, global_x, global_y) loadAObject(name, path_to_file, global_x, global_y, false)
+#define loadFromFile(name, path_to_file, global_x, global_y) loadAObject(name, path_to_filem global_x, global_y, true)

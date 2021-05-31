@@ -16,7 +16,7 @@ namespace ascii
             std::vector<std::pair<sf::Text, std::string>> sprites; // Sprites: texture and texture_name; 
             sf::Font font; // Font
             Vector2d g_coords; // TODO: Create z coordinate.
-            bool is_anonymous_o = false;
+            float x1, x2, y1, y2;
         public:
             bool local_coords_x_on = false;
             bool local_coords_y_on = false;
@@ -25,23 +25,34 @@ namespace ascii
             //! ****************
             virtual ~GUI_o();
             GUI_o(std::string name_);
+            
             std::string getName();
         
-            signed int getX();
-            signed int getY();
+            float getX();
+            float getY();
+            float getHitboxX1();
+            float getHitboxX2();
+            float getHitboxY1();
+            float getHitboxY2();
             void MoveX(float x_);
             void MoveY(float y_);
             void setGlobalXY(float x_, float y_);
+            void setHitbox(float x1, float x2, float y1, float y2 );
 
             //! ****************************
             //! *  Animation and sprites.  *
             //! ****************************
-            void newSprites(std::string filename, bool is_file = true);
+            // Add new .rtxt file or text. Macros:
+            // add_text - for text
+            // add_file - for .rtxt files.
+            void Bind(Configuration config);
+            void addSprite(std::string filename, bool is_file = true);
             void isFontLoaded(std::string fontname);
             void loadSprite(std::string sprite_, sf::RenderTarget* window, int sprite_num_ = 1);
             void clearSprites();
-            sf::Text getElement(int element_c);
-            void setAnonymous();
+            void setString(std::string new_name);
+            sf::Text getElementText(int element_c);
+            std::string getElementName(int element_c);
             //! *********************
             //! *      Signal       *
             //! *********************
@@ -78,3 +89,6 @@ namespace ascii
 
 #define GUI_O_LOAD(object, nameofanimated) \
     object.loadSprite(#nameofanimated, &window);
+
+#define add_text(text) addSprite(text, false)
+#define add_file(filename) addSprite(text, true)

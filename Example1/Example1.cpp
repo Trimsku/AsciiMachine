@@ -17,7 +17,7 @@ int main() {
     HelloWorld.Bind(config);
     HelloWorld.setGlobalXY(config.widthOfScreen/3, config.heightOfScreen/2);
     HelloWorld.isFontLoaded("10894.otf");
-    HelloWorld.newSprites("Hello World", false);
+    HelloWorld.addSprite("Hello World", false);
 
     while (window.isOpen()) {
         window.clear();

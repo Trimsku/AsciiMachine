@@ -2,8 +2,6 @@
 
 struct Vector2dlocalInfo
 {
-    //float local_x;
-    //float local_y;
     int y_chunk;
     int x_chunk;
 };

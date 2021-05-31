@@ -1,5 +1,6 @@
 #include "../include/Scene.hpp"
 
+// Scene.cpp
 
 /*      y
         ^
@@ -17,9 +18,9 @@ Render  |______/_\_______|________________|--->x
  chunk with  (1, 1)          (2, 1)       
            player.
 */
-ascii::Scene::Scene(Configuration cbind) : anonymous_object("anonymous") {  
+ascii::Scene::Scene(Configuration cbind) : aobj("anonymous") {  
     Bind(cbind);
-    anonymous_object.Bind(cbind);
+    aobj.Bind(cbind);
     if(!ttexture.create(config.widthOfScreen, config.heightOfScreen)){
         std::cout<<"Config error: \n\theight: "<<config.heightOfScreen<<"\n\twidth: "<<config.widthOfScreen<<'\n';
         exit(0);
@@ -30,7 +31,7 @@ void ascii::Scene::PushObject(GUI_o object, bool createcopy) {
     bool copy = false;
     unsigned int i = 0;
 
-    signed int SpriteLen = object.getElement(0).getCharacterSize()/2 * getMaxCol( object.getElement(0) );
+    signed int SpriteLen = object.getElementText(0).getCharacterSize()/2 * getMaxCol( object.getElementText(0) );
     signed int local_x;
     signed int local_y;
     if(object.getX() < 0){
@@ -70,11 +71,11 @@ void ascii::Scene::PushObject(GUI_o object, bool createcopy) {
 
             Objects[i] = object;
             GUI_o object2 = object;
-            while(!(local_x + object.getElement(0).getCharacterSize()/2*count > getDisplayWidth())) {
+            while(!(local_x + object.getElementText(0).getCharacterSize()/2*count > getDisplayWidth())) {
                 count++;
             }
             object2.local_coords_x_on = true;
-            object2.setGlobalXY(-static_cast<signed int>(object.getElement(0).getCharacterSize()/2*count), object.getY());
+            object2.setGlobalXY(-static_cast<signed int>(object.getElementText(0).getCharacterSize()/2*count), object.getY());
             Objects.push_back(object2);
         }
         }
@@ -98,12 +99,12 @@ void ascii::Scene::PushObject(GUI_o object, bool createcopy) {
             CoordsOfObjects.push_back(info);
 
             Objects.push_back(object);
-            while(!(local_x + object.getElement(0).getCharacterSize()/2*count > getDisplayWidth())) {
+            while(!(local_x + object.getElementText(0).getCharacterSize()/2*count > getDisplayWidth())) {
                 count++;
             }
             GUI_o object2 = object;
             object2.local_coords_x_on = true;
-            object2.setGlobalXY(-static_cast<signed int>(object.getElement(0).getCharacterSize()/2*count), object.getY());
+            object2.setGlobalXY(-static_cast<signed int>(object.getElementText(0).getCharacterSize()/2*count), object.getY());
             Objects.push_back(object2);
         }
         else {
@@ -117,7 +118,7 @@ void ascii::Scene::PushObject(GUI_o object, bool createcopy) {
 }
 
 void ascii::Scene::ClearMap() {
-    ttexture.clear();
+    ttexture.clear({0,0,0,0});
 } 
 
 void ascii::Scene::chunk_x_change(signed int to_change_) {
@@ -133,8 +134,9 @@ void ascii::Scene::DrawMap() {
     std::cout << "Map chunk(x,y):"<<x_chunk_now<<','<<y_chunk_now<<" is start drawing\n";
     for (auto &i : CoordsOfObjects)
     {
+        std::cout<<Objects[j].getName()<<' '<<Objects[j].getX()<<' '<<Objects[j].getY()<<' '<<i.x_chunk<<' '<<i.y_chunk<<'\n';
         if(i.x_chunk == x_chunk_now && i.y_chunk == y_chunk_now) {
-            Objects[j].loadSprite(Objects[j].getName(), &ttexture);
+            Objects[j].loadSprite(Objects[j].getElementName(0), &ttexture);
         }
         ++j;
     }
@@ -142,7 +144,7 @@ void ascii::Scene::DrawMap() {
     std::cout<<"Map chunk(x,y):"<<x_chunk_now<<','<<y_chunk_now<<" is end drawing\n";
 }
 
-void ascii::Scene::DisplayMap(sf::RenderWindow *window) {
+void ascii::Scene::DisplayMap() {
     if(y_chunk_map != y_chunk_now || x_chunk_map != x_chunk_now) {
         ClearMap();
         DrawMap();
@@ -150,13 +152,27 @@ void ascii::Scene::DisplayMap(sf::RenderWindow *window) {
         y_chunk_map = y_chunk_now;
         x_chunk_map = x_chunk_now;
     }
-    window->draw(MapTexture);
+    config.window->draw(MapTexture);
 }
 
-void ascii::Scene::PushAnonymousObject(std::string path_to_file,  signed int global_x, signed int global_y, bool is_file) {
-    anonymous_object.setGlobalXY( global_x , global_y );
-    anonymous_object.setAnonymous();
-    anonymous_object.isFontLoaded(config.font_name);
-    anonymous_object.newSprites(path_to_file, is_file); 
-    PushObject(anonymous_object, true);
+void ascii::Scene::updateMap() {
+    config.window->draw(MapTexture);
+}
+
+void ascii::Scene::addAnonymousObject(std::string name, std::string data, signed int global_x, signed int global_y, bool createcopy, bool is_file) {
+    aobj.clearSprites();
+    aobj.setString(name); // anonymus-object - aobj
+    aobj.setGlobalXY( global_x , global_y );
+    aobj.isFontLoaded(config.font_name);
+    aobj.addSprite(data, is_file); 
+    PushObject(aobj, createcopy);
+}
+
+void ascii::Scene::loadAObject(std::string name, std::string data, signed int global_x, signed int global_y, bool is_file) {
+    aobj.clearSprites(); // anonymus-object - aobj
+    aobj.setString(name); 
+    aobj.setGlobalXY( global_x , global_y );
+    aobj.isFontLoaded(config.font_name);
+    aobj.addSprite(data, is_file); 
+    aobj.loadSprite(data, config.window);
 }

@@ -17,18 +17,22 @@ void ascii::GUI_o::setGlobalXY(float x_, float y_){
     g_coords.global_y = y_;
 }
 
-signed int ascii::GUI_o::getX(){
+float ascii::GUI_o::getX(){
     return g_coords.global_x;
 }
-signed int ascii::GUI_o::getY(){
+float ascii::GUI_o::getY(){
     return g_coords.global_y;
 }
 
 void ascii::GUI_o::MoveX(float x_) {
     g_coords.global_x += (x_);
+    x1 += x_;
+    x2 += x_;
 }
 void ascii::GUI_o::MoveY(float y_) {
     g_coords.global_y += (y_);
+    y1 += y_;
+    y2 += y_;
 }
 
 //! ******************
@@ -161,20 +165,19 @@ void ascii::GUI_o::loadSprite(std::string name, sf::RenderTarget* window, int sp
 }
 
 
-void ascii::GUI_o::newSprites(std::string filename, bool is_file) {
+void ascii::GUI_o::addSprite(std::string filename, bool is_file) {
     sf::Text textureInfo;
     if( is_file ) {
         textureInfo = { ascii::getFileResources(config.path_to_main+"textures/"+filename+".rtxt"), font, config.global_size };
     } else {
         textureInfo = { filename, font, config.global_size };
     }
-    if(is_anonymous_o == True) {
-        sprites.push_back({textureInfo, "anonymous"});
-    } else {
-        sprites.push_back({textureInfo, filename});
-    }
+    sprites.push_back({textureInfo, filename});
 }
 
+void ascii::GUI_o::clearSprites() {
+    sprites.clear();
+}
 
 void ascii::GUI_o::isFontLoaded(std::string fontname) {
     if(!font.loadFromFile(config.path_to_main+"font/"+fontname)) {
@@ -183,14 +186,45 @@ void ascii::GUI_o::isFontLoaded(std::string fontname) {
     }
 }
 
-sf::Text ascii::GUI_o::getElement(int element_c) {
+sf::Text ascii::GUI_o::getElementText(int element_c) {
     if( 0 > element_c || element_c > sprites.size()){
         std::cout<<"ascii::GUI_o::getElement("<<element_c<<"), but "<<(element_c<0?"smaller than 0":"greater than sprites.size()")<<'\n';
         exit(0);
     }
     return sprites[element_c].first;
 }
+std::string ascii::GUI_o::getElementName(int element_c) {
+    if( 0 > element_c || element_c > sprites.size()){
+        std::cout<<"ascii::GUI_o::getElement("<<element_c<<"), but "<<(element_c<0?"smaller than 0":"greater than sprites.size()")<<'\n';
+        exit(0);
+    }
+    return sprites[element_c].second;
+}
 
-void ascii::GUI_o::setAnonymous() {
-    is_anonymous_o = true;
+float ascii::GUI_o::getHitboxX1() {
+    return x1;
+}
+float ascii::GUI_o::getHitboxX2() {
+    return x2;
+}
+float ascii::GUI_o::getHitboxY1() {
+    return y1;
+}
+float ascii::GUI_o::getHitboxY2() {
+    return y2;
+}
+void ascii::GUI_o::setHitbox(float x1, float x2, float y1, float y2) {
+    this->x1 = x1;
+    this->x2 = x2;
+    this->y1 = y1;
+    this->y2 = y2;
+}
+
+void ascii::GUI_o::setString(std::string name) {
+    this->name = name;
+}
+
+void ascii::GUI_o::Bind(Configuration cbind) {
+    config = cbind;
+    isFontLoaded(config.font_name);
 }

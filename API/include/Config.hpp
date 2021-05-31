@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <SFML/Graphics.hpp>
 
 namespace ascii {
     class Configuration {
@@ -12,12 +13,13 @@ namespace ascii {
             int global_size;
             int widthOfScreen;
             int heightOfScreen;
+            sf::RenderWindow *window;
     };
 
     class ConfigurationBind {
         protected:
             Configuration config;
         public:
-            void Bind(Configuration cbind);
+            virtual void Bind(Configuration cbind);
     };
 }
