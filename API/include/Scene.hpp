@@ -15,31 +15,33 @@ namespace ascii {
             
             std::vector<Vector2dlocalInfo> CoordsOfObjects;
             std::vector<GUI_o> Objects;
+            std::vector<sf::Sprite*> LoadedChunks; // - chunk_x, chunk_y, MapTexture.
             // SFML-types.
             sf::RenderTexture ttexture;
             sf::Sprite MapTexture;
             GUI_o aobj;
+            int true_chunk_size_x_add = 0;
         public:
             // From
             Scene(Configuration cbind);
             void PushObject(GUI_o object, bool createcopy = false);
-            void addAnonymousObject(std::string name, std::string path_to_file, signed int global_x, signed int global_y, bool createcopy = true, bool is_file = true);
+            void addAObject(std::string name, std::string path_to_file, signed int global_x, signed int global_y, bool createcopy = true, bool is_file = true);
             void loadAObject(std::string name, std::string path_to_file, signed int global_x, signed int global_y, bool is_file = true);
             void chunk_x_change(signed int to_change_);
             void chunk_y_change(signed int to_change_);
 
             // Map manipulations.
-            void DrawMap();
+            void DrawMap(signed int chunk_x, signed int chunk_y);
             void ClearMap();
 
             // Display
-            void DisplayMap();
+            void DisplayMap(signed int chunk_x, signed int chunk_y);
             void updateMap();
     };
 }
 
-#define addText(name, text, global_x, global_y, createcopy) addAnonymousObject(name, text, global_x, global_y, createcopy, false)
-#define addFromFile(name, path_to_file, global_x, global_y, createcopy) addAnonymousObject(name, path_to_file, global_x, global_y, createcopy, true)
+#define addText(name, text, global_x, global_y, createcopy) addAObject(name, text, global_x, global_y, createcopy, false)
+#define addFromFile(name, path_to_file, global_x, global_y, createcopy) addAObject(name, path_to_file, global_x, global_y, createcopy, true)
 
 #define loadText(name, path_to_file, global_x, global_y) loadAObject(name, path_to_file, global_x, global_y, false)
 #define loadFromFile(name, path_to_file, global_x, global_y) loadAObject(name, path_to_filem global_x, global_y, true)

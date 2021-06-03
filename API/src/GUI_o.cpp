@@ -67,24 +67,8 @@ void ascii::GUI_o::printSignals(){
 
 // Give name of sprite: newSprites(path_to_file, name /*<--------- this name*/)
 void ascii::GUI_o::loadSprite(std::string name, sf::RenderTarget* window, int sprite_num_) {
-    signed int x_;
-    signed int y_;
-    if(!local_coords_x_on) {
-        if(getX() < 0 ) {
-            x_ = getX() + getDisplayWidth() * (ascii::getChunkX( getX() ) + 1);
-        }
-        else{
-            x_ = getX() - getDisplayWidth() * (ascii::getChunkX( getX() ) - 1);
-        }
-    } else {
-        x_ = g_coords.global_x;
-    }
-    if (getY() < 0 ) {
-        y_ = getY() + getDisplayHeight() * (ascii::getChunkY( getY() ) + 1);
-    }
-    else{
-        y_ = getY() - getDisplayHeight() * (ascii::getChunkY( getY() ) - 1);
-    }
+    signed int x_ = getX();
+    signed int y_ = getY();
     int loop;
     // Init sprite_ for working. Start
     // Look for "name" in vector sprites.

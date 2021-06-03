@@ -16,7 +16,7 @@ add_compile_options(
     # Options
     -Wcast-align
     -Wcast-qual
-    #-Wconversion
+    -Wconversion
     -Wctor-dtor-privacy
     -Wenum-compare
     -Wfloat-equal
@@ -24,17 +24,18 @@ add_compile_options(
     -Wold-style-cast
     -Woverloaded-virtual
     -Wredundant-decls
-    # -Wsign-conversion
+    -Wsign-conversion
     -Wsign-promo
-    -O2
+    -O0
+    -g
 )
 
 #BUILD_CPP has got all .cpp files of the project/
 file(GLOB BUILD_CPP "API/src/*.cpp")
 
 # SFML include
-find_package(SFML 2 COMPONENTS graphics window system REQUIRED)
-find_package(SFML 2.5.1 COMPONENTS graphics window system)
+find_package(SFML 2 COMPONENTS graphics window REQUIRED)
+find_package(SFML 2.5.1 COMPONENTS graphics window)
 find_package(X11)
 include_directories( ${SFML_INCLUDE_DIRS} )
 include_directories(${X11_INCLUDE_DIR})
