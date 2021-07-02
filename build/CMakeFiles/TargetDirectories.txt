@@ -1,9 +1,0 @@
-/home/trimsky/AsciiMachine/build/CMakeFiles/install/strip.dir
-/home/trimsky/AsciiMachine/build/CMakeFiles/install/local.dir
-/home/trimsky/AsciiMachine/build/CMakeFiles/AsciiSimple2.dir
-/home/trimsky/AsciiMachine/build/CMakeFiles/edit_cache.dir
-/home/trimsky/AsciiMachine/build/CMakeFiles/AsciiSimple1.dir
-/home/trimsky/AsciiMachine/build/CMakeFiles/install.dir
-/home/trimsky/AsciiMachine/build/CMakeFiles/list_install_components.dir
-/home/trimsky/AsciiMachine/build/CMakeFiles/rebuild_cache.dir
-/home/trimsky/AsciiMachine/build/CMakeFiles/Ascii.dir
