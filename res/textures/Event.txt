@@ -1,0 +1,11 @@
+// Observer and Listener
+#include "include/Event/Subject.hpp"
+#include "include/Object.hpp"
+
+
+    ascii::Listener::Subject *subject = ascii::Listener::Subject::GetInstance();
+    ascii::Object observer1("Test1");
+    ascii::Object observer2("Test2");
+    
+    subject->CreateMessage("PlayerMoveEvent");
+    subject->CreateMessage("PlayerClickEvent");
