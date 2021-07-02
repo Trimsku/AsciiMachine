@@ -6,6 +6,7 @@ Hm.. AsciiMachine test on Linux: Manjaro, Arch Linux and Linux Mint.
 
 Engine use C++, but this is project for very small size of programs.
 Engine C++: classes, templates.
+
 Engine C: <stdio.h>, std::string don't using in engine, but you can use std::string(.c_str()).
 
 Project has got small alternatives, i.e: 
