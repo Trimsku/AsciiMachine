@@ -1,7 +1,5 @@
 # Hello! It is AsciiMachine!
 It is engine for create ascii games
-
-##How to create your first project with AsciiMachine?
 Hm.. AsciiMachine test on Linux: Manjaro, Arch Linux and Linux Mint.
 
 Engine use C++, but this is project for very small size of programs.
