@@ -21,7 +21,7 @@ int main() {
 
     sf::RenderWindow window(sf::VideoMode(1000,1000), "Ascii-G"/*, sf::Style::Fullscreen*/);
     window.setActive(false);
-    window.setFramerateLimit(120);
+    //window.setFramerateLimit(120);
     window.setVerticalSyncEnabled(true);
     config.window = &window;
     ascii::Camera camera(config);
