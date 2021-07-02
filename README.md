@@ -20,5 +20,7 @@ Engine has got: sdl wrapper and SDL_FontCache wrapper(class Font)
 For building example, use make build && ./a.out in AsciiMachine dir
 
 SDL_FontCache is not my project!
+
 SDL_FontCache Github: https://github.com/grimfang4/SDL_FontCache
+
 SDL_FontCache Author: https://github.com/grimfang4
