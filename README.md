@@ -15,7 +15,9 @@ Project has got small alternatives, i.e:
 
 Engine has got: sdl wrapper and SDL_FontCache wrapper(class Font) 
 
-For building example, use make build && ./a.out in AsciiMachine dir
+For building example:
+  1. Install spm(this is my project).
+  2. in project root dir: ./<path/to/spm
 
 # SDL_FontCache is not my project!
 
