@@ -2,7 +2,7 @@
 The engine for create ascii games
 AsciiMachine tested on Linux.
 
-Project has got small std alternatives, i.e: 
+Project has got small std alternatives and wrappers, i.e: 
 2. astd::container, (std::vector alternative).
 3. astd::Clock, getEllapsedTime(), and restart().
 
