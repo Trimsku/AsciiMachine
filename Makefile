@@ -1,19 +1,47 @@
-SDL2 = -lSDL2 -lSDL2_ttf
+ifndef config
+	config=release
+endif
 
-SDL_Wrapper = src/SDL/*.cpp src/SDL/*.c
-Event = src/Event/*.cpp
-util = src/util/*.cpp
-astd=src/astd/*.cpp
-nospeed = -Os
-debug = -g -O0 -fsanitize=address
+ifndef verbose
+	SILENT = @
+endif
 
-build:
-	g++ testGame/main.cpp ${SDL_Wrapper} ${Event} ${util} src/*.cpp ${SDL2} ${astd}
-	du -b a.out
+ifeq ($(config),debug)
+	GCONFIG = debug
+else
+	GCONFIG = release
+endif
 
-optimize-build:
-	g++ testGame/main.cpp ${SDL_Wrapper} ${Event} ${util} src/*.cpp ${SDL2} ${astd} ${nospeed}
-	du -b a.out
+PROJECTS := AsciiLib AsciiGame SpriteEditor 
+.PHONY: all help $(PROJECTS)
 
-se-build:
-	g++ se/SpriteEditor.cpp ${SDL_Wrapper} ${util} src/*.cpp ${SDL2} ${debug} ${astd} -o se-editor
+
+all: $(PROJECTS)
+
+AsciiLib:
+	$(SILENT) echo "==== Building AsciiLib ($(GCONFIG)) ===="
+	$(SILENT) $(MAKE) --no-print-directory -C . -f AsciiLib.mk config=$(GCONFIG)
+AsciiGame:
+	$(SILENT) echo "==== Building AsciiGame ($(GCONFIG)) ===="
+	$(SILENT) $(MAKE) --no-print-directory -C . -f AsciiGame.mk config=$(GCONFIG)
+SpriteEditor:
+	$(SILENT) echo "==== Building SpriteEditor ($(GCONFIG)) ===="
+	$(SILENT) $(MAKE) --no-print-directory -C . -f SpriteEditor.mk config=$(GCONFIG)
+
+clean:
+	$(SILENT) $(MAKE) --no-print-directory -C . -f AsciiLib.mk clean
+	$(SILENT) $(MAKE) --no-print-directory -C . -f AsciiGame.mk clean
+	$(SILENT) $(MAKE) --no-print-directory -C . -f SpriteEditor.mk clean
+help:
+	$(SILENT) echo "Usage: make [config=name] [target]"
+	$(SILENT) echo ""
+	$(SILENT) echo "Configurations:"
+	$(SILENT) echo "	debug"
+	$(SILENT) echo "	release"
+	$(SILENT) echo ""
+	$(SILENT) echo "Targets:"
+	$(SILENT) echo "	all (default)"
+	$(SILENT) echo "	clean"
+	$(SILENT) echo "	AsciiLib"
+	$(SILENT) echo "	AsciiGame"
+	$(SILENT) echo "	SpriteEditor"

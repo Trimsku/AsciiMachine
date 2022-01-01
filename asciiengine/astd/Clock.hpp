@@ -10,7 +10,7 @@ namespace astd
         unsigned int getEllapsedTime();
         void restart();
     private:
-        unsigned int start_time;
+        unsigned int startTime;
     };
 }; // namespace ascii
 
