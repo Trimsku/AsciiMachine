@@ -3,8 +3,10 @@ The engine for create ascii games
 AsciiMachine tested on Linux.
 
 Project has got small std alternatives and wrappers, i.e: 
-2. astd::container, (std::vector alternative).
-3. astd::Clock, getEllapsedTime(), and restart().
+
+1. astd::container, (std::vector alternative).
+
+2. astd::Clock, getEllapsedTime(), and restart().
 
 For building example:
   1. Install spm(this is my project).
