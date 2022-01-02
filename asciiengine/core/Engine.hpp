@@ -14,6 +14,7 @@ namespace ascii
             SDL_Renderer *engine_renderer = nullptr;
             ascii::scene::IScene *currentScene = nullptr;
             SDL_Rect camera = {0, 0, 1921, 1080};
+            int screenW, screenH;
         public:
             ascii::Font engine_font;
             Engine();
@@ -22,6 +23,8 @@ namespace ascii
             void createWindow(astd::string name, int width, int height);
 
             int getFontSize() noexcept;
+            int getScreenWeight() noexcept;
+            int getScreenHeight() noexcept;
             SDL_Rect *getCamera() noexcept;
             SDL_Window *getWindow() noexcept;
             SDL_Renderer *getRenderer() noexcept;

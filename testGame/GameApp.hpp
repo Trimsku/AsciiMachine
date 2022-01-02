@@ -21,6 +21,7 @@ class GameApp : public ascii::IApp {
         void catchEvents(SDL_Event e, bool *quit);
         void onClose();
     private:
+        SDL_DisplayMode mode;
         Player player;
         const astd::string GodsEnvoy = ascii::util::getFileResources("resources/textures/GodsEnvoy.txt");
         const astd::string tram_station_aeromald = ascii::util::getFileResources("resources/textures/AeromaldTramStation.txt");

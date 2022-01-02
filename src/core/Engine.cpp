@@ -21,6 +21,17 @@ ascii::Engine::Engine() : engine_font() {
         SDL_Quit();
         exit(1);
     }
+    SDL_DisplayMode mode;
+    SDL_GetDisplayMode(0, 0, &mode);
+    screenW = mode.w;
+    screenH = mode.h;
+}
+
+int ascii::Engine::getScreenWeight() noexcept {
+
+}
+int ascii::Engine::getScreenHeight() noexcept {
+
 }
 
 SDL_Rect *ascii::Engine::getCamera() noexcept {
@@ -69,8 +80,16 @@ void ascii::Engine::loadFont(const char* path_to_font, int size, int style) {
 }
 
 void ascii::Engine::createWindow(astd::string name, int width, int height) {
-    engine_window = SDL_CreateWindow(name.c_str(), SDL_WINDOWPOS_UNDEFINED,
-       SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_FULLSCREEN_DESKTOP);
+    if(width == -1 && height == -1) {
+        engine_window = SDL_CreateWindow(name.c_str(), SDL_WINDOWPOS_UNDEFINED,
+                        SDL_WINDOWPOS_UNDEFINED, screenW, screenH, SDL_WINDOW_FULLSCREEN_DESKTOP);
+    } else if(width == -1) {
+        engine_window = SDL_CreateWindow(name.c_str(), SDL_WINDOWPOS_UNDEFINED,
+                    SDL_WINDOWPOS_UNDEFINED, screenW, height, SDL_WINDOW_FULLSCREEN_DESKTOP);
+    } else if(height == -1) {
+        engine_window = SDL_CreateWindow(name.c_str(), SDL_WINDOWPOS_UNDEFINED,
+                    SDL_WINDOWPOS_UNDEFINED, width, screenH, SDL_WINDOW_FULLSCREEN_DESKTOP);
+    }
     if (engine_window == nullptr){
        printf("Unable to create window: %s", SDL_GetError());
        SDL_Quit();

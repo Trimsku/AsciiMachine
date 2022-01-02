@@ -19,12 +19,12 @@ void GameApp::tick(bool *quit) {
     if ( is_key_pressed(Q) ) *quit = true;
 
     if(isUsingCamera()) {
-        getCamera()->x = player.getX() - 1920/2;
-        getCamera()->y = player.getY() - 1080/2;
+        getCamera()->x = player.getX() - getScreenWeight()/2;
+        getCamera()->y = player.getY() - getScreenHeight()/2;
         if( getCamera()->x < 0 ) getCamera()->x = 0;
         if( getCamera()->y < 0 ) getCamera()->y = 0;
-        if( getCamera()->x > 1920 - getCamera()->w ) getCamera()->x = 1920 - getCamera()->w;
-        if( getCamera()->y > 1080 - getCamera()->h ) getCamera()->y = 1080 - getCamera()->h;
+        if( getCamera()->x > getScreenWeight() - getCamera()->w ) getCamera()->x = getScreenWeight() - getCamera()->w;
+        if( getCamera()->y > getScreenHeight() - getCamera()->h ) getCamera()->y = getScreenHeight() - getCamera()->h;
     }
     getScene()->render(this);
 
@@ -40,13 +40,14 @@ void GameApp::tick(bool *quit) {
 }
 
 GameApp::GameApp() : player(this, 100) {
-    createWindow("Ascii-G", 1920, 1080);
+    createWindow("Ascii-G", -1, -1);
     loadFont("resources/fonts/10894.otf", 60, ascii::style::italic);
-    for(int x = 0; x < 1921; x += 75) {
+    for(int x = 0; x < getScreenWeight(); x += 75) {
         pillar_line += "---";
     }
 }
 
 void GameApp::afterInit(bool *quit) {
     setScene(new game::scene::MainMenuScene(this));
+    printf("weight: %i, height: %i \n", mode.w, mode.h);
 }

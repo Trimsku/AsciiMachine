@@ -13,11 +13,11 @@ MainMenuScene::MainMenuScene(ascii::Engine *engine) {
                 ascii::scene::createCollisionW(3, engine), 
                 ascii::scene::createCollisionH(3, engine), "tram", false));
 
-    for(int x = 0; x < 1921; x+=75) railway += "___";
+    for(int x = 0; x < engine->getScreenWeight(); x+=75) railway += "___";
     railway += '\n';
     const astd::string railwayAppend("[@128, 119, 119]__[@59, 38, 0]/");
-    for(int x = 0; x < 1921; x+=75) railway.append(railwayAppend);
-    for(int x = 14*25; x < 1921; x+=75) railway1 += "|__";
+    for(int x = 0; x < engine->getScreenWeight(); x+=75) railway.append(railwayAppend);
+    for(int x = 14*25; x < engine->getScreenWeight(); x+=75) railway1 += "|__";
 }
 
 bool MainMenuScene::isUsingCamera() noexcept {
