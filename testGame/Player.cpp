@@ -8,9 +8,9 @@ Player::Player(ascii::Engine *m_engine, int _health) noexcept : Entity(m_engine)
 
 void Player::render() noexcept {
     if(engine->isUsingCamera()) {
-        if(state == State::Stand) playerStand.render(engine, engine->getCamera()->x + 1920/2 - getW(), engine->getCamera()->y + 1080/2 - getH());
-        else if(state == State::Right) playerRight.render(engine, engine->getCamera()->x + 1920/2 - getW(), engine->getCamera()->y + 1080/2 - getH());
-        else if(state == State::Left) playerLeft.render(engine, engine->getCamera()->x + 1920/2 - getW(), engine->getCamera()->y + 1080/2 - getH());
+        if(state == State::Stand) playerStand.render(engine, engine->getCamera()->x + engine->getScreenWeight()/2 - getW(), engine->getCamera()->y + engine->getScreenHeight()/2 - getH());
+        else if(state == State::Right) playerRight.render(engine, engine->getCamera()->x + engine->getScreenWeight()/2 - getW(), engine->getCamera()->y + engine->getScreenWeight()/2 - getH());
+        else if(state == State::Left) playerLeft.render(engine, engine->getCamera()->x + engine->getScreenWeight()/2 - getW(), engine->getCamera()->y + engine->getScreenWeight()/2 - getH());
     } else {
         if(state == State::Stand) playerStand.render(engine, x, y);
         else if(state == State::Right) playerRight.render(engine, x, y);
