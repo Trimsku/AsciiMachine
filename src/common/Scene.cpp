@@ -13,10 +13,7 @@ SceneObject::SceneObject(short int _x, short int _y, short int _w, short int _h,
     isPushable = _isPushable;
 };
 
-Scene::Scene(bool camera_, bool gravity_) noexcept {
-    camera = camera_;
-    gravity = gravity_;
-}
+IScene::~IScene() {}
 
 short int createCollisionW(int numbers_of_chars_in_x, Engine *engine) noexcept {
     return ( engine->getFontSize() / 2 ) * numbers_of_chars_in_x;
@@ -25,32 +22,18 @@ short int createCollisionH(int numbers_of_chars_in_y, Engine *engine) noexcept {
     return engine->getFontSize() * ( numbers_of_chars_in_y + 1 );
 }
 
-void Scene::addObject(SceneObject object) noexcept {
+void IScene::addObject(SceneObject object) noexcept {
     objects.push(object);
 }
-int Scene::getDefaultEntitySpawnX() noexcept {
-    return 0;
-}
-int Scene::getDefaultEntitySpawnY() noexcept {
-    return 0;
-}
 
-SceneObject *Scene::getSceneObject(const char *name) noexcept {
+SceneObject *IScene::getSceneObject(const char *name) noexcept {
     for(int i = 0; i < objects.size(); i++) {
         if(objects[i].name == name) return &objects[i]; 
     }
     return nullptr;
 }
 
-bool Scene::isUsingCamera() noexcept {
-    return camera;
-}
-
-bool Scene::isUsingGravity() noexcept {
-    return gravity;
-}
-
-SceneObject Scene::getCollisionEventObject() noexcept {
+SceneObject IScene::getCollisionEventObject() noexcept {
     return lastObject;
 }
 

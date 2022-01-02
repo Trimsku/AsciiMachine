@@ -12,7 +12,7 @@ namespace ascii
             SDL_FRect engine_rect;
             SDL_Window *engine_window = nullptr;
             SDL_Renderer *engine_renderer = nullptr;
-            ascii::scene::Scene currentScene = ascii::scene::Scene(false, false);
+            ascii::scene::IScene *currentScene = nullptr;
             SDL_Rect camera = {0, 0, 1921, 1080};
         public:
             ascii::Font engine_font;
@@ -25,8 +25,8 @@ namespace ascii
             SDL_Rect *getCamera() noexcept;
             SDL_Window *getWindow() noexcept;
             SDL_Renderer *getRenderer() noexcept;
-            ascii::scene::Scene *getCurrentScene() noexcept;
-            void setCurrentScene(ascii::scene::Scene newScene) noexcept;
+            ascii::scene::IScene *getScene() noexcept;
+            void setScene(ascii::scene::IScene *newScene) noexcept;
             bool isUsingCamera() noexcept;
             bool isUsingGravity() noexcept;
             void cleanScreen() noexcept;

@@ -1,11 +1,11 @@
-#ifndef IOBJECT_H
-#define IOBJECT_H
+#ifndef IOBSERVER_H
+#define IOBSERVER_H
 
 namespace ascii
 {
-    class IObject {
+    class IObserver {
         public:
-            virtual ~IObject();
+            virtual ~IObserver() noexcept;
             virtual void update(const char* event_type) noexcept = 0;
     };
 

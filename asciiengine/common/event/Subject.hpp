@@ -1,9 +1,8 @@
 #ifndef SUBJECT_H
 #define SUBJECT_H
 
-#include <list>
 #include "ISubject.hpp"
-#include "IObject.hpp"
+#include "Observer.hpp"
 #include <stdio.h>
 
 namespace ascii
@@ -19,15 +18,15 @@ namespace ascii
                 static Subject* singleton_;
             public:
 
-            static Subject *getInstance() noexcept;
+            static Subject &getInstance() noexcept;
 
             void Notify() noexcept;
-            void attach(ascii::IObject *observer) noexcept;
-            void detach(ascii::IObject *observer) noexcept;
+            void attach(ascii::Observer *observer) noexcept;
+            void detach(ascii::Observer *observer) noexcept;
             void createMessage(const char* message = "NoneEvent") noexcept;
 
             private:
-                std::list<ascii::IObject*> observers;
+                ascii::Observer* head = NULL;
                 const char* message_;
         };
     } // namespace Listener

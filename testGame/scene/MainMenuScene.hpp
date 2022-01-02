@@ -3,23 +3,27 @@
 
 #include "../../asciiengine/common/Scene.hpp"
 #include "../../asciiengine/astd/String.hpp"
+#include "../../asciiengine/core/Engine.hpp"
 
-namespace game::scene::main_menu {
+namespace game::scene {
 
-inline ascii::scene::Scene createMainMenuScene() noexcept {
-    return ascii::scene::Scene(false, true);
-}
+class MainMenuScene : public ascii::scene::IScene {
+    private:
+        const astd::string tram_station = ascii::util::getFileResources("resources/textures/TramStation0.txt");
+        const astd::string tram = ascii::util::getFileResources("resources/textures/Tram.txt");
+        astd::string railway = "[@128, 119, 119]";
+        astd::string railway1 = "[@128, 119, 119]";
+    public: 
+        MainMenuScene(ascii::Engine *engine);
+        virtual bool isUsingCamera() noexcept override;
+        virtual bool isUsingGravity() noexcept override;
+        virtual int getDefaultEntitySpawnX() noexcept override;
+        virtual int getDefaultEntitySpawnY() noexcept override;
+        virtual void render(ascii::Engine *engine);
+        virtual void tick();
+};
 
-inline void defineMainMenuSceneObjects(ascii::Engine *engine, ascii::scene::Scene *scene) noexcept {
-    scene->addObject(ascii::scene::SceneObject(-30, 200, 
-                ascii::scene::createCollisionW(1, engine), 
-                ascii::scene::createCollisionH(25, engine), "left_invisible_wall", true));
-    scene->addObject(ascii::scene::SceneObject(1625, 200, 
-                ascii::scene::createCollisionW(1, engine), 
-                ascii::scene::createCollisionH(25, engine), "right_invisible_wall", true));
-                scene->addObject(ascii::scene::SceneObject(625, 200, 
-                ascii::scene::createCollisionW(3, engine), 
-                ascii::scene::createCollisionH(3, engine), "tram", false));
+inline void defineMainMenuSceneObjects(ascii::Engine *engine, ascii::scene::IScene *scene) noexcept {
 }
 
 }

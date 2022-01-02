@@ -25,26 +25,26 @@ void Player::render() noexcept {
 void Player::tick() noexcept {
     if(is_key_pressed(RIGHT)) {
         x += PLAYER_X_VELOCITY;
-        if(engine->getCurrentScene()->isConflictingWithOtherObject(this)) {
+        if(engine->getScene()->isConflictingWithOtherObject(this)) {
             x -= PLAYER_X_VELOCITY;
             state = State::Stand;
         } else state = State::Right;
     } else if(is_key_pressed(LEFT)) {
         x -= PLAYER_X_VELOCITY;
-        if(engine->getCurrentScene()->isConflictingWithOtherObject(this)) {
+        if(engine->getScene()->isConflictingWithOtherObject(this)) {
             x += PLAYER_X_VELOCITY;
             state = State::Stand;
         } else state = State::Left;
     } else { // for events
-        engine->getCurrentScene()->isConflictingWithOtherObject(this);
+        engine->getScene()->isConflictingWithOtherObject(this);
         state = State::Stand;
     }
     if(is_key_pressed(UP) && !engine->isUsingGravity()) {
         y -= PLAYER_Y_VELOCITY;
-        if(engine->getCurrentScene()->isConflictingWithOtherObject(this)) y += PLAYER_Y_VELOCITY;
+        if(engine->getScene()->isConflictingWithOtherObject(this)) y += PLAYER_Y_VELOCITY;
     } else if(is_key_pressed(DOWN) && !engine->isUsingGravity()) {
         y += PLAYER_Y_VELOCITY;
-        if(engine->getCurrentScene()->isConflictingWithOtherObject(this)) y -= PLAYER_Y_VELOCITY;
+        if(engine->getScene()->isConflictingWithOtherObject(this)) y -= PLAYER_Y_VELOCITY;
     }
 }
 

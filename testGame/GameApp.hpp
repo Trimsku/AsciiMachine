@@ -8,8 +8,7 @@
 #include "../asciiengine/client/AnimatedTextBuilder.hpp"
 #include "../asciiengine/client/AnimatedTextBuilderUTF8.hpp"
 #include "../asciiengine/common/event/Subject.hpp"
-#include "../asciiengine/common/event/Object.hpp"
-#include "scene/MainMenuRenderer.hpp"
+#include "../asciiengine/common/event/Observer.hpp"
 #include "scene/MainMenuScene.hpp"
 #include "Player.hpp"
 
@@ -22,7 +21,6 @@ class GameApp : public ascii::IApp {
         void catchEvents(SDL_Event e, bool *quit);
         void onClose();
     private:
-        game::scene::main_menu::MainMenuRenderer mainMenu;
         Player player;
         const astd::string GodsEnvoy = ascii::util::getFileResources("resources/textures/GodsEnvoy.txt");
         const astd::string tram_station_aeromald = ascii::util::getFileResources("resources/textures/AeromaldTramStation.txt");
@@ -47,8 +45,7 @@ class GameApp : public ascii::IApp {
         astd::string pillar = "[@41, 40, 38]\\|/\n |\n |\n |\n |";
         astd::string pillar_line = "[@41, 40, 38]";
 
-        ascii::Listener::Subject *subject = ascii::Listener::Subject::getInstance();
-        ascii::Object gameMainObserver = ascii::Object("gameMainObserver");
+        ascii::Observer gameMainObserver = ascii::Observer("gameMainObserver");
 };
 
 #endif // !GAME_APP_HPP

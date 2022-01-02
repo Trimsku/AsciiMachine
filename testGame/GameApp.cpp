@@ -2,6 +2,11 @@
 
 void GameApp::catchEvents(SDL_Event e, bool *quit) {
     if ( is_event(QUIT) ) *quit = true;
+    if( gameMainObserver.isGotNewEvent() && gameMainObserver.getEventName() == "onSceneChangedEvent" ) {
+        player.setX(getScene()->getDefaultEntitySpawnX());
+        player.setY(getScene()->getDefaultEntitySpawnY());
+        gameMainObserver.setEventChecked();
+    }
 }
 
 GameApp::~GameApp() {
@@ -14,24 +19,24 @@ void GameApp::tick(bool *quit) {
     if ( is_key_pressed(Q) ) *quit = true;
 
     if(isUsingCamera()) {
-        getCamera()->x = player.getX() - 1921/2;
+        getCamera()->x = player.getX() - 1920/2;
         getCamera()->y = player.getY() - 1080/2;
         if( getCamera()->x < 0 ) getCamera()->x = 0;
         if( getCamera()->y < 0 ) getCamera()->y = 0;
-        if( getCamera()->x > 1921 - getCamera()->w ) getCamera()->x = 1921 - getCamera()->w;
+        if( getCamera()->x > 1920 - getCamera()->w ) getCamera()->x = 1920 - getCamera()->w;
         if( getCamera()->y > 1080 - getCamera()->h ) getCamera()->y = 1080 - getCamera()->h;
     }
-    mainMenu.render(this);
+    getScene()->render(this);
 
     if( gameMainObserver.isGotNewEvent() && gameMainObserver.getEventName() == "onCollisionEvent" ) {
-        if( strcmp(getCurrentScene()->getCollisionEventObject().name, "tram") == 0) {
+        if( strcmp(getScene()->getCollisionEventObject().name, "tram") == 0) {
             draw(635, 300, astd::string("[Return]"));
+            gameMainObserver.setEventChecked();
         }
     }
     player.tick();
     player.render();
     presentScreen();
-    SDL_Delay(2);
 }
 
 GameApp::GameApp() : player(this, 100) {
@@ -43,8 +48,5 @@ GameApp::GameApp() : player(this, 100) {
 }
 
 void GameApp::afterInit(bool *quit) {
-    setCurrentScene(game::scene::main_menu::createMainMenuScene());
-    player.setX(275);
-    player.setY(270);
-    game::scene::main_menu::defineMainMenuSceneObjects(this, getCurrentScene());
+    setScene(new game::scene::MainMenuScene(this));
 }

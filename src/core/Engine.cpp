@@ -27,8 +27,8 @@ SDL_Rect *ascii::Engine::getCamera() noexcept {
     return &camera;
 }
 
-ascii::scene::Scene *ascii::Engine::getCurrentScene() noexcept{
-    return &currentScene;
+ascii::scene::IScene *ascii::Engine::getScene() noexcept{
+    return currentScene;
 }
 
 int ascii::Engine::getFontSize() noexcept {
@@ -36,15 +36,17 @@ int ascii::Engine::getFontSize() noexcept {
 }
 
 bool ascii::Engine::isUsingCamera() noexcept {
-    return currentScene.isUsingCamera();
+    return currentScene->isUsingCamera();
 }
 
 bool ascii::Engine::isUsingGravity() noexcept {
-    return currentScene.isUsingGravity();
+    return currentScene->isUsingGravity();
 }
 
-void ascii::Engine::setCurrentScene(ascii::scene::Scene newScene) noexcept{
+void ascii::Engine::setScene(ascii::scene::IScene *newScene) noexcept{
+    if(currentScene != nullptr) delete currentScene;
     currentScene = newScene;
+    ascii::Listener::Subject::getInstance().createMessage("onSceneChangedEvent");
 }
 
 SDL_Window *ascii::Engine::getWindow() noexcept{
@@ -74,21 +76,13 @@ void ascii::Engine::createWindow(astd::string name, int width, int height) {
        SDL_Quit();
        exit(1);
     }
-    engine_renderer = SDL_CreateRenderer(engine_window, -1, SDL_RENDERER_ACCELERATED);
+    engine_renderer = SDL_CreateRenderer(engine_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     if (engine_renderer == nullptr){
         printf("%s\n", SDL_GetError());
         SDL_Quit();
         exit(1);
     }
 }
-
-/*void ascii::Engine::fillIn(float x, float y, float width, float height) noexcept {
-    engine_rect.h = height;
-    engine_rect.w = width;
-    engine_rect.x = x;
-    engine_rect.y = y;
-    SDL_RenderFillRectF(engine_renderer, &engine_rect);
-}*/
 
 void ascii::Engine::draw(signed int x, signed int y, astd::string Sprite) noexcept {
     signed int x_ = x;
@@ -209,7 +203,6 @@ void ascii::Engine::draw(signed int x, signed int y, const char* Sprite) noexcep
     utf8_iter ITER;
     utf8_init(&ITER, Sprite);
     for(int i = 0; utf8_next(&ITER); i++) {
-        printf("char: %s\n", utf8_getchar(&ITER));
         if(Sprite[i] == '[' && Sprite[i+1] == '@' && Sprite[i+2] == 'R' && Sprite[i+3] == ']') {
             i += 4;
             r_ = 255;
