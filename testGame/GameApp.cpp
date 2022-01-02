@@ -49,5 +49,4 @@ GameApp::GameApp() : player(this, 100) {
 
 void GameApp::afterInit(bool *quit) {
     setScene(new game::scene::MainMenuScene(this));
-    printf("weight: %i, height: %i \n", mode.w, mode.h);
 }

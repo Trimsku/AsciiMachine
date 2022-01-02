@@ -28,10 +28,10 @@ ascii::Engine::Engine() : engine_font() {
 }
 
 int ascii::Engine::getScreenWeight() noexcept {
-
+    return screenW;
 }
 int ascii::Engine::getScreenHeight() noexcept {
-
+    return screenH;
 }
 
 SDL_Rect *ascii::Engine::getCamera() noexcept {
