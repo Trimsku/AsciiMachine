@@ -11,18 +11,21 @@
 #include "../asciiengine/common/event/Observer.hpp"
 #include "scene/MainMenuScene.hpp"
 #include "Player.hpp"
+#include "Options.hpp"
 
 class GameApp : public ascii::IApp {
     public:
         ~GameApp();
         GameApp();
         void tick(bool *quit);
-        void afterInit(bool *quit);
+        void render(double deltaTime);
         void catchEvents(SDL_Event e, bool *quit);
         void onClose();
     private:
-        SDL_DisplayMode mode;
+        int camVelocity = 1, xCamVelocitySummary = 0;
+        bool isTramCollision = false;
         Player player;
+        astd::Clock elapsedTimeInKeyPressing;
         const astd::string GodsEnvoy = ascii::util::getFileResources("resources/textures/GodsEnvoy.txt");
         const astd::string tram_station_aeromald = ascii::util::getFileResources("resources/textures/AeromaldTramStation.txt");
         const astd::string beacon = ascii::util::getFileResources("resources/textures/beacon.txt");
@@ -44,7 +47,6 @@ class GameApp : public ascii::IApp {
             .addText("А, мальчик из Японии?", 45);
 
         astd::string pillar = "[@41, 40, 38]\\|/\n |\n |\n |\n |";
-        astd::string pillar_line = "[@41, 40, 38]";
 
         ascii::Observer gameMainObserver = ascii::Observer("gameMainObserver");
 };

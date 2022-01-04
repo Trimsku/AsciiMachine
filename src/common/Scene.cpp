@@ -13,6 +13,10 @@ SceneObject::SceneObject(short int _x, short int _y, short int _w, short int _h,
     isPushable = _isPushable;
 };
 
+IScene::IScene(ascii::Engine *_engine) noexcept {
+    engine = _engine;
+}
+
 IScene::~IScene() {}
 
 short int createCollisionW(int numbers_of_chars_in_x, Engine *engine) noexcept {

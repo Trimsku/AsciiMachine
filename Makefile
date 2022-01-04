@@ -12,7 +12,7 @@ else
 	GCONFIG = release
 endif
 
-PROJECTS := AsciiLib AsciiGame SpriteEditor 
+PROJECTS := AsciiLib AsciiGame 
 .PHONY: all help $(PROJECTS)
 
 
@@ -24,14 +24,10 @@ AsciiLib:
 AsciiGame:
 	$(SILENT) echo "==== Building AsciiGame ($(GCONFIG)) ===="
 	$(SILENT) $(MAKE) --no-print-directory -C . -f AsciiGame.mk config=$(GCONFIG)
-SpriteEditor:
-	$(SILENT) echo "==== Building SpriteEditor ($(GCONFIG)) ===="
-	$(SILENT) $(MAKE) --no-print-directory -C . -f SpriteEditor.mk config=$(GCONFIG)
 
 clean:
 	$(SILENT) $(MAKE) --no-print-directory -C . -f AsciiLib.mk clean
 	$(SILENT) $(MAKE) --no-print-directory -C . -f AsciiGame.mk clean
-	$(SILENT) $(MAKE) --no-print-directory -C . -f SpriteEditor.mk clean
 help:
 	$(SILENT) echo "Usage: make [config=name] [target]"
 	$(SILENT) echo ""
@@ -44,4 +40,3 @@ help:
 	$(SILENT) echo "	clean"
 	$(SILENT) echo "	AsciiLib"
 	$(SILENT) echo "	AsciiGame"
-	$(SILENT) echo "	SpriteEditor"

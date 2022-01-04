@@ -21,16 +21,17 @@ ascii::Engine::Engine() : engine_font() {
         SDL_Quit();
         exit(1);
     }
+    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2");
     SDL_DisplayMode mode;
     SDL_GetDisplayMode(0, 0, &mode);
     screenW = mode.w;
     screenH = mode.h;
 }
 
-int ascii::Engine::getScreenWeight() noexcept {
+int ascii::Engine::getScrW() noexcept {
     return screenW;
 }
-int ascii::Engine::getScreenHeight() noexcept {
+int ascii::Engine::getScrH() noexcept {
     return screenH;
 }
 
@@ -44,10 +45,6 @@ ascii::scene::IScene *ascii::Engine::getScene() noexcept{
 
 int ascii::Engine::getFontSize() noexcept {
     return engine_font.getSize();
-}
-
-bool ascii::Engine::isUsingCamera() noexcept {
-    return currentScene->isUsingCamera();
 }
 
 bool ascii::Engine::isUsingGravity() noexcept {
@@ -82,20 +79,20 @@ void ascii::Engine::loadFont(const char* path_to_font, int size, int style) {
 void ascii::Engine::createWindow(astd::string name, int width, int height) {
     if(width == -1 && height == -1) {
         engine_window = SDL_CreateWindow(name.c_str(), SDL_WINDOWPOS_UNDEFINED,
-                        SDL_WINDOWPOS_UNDEFINED, screenW, screenH, SDL_WINDOW_FULLSCREEN_DESKTOP);
+                        SDL_WINDOWPOS_UNDEFINED, screenW, screenH, SDL_WINDOW_SHOWN);
     } else if(width == -1) {
         engine_window = SDL_CreateWindow(name.c_str(), SDL_WINDOWPOS_UNDEFINED,
-                    SDL_WINDOWPOS_UNDEFINED, screenW, height, SDL_WINDOW_FULLSCREEN_DESKTOP);
+                    SDL_WINDOWPOS_UNDEFINED, screenW, height, SDL_WINDOW_SHOWN);
     } else if(height == -1) {
         engine_window = SDL_CreateWindow(name.c_str(), SDL_WINDOWPOS_UNDEFINED,
-                    SDL_WINDOWPOS_UNDEFINED, width, screenH, SDL_WINDOW_FULLSCREEN_DESKTOP);
+                    SDL_WINDOWPOS_UNDEFINED, width, screenH, SDL_WINDOW_SHOWN);
     }
     if (engine_window == nullptr){
        printf("Unable to create window: %s", SDL_GetError());
        SDL_Quit();
        exit(1);
     }
-    engine_renderer = SDL_CreateRenderer(engine_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    engine_renderer = SDL_CreateRenderer(engine_window, -1, SDL_RENDERER_ACCELERATED);
     if (engine_renderer == nullptr){
         printf("%s\n", SDL_GetError());
         SDL_Quit();

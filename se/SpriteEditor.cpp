@@ -21,6 +21,7 @@ class SpriteEditorApp : ascii::IApp {
         SpriteEditorApp();
         void mainInit(bool *quit, int argc, char **argv);
         void tick(bool *quit);
+        void render(double deltaTime);
         void afterInit(bool *quit);
         void catchEvents(SDL_Event e, bool *quit);
         void onClose();
@@ -60,6 +61,16 @@ void SpriteEditorApp::mainInit(bool *quit, int argc, char **argv) {
     SDL_StartTextInput();
 }
 
+void SpriteEditorApp::render(double deltaTime) {
+    cleanScreen();
+    draw(currentChar * 25, currentLine * 50, cursorStyle);
+    for(int i = 0; i < lines.size(); i++) {
+        printf("%s \n", lines[i].c_str());
+        draw(0, i * 50 + 50, lines[i]);
+    }
+    presentScreen();
+}
+
 void SpriteEditorApp::catchEvents(SDL_Event e, bool *quit) {
     if ( is_event(QUIT) ) { *quit = true; }
     if ( is_event(TEXTINPUT) ) {
@@ -72,7 +83,6 @@ void SpriteEditorApp::catchEvents(SDL_Event e, bool *quit) {
 }
 
 void SpriteEditorApp::tick(bool *quit) {
-    cleanScreen();
     if ( is_key_pressed(ESCAPE) ) *quit = true;
     if( is_key_pressed(BACKSPACE)) {
         lines[currentLine][currentChar] = ' ';
@@ -101,14 +111,6 @@ void SpriteEditorApp::tick(bool *quit) {
         while(lines[currentLine].size() < currentChar) lines[currentLine] += ' ';
         SDL_Delay(120);
     }
-    draw(currentChar * 25, currentLine * 50, cursorStyle);
-    printf("Draw: \n");
-    for(int i = 0; i < lines.size(); i++) {
-        printf("%s \n", lines[i].c_str());
-        draw(0, i * 50 + 50, lines[i]);
-    }
-    presentScreen();
-    SDL_Delay(500);
 }
 
 void SpriteEditorApp::onClose() {

@@ -29,13 +29,15 @@ class IScene {
     private:
         astd::container<SceneObject> objects;
         SceneObject lastObject;
+    protected:
+        ascii::Engine *engine;
     public:
         virtual ~IScene() noexcept;
-        virtual bool isUsingCamera() noexcept = 0;
+        IScene(ascii::Engine *engine) noexcept;
         virtual bool isUsingGravity() noexcept = 0;
         virtual int getDefaultEntitySpawnX() noexcept = 0;
         virtual int getDefaultEntitySpawnY() noexcept = 0;
-        virtual void render(ascii::Engine *engine) = 0;
+        virtual void render(int playerX, int playerY) = 0;
         virtual void tick() = 0;
         template<typename T>
         bool isConflictingWithOtherObject(T *entity) noexcept;

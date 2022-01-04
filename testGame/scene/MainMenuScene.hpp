@@ -12,15 +12,15 @@ class MainMenuScene : public ascii::scene::IScene {
         const astd::string tram_station = ascii::util::getFileResources("resources/textures/TramStation0.txt");
         const astd::string tram = ascii::util::getFileResources("resources/textures/Tram.txt");
         astd::string railway = "[@128, 119, 119]";
-        astd::string railway1 = "[@128, 119, 119]";
+        astd::string railway_wall = "[@128, 119, 119]";
+        astd::string pillar_line = "[@41, 40, 38]";
     public: 
         MainMenuScene(ascii::Engine *engine);
-        virtual bool isUsingCamera() noexcept override;
         virtual bool isUsingGravity() noexcept override;
         virtual int getDefaultEntitySpawnX() noexcept override;
         virtual int getDefaultEntitySpawnY() noexcept override;
-        virtual void render(ascii::Engine *engine);
-        virtual void tick();
+        virtual void render(int playerX, int playerY) override;
+        virtual void tick() override;
 };
 
 inline void defineMainMenuSceneObjects(ascii::Engine *engine, ascii::scene::IScene *scene) noexcept {

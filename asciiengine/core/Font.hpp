@@ -2,7 +2,7 @@
 #define ASCII_FONT_H
 #include <stdlib.h>
 #include "SDL_FontCache.h"
-#include "../util/StringUtil.hpp"
+#include "../common/util/StringUtil.hpp"
 
 namespace ascii
 {

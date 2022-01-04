@@ -5,7 +5,7 @@ by Jonathan Dearborn
 See SDL_FontCache.h for license info.( Upd by asciimachine: read README.md)
 */
 
-#include "../../../asciiengine/core/SDL_FontCache.h"
+#include "../../asciiengine/core/SDL_FontCache.h"
 
 #include <stdio.h>
 #include <stdlib.h>

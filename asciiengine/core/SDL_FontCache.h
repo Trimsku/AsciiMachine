@@ -34,7 +34,11 @@ THE SOFTWARE.
 #define _SDL_FONTCACHE_H__
 
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_ttf.h>
+#ifdef __EMSCRIPTEN__
+    #include <SDL2/SDL_ttf.h>
+#else
+    #include <SDL2/SDL_ttf.h>
+#endif
 
 #include <stdarg.h>
 

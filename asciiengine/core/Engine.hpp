@@ -13,7 +13,7 @@ namespace ascii
             SDL_Window *engine_window = nullptr;
             SDL_Renderer *engine_renderer = nullptr;
             ascii::scene::IScene *currentScene = nullptr;
-            SDL_Rect camera = {0, 0, 1921, 1080};
+            SDL_Rect camera = {0, 0, 1920, 1080};
             int screenW, screenH;
         public:
             ascii::Font engine_font;
@@ -21,16 +21,14 @@ namespace ascii
             ~Engine();
             void loadFont(const char* path_to_font_m, int size, int style);
             void createWindow(astd::string name, int width, int height);
-
             int getFontSize() noexcept;
-            int getScreenWeight() noexcept;
-            int getScreenHeight() noexcept;
+            int getScrW() noexcept;
+            int getScrH() noexcept;
             SDL_Rect *getCamera() noexcept;
             SDL_Window *getWindow() noexcept;
             SDL_Renderer *getRenderer() noexcept;
             ascii::scene::IScene *getScene() noexcept;
             void setScene(ascii::scene::IScene *newScene) noexcept;
-            bool isUsingCamera() noexcept;
             bool isUsingGravity() noexcept;
             void cleanScreen() noexcept;
             void presentScreen() noexcept;
