@@ -12,15 +12,16 @@ namespace ascii
             SDL_FRect engine_rect;
             SDL_Window *engine_window = nullptr;
             SDL_Renderer *engine_renderer = nullptr;
+            ascii::Font engine_font;
             ascii::scene::IScene *currentScene = nullptr;
             SDL_Rect camera = {0, 0, 1920, 1080};
             int screenW, screenH;
         public:
-            ascii::Font engine_font;
-            Engine();
-            ~Engine();
-            void loadFont(const char* path_to_font_m, int size, int style);
-            void createWindow(astd::string name, int width, int height);
+            Engine() noexcept;
+            ~Engine() noexcept;
+            void loadFont(const char* path_to_font_m, int size, int style) noexcept;
+            void createWindow(astd::string name, int width, int height) noexcept;
+            void setScene(ascii::scene::IScene *newScene) noexcept;
             int getFontSize() noexcept;
             int getScrW() noexcept;
             int getScrH() noexcept;
@@ -28,8 +29,8 @@ namespace ascii
             SDL_Window *getWindow() noexcept;
             SDL_Renderer *getRenderer() noexcept;
             ascii::scene::IScene *getScene() noexcept;
-            void setScene(ascii::scene::IScene *newScene) noexcept;
             bool isUsingGravity() noexcept;
+
             void cleanScreen() noexcept;
             void presentScreen() noexcept;
             void draw(signed int x, signed int y, astd::string Sprite) noexcept;

@@ -15,15 +15,16 @@
 
 class GameApp : public ascii::IApp {
     public:
-        ~GameApp();
-        GameApp();
-        void tick(bool *quit);
-        void render(double deltaTime);
-        void catchEvents(SDL_Event e, bool *quit);
-        void onClose();
+        ~GameApp() noexcept;
+        GameApp() noexcept;
+        void tick() noexcept;
+        void render(double deltaTime) noexcept;
+        void catchEvents(SDL_Event e) noexcept;
+        void close() noexcept;
+        bool isClosed() noexcept;
     private:
+        bool closed = false;
         int camVelocity = 1, xCamVelocitySummary = 0;
-        bool isTramCollision = false;
         Player player;
         astd::Clock elapsedTimeInKeyPressing;
         const astd::string GodsEnvoy = ascii::util::getFileResources("resources/textures/GodsEnvoy.txt");
@@ -49,6 +50,7 @@ class GameApp : public ascii::IApp {
         astd::string pillar = "[@41, 40, 38]\\|/\n |\n |\n |\n |";
 
         ascii::Observer gameMainObserver = ascii::Observer("gameMainObserver");
+        ascii::Observer wtf = ascii::Observer("wtf");
 };
 
 #endif // !GAME_APP_HPP

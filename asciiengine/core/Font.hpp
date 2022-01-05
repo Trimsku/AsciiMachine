@@ -14,9 +14,9 @@ namespace ascii
         FC_Font *font;
         int size;
     public:
-        Font();
-        ~Font();
-        void initializeFont(Engine *engine, const char* path_to_font, int size, int style);
+        Font() noexcept;
+        ~Font() noexcept;
+        void initializeFont(Engine *engine, const char* path_to_font, int size, int style) noexcept;
         int getSize() noexcept;
         FC_Font *getRawFont() noexcept;
     };

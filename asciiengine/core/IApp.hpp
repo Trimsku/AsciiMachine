@@ -23,16 +23,15 @@ namespace ascii {
         astd::Clock elapsed; \
         double lag = 0.0; \
         SDL_Event e; \
-        bool quit = false; \
         run.mainInit(&quit, argc, argv); \
         run.afterInit(&quit); \
-        while(!quit) { \
+        while(!run.isClosed()) { \
             lag += elapsed.getEllapsedTime(); \
             while(SDL_PollEvent(&e)) { \
                 run.catchEvents(e, &quit); \
             } \
-            if(quit) break; \
-            run.tick(&quit); \
+            if(run.isClosed()) break; \
+            run.tick(); \
             run.render(lag / 8.0D); \
         } \
         return 0; \
@@ -66,13 +65,13 @@ namespace ascii {
             double lag = 0.0; \
             SDL_Event e; \
             bool quit = false; \
-            while(!quit) { \
+            while(!run.isClosed()) { \
                 lag += elapsed.getEllapsedTime(); \
                 elapsed.restart(); \
-                while(SDL_PollEvent(&e)) run.catchEvents(e, &quit); \
-                if(quit) break; \
+                while(SDL_PollEvent(&e)) run.catchEvents(e); \
+                if(run.isClosed()) break; \
                 while (lag >= 8.0D) { \
-                    run.tick(&quit); \
+                    run.tick(); \
                     lag -= 8.0D; \
                 } \
                 run.render(lag / 8.0D); \

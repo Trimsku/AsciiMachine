@@ -1,10 +1,10 @@
 #include "../../asciiengine/core/Font.hpp"
 #include "../../asciiengine/core/Engine.hpp"
 
-ascii::Font::Font() {
-}
+ascii::Font::Font() noexcept {}
+ascii::Font::~Font() noexcept {FC_FreeFont(font);}
 
-void ascii::Font::initializeFont(ascii::Engine* engine, const char* path_to_font, int size_i, int style) {
+void ascii::Font::initializeFont(ascii::Engine* engine, const char* path_to_font, int size_i, int style) noexcept {
     printf("Font %s is created\n", path_to_font);
     font = FC_CreateFont();
     size = size_i;
@@ -20,11 +20,6 @@ void ascii::Font::initializeFont(ascii::Engine* engine, const char* path_to_font
         printf(SDL_GetError());
         exit(1);
     }
-}
-//ascii::Font::Font() {}
-
-ascii::Font::~Font() {
-    FC_FreeFont(font);
 }
 
 int ascii::Font::getSize() noexcept {

@@ -1,15 +1,16 @@
 #include "../../asciiengine/core/Engine.hpp"
 
-ascii::Engine::~Engine() {
+ascii::Engine::~Engine() noexcept {
     SDL_DestroyRenderer(engine_renderer);
     SDL_DestroyWindow(engine_window); 
     engine_renderer = NULL;
     engine_window = NULL;
     SDL_Quit();
+    if(currentScene != nullptr) delete currentScene;
     printf("Engine is destroyed\n");
 }
 
-ascii::Engine::Engine() : engine_font() {
+ascii::Engine::Engine() noexcept : engine_font() {
     if (SDL_Init(SDL_INIT_EVERYTHING) == -1){
         printf("Unable to init SDL2: %s", SDL_GetError());
         SDL_Quit();
@@ -72,11 +73,11 @@ void ascii::Engine::presentScreen() noexcept {
     SDL_RenderPresent(engine_renderer);
 }
 
-void ascii::Engine::loadFont(const char* path_to_font, int size, int style) {
+void ascii::Engine::loadFont(const char* path_to_font, int size, int style) noexcept {
     engine_font.initializeFont(this, path_to_font, size, style);
 }
 
-void ascii::Engine::createWindow(astd::string name, int width, int height) {
+void ascii::Engine::createWindow(astd::string name, int width, int height) noexcept {
     if(width == -1 && height == -1) {
         engine_window = SDL_CreateWindow(name.c_str(), SDL_WINDOWPOS_UNDEFINED,
                         SDL_WINDOWPOS_UNDEFINED, screenW, screenH, SDL_WINDOW_SHOWN);

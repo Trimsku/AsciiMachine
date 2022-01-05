@@ -37,7 +37,7 @@ class IScene {
         virtual bool isUsingGravity() noexcept = 0;
         virtual int getDefaultEntitySpawnX() noexcept = 0;
         virtual int getDefaultEntitySpawnY() noexcept = 0;
-        virtual void render(int playerX, int playerY) = 0;
+        virtual void render() = 0;
         virtual void tick() = 0;
         template<typename T>
         bool isConflictingWithOtherObject(T *entity) noexcept;
