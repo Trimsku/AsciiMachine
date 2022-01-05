@@ -11,34 +11,44 @@ int Player::getState() {
 }
 
 void Player::render(double deltaTime) noexcept {
-    if(state == State::Stand) playerStand.render(engine, x - engine->getCamera()->x, y - engine->getCamera()->y);
-    else if(state == State::Right) playerRight.render(engine, x - engine->getCamera()->x + PLAYER_X_VELOCITY * deltaTime, y - engine->getCamera()->y);
-    else if(state == State::Left) playerLeft.render(engine, x - engine->getCamera()->x - PLAYER_X_VELOCITY * deltaTime, y - engine->getCamera()->y);
+    if(state == ascii::Direction::Stand) 
+        playerStand.render(engine, 
+            engine->getCamera()->getObjectX(x) + getW() / 2, 
+            engine->getCamera()->getObjectY(y) + getH() / 2);
+    else if(state == ascii::Direction::Right) 
+        playerRight.render(engine, 
+            engine->getCamera()->getObjectX(x) + getW() / 2/* + PLAYER_X_VELOCITY * deltaTime*/, 
+            engine->getCamera()->getObjectY(y) + getH() / 2);
+    else if(state == ascii::Direction::Left) 
+        playerLeft.render(engine, 
+            engine->getCamera()->getObjectX(x) + getW() / 2/* - PLAYER_X_VELOCITY * deltaTime*/, 
+            engine->getCamera()->getObjectY(y) + getH() / 2);
 
     if(Options::getInstance().isDebugging()) {
         engine->draw(0, 0, "x: " + std::to_string(x) + ", y: " + std::to_string(y));
-        engine->draw(0, 50, "cameraX: " + std::to_string(engine->getCamera()->x) + ", cameraY: " + std::to_string(engine->getCamera()->y));
         engine->draw(0, 100, "health: " + std::to_string(health));
     } else {
         engine->draw(0, 0, "health: " + std::to_string(health));
     }
 }
-void Player::tick() noexcept {
+void Player::update() noexcept {
     if(is_key_pressed(RIGHT)) {
         x += PLAYER_X_VELOCITY;
+        state = ascii::Direction::Right;
         if(engine->getScene()->isConflictingWithOtherObject(this)) {
             x -= PLAYER_X_VELOCITY;
-            state = State::Stand;
-        } else state = State::Right;
+            state = ascii::Direction::Stand;
+        }
     } else if(is_key_pressed(LEFT)) {
         x -= PLAYER_X_VELOCITY;
+        state = ascii::Direction::Left;
         if(engine->getScene()->isConflictingWithOtherObject(this)) {
             x += PLAYER_X_VELOCITY;
-            state = State::Stand;
-        } else state = State::Left;
+            state = ascii::Direction::Stand;
+        }
     } else { // for events
         engine->getScene()->isConflictingWithOtherObject(this);
-        state = State::Stand;
+        state = ascii::Direction::Stand;
     }
     if(is_key_pressed(UP) && !engine->isUsingGravity()) {
         y -= PLAYER_Y_VELOCITY;

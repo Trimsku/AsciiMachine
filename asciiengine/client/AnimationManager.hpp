@@ -5,8 +5,7 @@
 #include "../core/Font.hpp"
 #include "../core/Engine.hpp"
 
-namespace ascii::client {
-
+namespace ascii { namespace client {
 class AnimationManager {
 private:
     int animationTick = 0;
@@ -14,11 +13,11 @@ private:
     astd::Clock time;
     AnimatedTexture texture;
 public:
-    AnimationManager(AnimatedTexture animation, int timeForUpdate);
-    AnimationManager(astd::string pathToAnimation, int timeForUpdate);
-    void update();
-    void render(ascii::Engine *engine, int x, int y);
+    AnimationManager(AnimatedTexture animation, int timeForUpdate) noexcept;
+    AnimationManager(astd::string pathToAnimation, int timeForUpdate) noexcept;
+    void update() noexcept;
+    void render(ascii::Engine *engine, int x, int y) noexcept;
 };
 
-}
+}}
 #endif // ANIMATION_MANAGER_HPP

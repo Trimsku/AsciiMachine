@@ -14,7 +14,7 @@ class MainMenuScene : public ascii::scene::IScene {
         astd::string railway = "[@128, 119, 119]";
         astd::string railway_wall = "[@128, 119, 119]";
         astd::string pillar_line = "[@41, 40, 38]";
-        ascii::Observer observer = ascii::Observer("mainMenuScene");
+        ascii::Observer observer = ascii::Observer("mainMenuSceneObserver");
         bool isTramCollision = false;
     public: 
         MainMenuScene(ascii::Engine *engine) noexcept;
@@ -22,7 +22,9 @@ class MainMenuScene : public ascii::scene::IScene {
         virtual int getDefaultEntitySpawnX() noexcept override;
         virtual int getDefaultEntitySpawnY() noexcept override;
         virtual void render() noexcept override;
-        virtual void tick() noexcept override;
+        virtual void update() noexcept override;
 };
+
+}
 
 #endif // !MAIN_MENU_SCENE_HPP

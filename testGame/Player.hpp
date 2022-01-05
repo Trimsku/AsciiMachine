@@ -3,21 +3,15 @@
 
 #include "../asciiengine/client/AnimationManager.hpp"
 #include "Options.hpp"
+#include "../asciiengine/common/Camera.hpp"
 
-#define PLAYER_X_VELOCITY 4
+#define PLAYER_X_VELOCITY 5
 #define PLAYER_Y_VELOCITY 2
-
-enum State {
-    Stand = 1,
-    Left = 2,
-    Right = 3,
-    None = 4,
-};
 
 class Player
 {
 private:
-    int state = State::Stand;
+    int state = ascii::Direction::Stand;
     int x, y;
     int xVelocity = 0, yVelocity = 0;
     int health;
@@ -29,7 +23,7 @@ private:
 public:
     Player(ascii::Engine *m_engine, int health) noexcept;
     void render(double deltaTime) noexcept;
-    void tick() noexcept;
+    void update() noexcept;
     int getState();
     inline int getX() noexcept {
         return x - getW();

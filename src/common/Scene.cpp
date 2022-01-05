@@ -1,7 +1,7 @@
 #include "../../asciiengine/common/Scene.hpp"
 #include "../../asciiengine/core/Engine.hpp"
 
-namespace ascii::scene {
+namespace ascii { namespace scene {
 
 SceneObject::SceneObject() noexcept {}
 SceneObject::SceneObject(short int _x, short int _y, short int _w, short int _h, const char* _name, bool _isPushable) noexcept {
@@ -26,10 +26,6 @@ short int createCollisionH(int numbers_of_chars_in_y, Engine *engine) noexcept {
     return engine->getFontSize() * ( numbers_of_chars_in_y + 1 );
 }
 
-void IScene::addObject(SceneObject object) noexcept {
-    objects.push(object);
-}
-
 SceneObject *IScene::getSceneObject(const char *name) noexcept {
     for(int i = 0; i < objects.size(); i++) {
         if(objects[i].name == name) return &objects[i]; 
@@ -37,8 +33,8 @@ SceneObject *IScene::getSceneObject(const char *name) noexcept {
     return nullptr;
 }
 
-SceneObject IScene::getCollisionEventObject() noexcept {
-    return lastObject;
+void IScene::addObject(SceneObject object) noexcept {
+    objects.push(object);
 }
 
-}
+}}

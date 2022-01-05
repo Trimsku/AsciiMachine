@@ -1,6 +1,8 @@
 #include "../../../asciiengine/common/util/StringUtil.hpp"
 
-astd::string ascii::util::getFileResources(const char *path_to_file) {
+namespace ascii { namespace util {
+
+astd::string getFileResources(const char *path_to_file) noexcept {
     FILE *fstr = fopen(path_to_file, "r");
     if(fstr == NULL) {
         printf("File \"%s\" is not found. Check your filename or path.", path_to_file);
@@ -14,3 +16,5 @@ astd::string ascii::util::getFileResources(const char *path_to_file) {
     fclose(fstr);
     return str;
 }
+
+}}

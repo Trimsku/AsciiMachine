@@ -31,7 +31,7 @@ namespace ascii {
                 run.catchEvents(e, &quit); \
             } \
             if(run.isClosed()) break; \
-            run.tick(); \
+            run.update(); \
             run.render(lag / 8.0D); \
         } \
         return 0; \
@@ -49,7 +49,7 @@ namespace ascii {
                 run.catchEvents(e, &quit); \
             } \
             if(quit) emscripten_cancel_main_loop(); \
-            run.tick(lag / 8.0, &quit); \
+            run.update(lag / 8.0, &quit); \
             run.render(); \
         } \
         int main(int argc, char **argv) { \
@@ -71,7 +71,7 @@ namespace ascii {
                 while(SDL_PollEvent(&e)) run.catchEvents(e); \
                 if(run.isClosed()) break; \
                 while (lag >= 8.0D) { \
-                    run.tick(); \
+                    run.update(); \
                     lag -= 8.0D; \
                 } \
                 run.render(lag / 8.0D); \

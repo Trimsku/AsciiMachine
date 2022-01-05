@@ -1,6 +1,8 @@
 #include "../../asciiengine/core/Engine.hpp"
 
-ascii::Engine::~Engine() noexcept {
+namespace ascii {
+
+Engine::~Engine() noexcept {
     SDL_DestroyRenderer(engine_renderer);
     SDL_DestroyWindow(engine_window); 
     engine_renderer = NULL;
@@ -10,7 +12,7 @@ ascii::Engine::~Engine() noexcept {
     printf("Engine is destroyed\n");
 }
 
-ascii::Engine::Engine() noexcept : engine_font() {
+Engine::Engine() noexcept : engine_font(), camera(this){
     if (SDL_Init(SDL_INIT_EVERYTHING) == -1){
         printf("Unable to init SDL2: %s", SDL_GetError());
         SDL_Quit();
@@ -18,66 +20,31 @@ ascii::Engine::Engine() noexcept : engine_font() {
 
     }
     if (TTF_Init() != 0){
-        printf(SDL_GetError());
+        printf("%s", SDL_GetError());
         SDL_Quit();
         exit(1);
     }
-    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2");
+    if(!SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1")) {
+        printf("Cannot set SDL_HINT_RENDER_SCALE_QUALITY, report this bug to game developer");
+    }
     SDL_DisplayMode mode;
     SDL_GetDisplayMode(0, 0, &mode);
     screenW = mode.w;
     screenH = mode.h;
+    camera = ascii::Camera(this);
 }
 
-int ascii::Engine::getScrW() noexcept {
-    return screenW;
-}
-int ascii::Engine::getScrH() noexcept {
-    return screenH;
-}
-
-SDL_Rect *ascii::Engine::getCamera() noexcept {
-    return &camera;
-}
-
-ascii::scene::IScene *ascii::Engine::getScene() noexcept{
-    return currentScene;
-}
-
-int ascii::Engine::getFontSize() noexcept {
-    return engine_font.getSize();
-}
-
-bool ascii::Engine::isUsingGravity() noexcept {
-    return currentScene->isUsingGravity();
-}
-
-void ascii::Engine::setScene(ascii::scene::IScene *newScene) noexcept{
+void Engine::setScene(ascii::scene::IScene *newScene) noexcept{
     if(currentScene != nullptr) delete currentScene;
     currentScene = newScene;
     ascii::Listener::Subject::getInstance().createMessage("onSceneChangedEvent");
 }
 
-SDL_Window *ascii::Engine::getWindow() noexcept{
-    return engine_window;
-}
-SDL_Renderer *ascii::Engine::getRenderer() noexcept{
-    return engine_renderer;
-}
-
-void ascii::Engine::cleanScreen() noexcept {
-    SDL_RenderClear(engine_renderer);
-}
-
-void ascii::Engine::presentScreen() noexcept {
-    SDL_RenderPresent(engine_renderer);
-}
-
-void ascii::Engine::loadFont(const char* path_to_font, int size, int style) noexcept {
+void Engine::loadFont(const char* path_to_font, int size, int style) noexcept {
     engine_font.initializeFont(this, path_to_font, size, style);
 }
 
-void ascii::Engine::createWindow(astd::string name, int width, int height) noexcept {
+void Engine::createWindow(astd::string name, int width, int height) noexcept {
     if(width == -1 && height == -1) {
         engine_window = SDL_CreateWindow(name.c_str(), SDL_WINDOWPOS_UNDEFINED,
                         SDL_WINDOWPOS_UNDEFINED, screenW, screenH, SDL_WINDOW_SHOWN);
@@ -101,7 +68,7 @@ void ascii::Engine::createWindow(astd::string name, int width, int height) noexc
     }
 }
 
-void ascii::Engine::draw(signed int x, signed int y, astd::string Sprite) noexcept {
+void Engine::draw(signed int x, signed int y, astd::string Sprite) noexcept {
     signed int x_ = x;
     signed int y_ = y;
     astd::string r;
@@ -149,8 +116,7 @@ void ascii::Engine::draw(signed int x, signed int y, astd::string Sprite) noexce
         FC_DrawColor(engine_font.getRawFont(), engine_renderer, x_, y_, {r_,g_,b_,a_} ,"%c", Sprite[i]);
     }
 }
-
-void ascii::Engine::drawWithBackground(signed int x, signed int y, astd::string Sprite) noexcept {
+void Engine::drawWithBackground(signed int x, signed int y, astd::string Sprite) noexcept {
     signed int x_ = x;
     signed int y_ = y;
     astd::string r;
@@ -204,9 +170,7 @@ void ascii::Engine::drawWithBackground(signed int x, signed int y, astd::string 
         FC_DrawColor(engine_font.getRawFont(), engine_renderer, x_, y_, {r_,g_,b_,a_} ,"%c", Sprite[i]);
     }
 }
-
-
-void ascii::Engine::draw(signed int x, signed int y, const char* Sprite) noexcept {
+void Engine::draw(signed int x, signed int y, const char* Sprite) noexcept {
     signed int x_ = x;
     signed int y_ = y;
     astd::string r;
@@ -254,4 +218,5 @@ void ascii::Engine::draw(signed int x, signed int y, const char* Sprite) noexcep
         x_+=engine_font.getSize()/2;
         FC_DrawColor(engine_font.getRawFont(), engine_renderer, x_, y_, {r_,g_,b_,a_} ,"%s", utf8_getchar(&ITER));
     }
+}
 }

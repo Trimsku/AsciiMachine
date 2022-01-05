@@ -8,7 +8,7 @@ namespace ascii {
     class Engine;
 }
 
-namespace ascii::scene {
+namespace ascii { namespace scene {
 
 class SceneObject {
     public:
@@ -38,15 +38,14 @@ class IScene {
         virtual int getDefaultEntitySpawnX() noexcept = 0;
         virtual int getDefaultEntitySpawnY() noexcept = 0;
         virtual void render() = 0;
-        virtual void tick() = 0;
+        virtual void update() = 0;
         template<typename T>
         bool isConflictingWithOtherObject(T *entity) noexcept;
         // Return nullptr, if scene object not found;
         SceneObject *getSceneObject(const char *name) noexcept;
-        SceneObject getCollisionEventObject() noexcept;
+        inline SceneObject getCollisionEventObject() noexcept;
         void addObject(SceneObject object) noexcept;
 };
-
 template<typename T>
 bool IScene::isConflictingWithOtherObject(T *entity) noexcept {
     for(int i = 0; i < objects.size(); i++) {
@@ -60,7 +59,10 @@ bool IScene::isConflictingWithOtherObject(T *entity) noexcept {
     }
     return false;
 }
-
+SceneObject IScene::getCollisionEventObject() noexcept {
+    return lastObject;
 }
+
+}}
 
 #endif // !SCENE_HPP

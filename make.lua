@@ -9,7 +9,7 @@ Project "AsciiLib"
     AddIncludePath "."
 
     AddCompileOptions( "std=c++14" )
-    Files( "src/astd/*", "src/client/*", "src/common/*", "src/common/event/*", "src/common/util/*", "src/core/*" )
+    Files( "src/astd/*", "src/client/*", "src/common/*.cpp", "src/common/event/*", "src/common/util/*", "src/core/*" )
 
 Project "AsciiGame"
     SetProjectType "Application"

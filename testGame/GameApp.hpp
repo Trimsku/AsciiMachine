@@ -17,7 +17,7 @@ class GameApp : public ascii::IApp {
     public:
         ~GameApp() noexcept;
         GameApp() noexcept;
-        void tick() noexcept;
+        void update() noexcept;
         void render(double deltaTime) noexcept;
         void catchEvents(SDL_Event e) noexcept;
         void close() noexcept;
@@ -34,13 +34,11 @@ class GameApp : public ascii::IApp {
             .addText("Hello. This is Ascii-G. Adventure with RPG elements.", 100)
             .addText("Use left, right, up and down buttons for move.", 50)
             .addText("Use _______________", 50)
-            .addText("   |             | |", 25)
+            .addText("   |               |", 25)
             .addText("   |  /__________| |", 25)
             .addText("   |  \\            |", 25)
             .addText("   |_______________|", 25)
-            .addText("for shops,", 50)
-            .addText("tram, cars, buttons and i.e", 50)
-            .addText("Go to the tram, hero.", 50)
+            .addText("for shops,tram, cars, buttons and i.e", 50)
             .addText("[Return]", 50);
 
         ascii::client::AnimatedTextBuilderUTF8 japaneseBoy = ascii::client::AnimatedTextBuilderUTF8()
@@ -50,7 +48,6 @@ class GameApp : public ascii::IApp {
         astd::string pillar = "[@41, 40, 38]\\|/\n |\n |\n |\n |";
 
         ascii::Observer gameMainObserver = ascii::Observer("gameMainObserver");
-        ascii::Observer wtf = ascii::Observer("wtf");
 };
 
 #endif // !GAME_APP_HPP

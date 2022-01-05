@@ -13,7 +13,6 @@ MainMenuScene::MainMenuScene(ascii::Engine *engine) noexcept : ascii::scene::ISc
                 ascii::scene::createCollisionW(3, engine), 
                 ascii::scene::createCollisionH(3, engine), "tram", false));
 
-    observer.update("dfrf");
     for(int x = 0; x < engine->getScrW()*3; x+=75) railway += "___";
     railway += '\n';
     const astd::string railwayAppend("[@128, 119, 119]__[@59, 38, 0]/");
@@ -31,16 +30,30 @@ int MainMenuScene::getDefaultEntitySpawnY() noexcept {
     return 270;
 }
 void MainMenuScene::render() noexcept {
-    engine->draw(0 - engine->getCamera()->x - 75/2, 0 - engine->getCamera()->y - 200/2, tram_station);
-    engine->draw(-engine->getScrW() - engine->getCamera()->x - 75/2, 425 - engine->getCamera()->y - 200/2, railway);
-    engine->draw(-1870 - engine->getCamera()->x - 75/2, 545 - engine->getCamera()->y - 200/2, railway_wall);
-    engine->draw(1720 - engine->getCamera()->x - 75/2, 545 - engine->getCamera()->y - 200/2, railway_wall);
-    engine->drawWithBackground(225 - engine->getCamera()->x - 75/2, 110 - engine->getCamera()->y - 200/2, tram);
-    engine->draw(-engine->getScrW() - engine->getCamera()->x - 75/2, 115 - engine->getCamera()->y - 200/2, pillar_line);
-    if(isTramCollision) engine->draw(635 - engine->getCamera()->x - 75 / 2, 300 - engine->getCamera()->y - 200 / 2, astd::string("[Return]"));
+    engine->draw(
+        engine->getCamera()->getObjectX(0), 
+        engine->getCamera()->getObjectY(0), tram_station);
+    engine->draw(
+        engine->getCamera()->getObjectX(-engine->getScrW()), 
+        engine->getCamera()->getObjectY(425), railway);
+    engine->draw(
+        engine->getCamera()->getObjectX(-1870), 
+        engine->getCamera()->getObjectY(545), railway_wall);
+    engine->draw(
+        engine->getCamera()->getObjectX(1720), 
+        engine->getCamera()->getObjectY(545), railway_wall);
+    engine->drawWithBackground(
+        engine->getCamera()->getObjectX(225), 
+        engine->getCamera()->getObjectY(110), tram);
+    engine->draw(
+        engine->getCamera()->getObjectX(-engine->getScrW()), 
+        engine->getCamera()->getObjectY(115), pillar_line);
+    if(isTramCollision) engine->draw(
+        engine->getCamera()->getObjectX(635), 
+        engine->getCamera()->getObjectY(300), astd::string("[Return]"));
 }
 
-void MainMenuScene::tick() noexcept {
+void MainMenuScene::update() noexcept {
      if( observer.isGotNewEvent() && observer.getEventName() == "onCollisionEvent" ) {
         if( strcmp(engine->getScene()->getCollisionEventObject().name, "tram") == 0) {
             isTramCollision = true;

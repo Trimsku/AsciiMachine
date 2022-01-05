@@ -13,7 +13,7 @@ void GameApp::close() noexcept {
     closed = true;
 }
 
-void GameApp::tick() noexcept {
+void GameApp::update() noexcept {
     if ( is_key_pressed(Q) ) close();
     if( is_key_pressed(G) && elapsedTimeInKeyPressing.getEllapsedTime() / 1000.0f > 1.0f ) {
         Options::getInstance().setDebugging(!Options::getInstance().isDebugging());
@@ -24,17 +24,14 @@ void GameApp::tick() noexcept {
         player.setY(getScene()->getDefaultEntitySpawnY());
         gameMainObserver.setEventChecked();
     }
-    getScene()->tick();
-    player.tick();
+    getScene()->update();
+    player.update();
+    getCamera()->update(player.getX(), player.getY(), player.getW(), player.getH());
 }
 
 void GameApp::render(double deltaTime) noexcept {
     cleanScreen();
-    getCamera()->x = player.getX() - getScrW() / 2 + player.getW() * 2;
-    getCamera()->y = player.getY() - getScrH() / 2 + player.getH() * 2;
-    if(player.getState() == State::Left) getCamera()->x -= PLAYER_X_VELOCITY * deltaTime;
-    else if(player.getState() == State::Right) getCamera()->x += PLAYER_X_VELOCITY * deltaTime;
-    
+    getCamera()->onRendering(deltaTime, player.getState(), PLAYER_X_VELOCITY);
     getScene()->render();
     player.render(deltaTime);
     presentScreen();

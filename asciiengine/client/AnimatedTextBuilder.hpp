@@ -4,18 +4,21 @@
 #include "../astd/Container.hpp"
 #include "AnimatedText.hpp"
 
-namespace ascii::client
-{
+namespace ascii { namespace client {
     class AnimatedTextBuilder {
         private:
             astd::container<AnimatedText> texts; 
         public:
-            AnimatedTextBuilder();
-            void render(ascii::Engine *engine, int x, int y);
-            bool isFinished();
-            AnimatedTextBuilder addText(astd::string text, int delay);
+            AnimatedTextBuilder() noexcept;
+            void render(ascii::Engine *engine, int x, int y) noexcept;
+            inline bool isFinished() noexcept;
+            AnimatedTextBuilder addText(astd::string text, int delay) noexcept;
     };
-} // namespace ascii::client
+
+    bool AnimatedTextBuilder::isFinished() noexcept {
+        return texts[texts.size()].isFinished();
+    }
+}}; // namespace ascii::client
 
 
 #endif // !ANIMATED_TEXT_BUILDER_HPP

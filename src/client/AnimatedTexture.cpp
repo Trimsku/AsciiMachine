@@ -4,15 +4,7 @@
 
 #include "../../asciiengine/client/AnimatedTexture.hpp"
 
-int ascii::client::AnimatedTexture::getAnimationsNumber() {
-    return textures.size();
-}
-
-astd::string ascii::client::AnimatedTexture::getCurrentTexture(int animation_tick) {
-    return textures[animation_tick];
-}
-
-ascii::client::AnimatedTexture::AnimatedTexture(astd::string texture) {
+ascii::client::AnimatedTexture::AnimatedTexture(astd::string texture) noexcept {
     int current_animation = 1;
     bool isWritingToStringNow = false;
     astd::string stringToAdd;

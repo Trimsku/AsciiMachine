@@ -21,11 +21,3 @@ void ascii::Font::initializeFont(ascii::Engine* engine, const char* path_to_font
         exit(1);
     }
 }
-
-int ascii::Font::getSize() noexcept {
-    return size;
-}
-
-FC_Font *ascii::Font::getRawFont() noexcept {
-    return font;
-}

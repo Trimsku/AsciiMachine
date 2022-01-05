@@ -1,16 +1,14 @@
 #include "../../asciiengine/client/AnimatedText.hpp"
 
-ascii::client::AnimatedText::AnimatedText(astd::string text, int timeBetweenUpdate_m) {
+namespace ascii { namespace client {
+
+ascii::client::AnimatedText::AnimatedText(astd::string text, int timeBetweenUpdate_m) noexcept {
     currentTick = 0;
     texture = text;
     timeBetweenUpdate = timeBetweenUpdate_m;
 }
 
-astd::string ascii::client::AnimatedText::getCurrentText() {
-    return texture.substr(0, currentTick);
-}
-
-void ascii::client::AnimatedText::update() {
+void ascii::client::AnimatedText::update() noexcept {
     if(time.getEllapsedTime() >= timeBetweenUpdate) {
         if(!isFinished()) currentTick++;
         if(currentTick > texture.size()) currentTick = -1;
@@ -18,14 +16,9 @@ void ascii::client::AnimatedText::update() {
     }
 }
 
-void ascii::client::AnimatedText::render(ascii::Engine *engine, int x, int y) {
+void ascii::client::AnimatedText::render(ascii::Engine *engine, int x, int y) noexcept {
     update();
     if(!isFinished()) engine->draw(x, y, getCurrentText());
 }
-void ascii::client::AnimatedText::renderLast(ascii::Engine *engine, int x, int y) {
-    engine->draw(x, y, texture);
-}
 
-bool ascii::client::AnimatedText::isFinished() {
-    return currentTick == -1;
-}
+}}

@@ -3,25 +3,28 @@
 //
 #include "../../asciiengine/client/AnimationManager.hpp"
 
-ascii::client::AnimationManager::AnimationManager(AnimatedTexture animation, int timeForAnimationUpdate) {
+namespace ascii { namespace client {
+
+AnimationManager::AnimationManager(AnimatedTexture animation, int timeForAnimationUpdate) noexcept {
     texture = animation;
     timeForUpdate = timeForAnimationUpdate;
 }
 
-ascii::client::AnimationManager::AnimationManager(astd::string pathToAnimation, int timeForAnimationUpdate) {
+AnimationManager::AnimationManager(astd::string pathToAnimation, int timeForAnimationUpdate) noexcept {
     texture = AnimatedTexture(ascii::util::getFileResources(pathToAnimation.c_str()));
     timeForUpdate = timeForAnimationUpdate;
 }
 
-void ascii::client::AnimationManager::render(ascii::Engine *engine, int x, int y) {
+void AnimationManager::render(ascii::Engine *engine, int x, int y) noexcept {
     update();
     engine->draw(x, y, texture.getCurrentTexture(animationTick));
 }
 
-void ascii::client::AnimationManager::update() {
+void AnimationManager::update() noexcept {
     if(time.getEllapsedTime() >= timeForUpdate) {
         animationTick++;
         if(animationTick == texture.getAnimationsNumber()) animationTick = 0;
         time.restart();
     }
 }
+}}

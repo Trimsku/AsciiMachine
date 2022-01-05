@@ -12,17 +12,17 @@ namespace astd {
         int capacity;
         int length;
     public:
-        container();
+        container() noexcept;
  
-        void push(T data);
-        void pop();
-        int size();
-        T &operator[](const int index);
+        void push(T data) noexcept;
+        void pop() noexcept;
+        inline int size() noexcept;
+        T &operator[](const int index) noexcept;
     };
 
 
     template<typename T>
-    T &container<T>::operator[](const int index) {
+    T &container<T>::operator[](const int index) noexcept {
         if(0 <= index && index <= length-1) {
             return arr[index];
         } else {
@@ -32,16 +32,16 @@ namespace astd {
     }
 
     template<typename T>
-    int container<T>::size() { return length; }
+    int container<T>::size() noexcept { return length; }
 
     template<typename T>
-    void container<T>::pop() { 
+    void container<T>::pop() noexcept { 
         arr[length] = NULL;
         length--; 
     }
     
     template <typename T> 
-    container<T>::container()
+    container<T>::container() noexcept
     {
         arr = new T[1];
         capacity = 1;
@@ -49,7 +49,7 @@ namespace astd {
     }
 
     template <typename T> 
-    void container<T>::push(T data)
+    void container<T>::push(T data) noexcept
     {
         if (length == capacity) {
             T* temp = new T[2 * capacity];

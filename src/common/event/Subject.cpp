@@ -8,11 +8,6 @@ ascii::Listener::ISubject::~ISubject() noexcept {
 ascii::Listener::Subject::Subject() noexcept {}
 ascii::Listener::Subject::~Subject() noexcept {}
 
-ascii::Listener::Subject &ascii::Listener::Subject::getInstance() noexcept {
-    static Subject *instance = new Subject();
-    return *instance;
-}
-
 void ascii::Listener::Subject::Notify() noexcept {
     Observer* observer = head;
     while (observer != NULL) {
@@ -41,8 +36,4 @@ void ascii::Listener::Subject::detach(ascii::Observer *observer) noexcept {
 
     current = current->next;
   }
-}
-void ascii::Listener::Subject::createMessage(const char* message) noexcept {
-    message_ = message;
-    Notify();
 }

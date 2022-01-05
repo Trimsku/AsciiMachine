@@ -1,18 +1,15 @@
 #include "../../asciiengine/client/AnimatedTextBuilderUTF8.hpp"
 
-namespace ascii::client
-{
+namespace ascii { namespace client {
 
-AnimatedTextBuilderUTF8::AnimatedTextBuilderUTF8() {
+AnimatedTextBuilderUTF8::AnimatedTextBuilderUTF8() noexcept {}
 
-}
-
-AnimatedTextBuilderUTF8 AnimatedTextBuilderUTF8::addText(astd::string text, int delay) {
+AnimatedTextBuilderUTF8 AnimatedTextBuilderUTF8::addText(astd::string text, int delay) noexcept {
     texts.push(AnimatedTextUTF8(text, delay));
     return *this;
 }
 
-void AnimatedTextBuilderUTF8::render(ascii::Engine *engine, int x, int y) {
+void AnimatedTextBuilderUTF8::render(ascii::Engine *engine, int x, int y) noexcept {
     bool isLastFinished = true;
     for(int i = 0; i < texts.size(); i++) {
         if(!texts[i].isFinished() && isLastFinished) {
@@ -20,12 +17,8 @@ void AnimatedTextBuilderUTF8::render(ascii::Engine *engine, int x, int y) {
             isLastFinished = false;
             continue;
         }
-        if(texts[i].isFinished()) texts[i].renderLast(engine, x, y+i*50);
+        if(texts[i].isFinished()) texts[i].renderLast(engine, x, y+i*engine->getFontSize());
     }
 }
 
-bool AnimatedTextBuilderUTF8::isFinished() {
-    return texts[texts.size()].isFinished();
-}
-
-} // namespace ascii::client
+}} // namespace ascii::client

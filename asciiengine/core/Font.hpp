@@ -17,9 +17,15 @@ namespace ascii
         Font() noexcept;
         ~Font() noexcept;
         void initializeFont(Engine *engine, const char* path_to_font, int size, int style) noexcept;
-        int getSize() noexcept;
-        FC_Font *getRawFont() noexcept;
+        inline int getSize() noexcept;
+        inline FC_Font *getRawFont() noexcept;
     };
+    int Font::getSize() noexcept {
+        return size;
+    }
+    FC_Font *Font::getRawFont() noexcept {
+        return font;
+    }
 } // namespace ascii
 
 namespace ascii

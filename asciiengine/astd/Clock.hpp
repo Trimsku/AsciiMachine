@@ -6,12 +6,18 @@ namespace astd
 {
     class Clock {
     public:
-        Clock();
-        unsigned int getEllapsedTime();
-        void restart();
+        Clock() noexcept;
+        inline unsigned int getEllapsedTime() noexcept;
+        inline void restart() noexcept;
     private:
         unsigned int startTime;
     };
+    unsigned int Clock::getEllapsedTime() noexcept {
+        return SDL_GetTicks() - startTime;
+    }
+    void Clock::restart() noexcept {
+        startTime = SDL_GetTicks();
+    }
 }; // namespace ascii
 
 
