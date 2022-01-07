@@ -1,5 +1,4 @@
-#ifndef IOBSERVER_H
-#define IOBSERVER_H
+#pragma once
 
 namespace ascii
 {
@@ -10,5 +9,3 @@ namespace ascii
     };
 
 } // namespace ascii
-
-#endif // IOBJECT_H

@@ -1,5 +1,4 @@
-#ifndef OBSERVER_H
-#define OBSERVER_H
+#pragma once
 
 #include "IObserver.hpp"
 #include "../../astd/String.hpp"
@@ -36,5 +35,3 @@ namespace ascii
         return event;
     }
 } // namespace ascii
-
-#endif

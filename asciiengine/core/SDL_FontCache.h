@@ -29,9 +29,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
-
-#ifndef _SDL_FONTCACHE_H__
-#define _SDL_FONTCACHE_H__
+#pragma once
 
 #include <SDL2/SDL.h>
 #ifdef __EMSCRIPTEN__
@@ -302,6 +300,4 @@ void FC_SetDefaultColor(FC_Font* font, SDL_Color color);
 
 #ifdef __cplusplus
 }
-#endif
-
 #endif

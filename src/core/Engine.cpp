@@ -13,19 +13,22 @@ Engine::~Engine() noexcept {
 }
 
 Engine::Engine() noexcept : engine_font(), camera(this){
-    if (SDL_Init(SDL_INIT_EVERYTHING) == -1){
+    #ifdef __APPLE__
+	    ascii::client::initializeFileSystem();
+    #endif
+    if (SDL_Init(SDL_INIT_EVERYTHING | SDL_VIDEO_OPENGL ) == -1){
         printf("Unable to init SDL2: %s", SDL_GetError());
         SDL_Quit();
         exit(1);
-
     }
     if (TTF_Init() != 0){
         printf("%s", SDL_GetError());
         SDL_Quit();
         exit(1);
     }
-    if(!SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1")) {
-        printf("Cannot set SDL_HINT_RENDER_SCALE_QUALITY, report this bug to game developer");
+    
+    if(!SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2")) {
+        printf("Cannot set SDL_HINT_RENDER_SCALE_QUALITY to \"1\", report this bug to game developer");
     }
     SDL_DisplayMode mode;
     SDL_GetDisplayMode(0, 0, &mode);
@@ -47,25 +50,30 @@ void Engine::loadFont(const char* path_to_font, int size, int style) noexcept {
 void Engine::createWindow(astd::string name, int width, int height) noexcept {
     if(width == -1 && height == -1) {
         engine_window = SDL_CreateWindow(name.c_str(), SDL_WINDOWPOS_UNDEFINED,
-                        SDL_WINDOWPOS_UNDEFINED, screenW, screenH, SDL_WINDOW_SHOWN);
+                        SDL_WINDOWPOS_UNDEFINED, screenW, screenH, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
     } else if(width == -1) {
         engine_window = SDL_CreateWindow(name.c_str(), SDL_WINDOWPOS_UNDEFINED,
-                    SDL_WINDOWPOS_UNDEFINED, screenW, height, SDL_WINDOW_SHOWN);
+                    SDL_WINDOWPOS_UNDEFINED, screenW, height, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
     } else if(height == -1) {
         engine_window = SDL_CreateWindow(name.c_str(), SDL_WINDOWPOS_UNDEFINED,
-                    SDL_WINDOWPOS_UNDEFINED, width, screenH, SDL_WINDOW_SHOWN);
+                    SDL_WINDOWPOS_UNDEFINED, width, screenH, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
+    } else {
+        engine_window = SDL_CreateWindow(name.c_str(), SDL_WINDOWPOS_UNDEFINED,
+                    SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
     }
     if (engine_window == nullptr){
        printf("Unable to create window: %s", SDL_GetError());
        SDL_Quit();
        exit(1);
     }
-    engine_renderer = SDL_CreateRenderer(engine_window, -1, SDL_RENDERER_ACCELERATED);
+    SDL_SetHint(SDL_HINT_RENDER_DRIVER, "opengl");
+    engine_renderer = SDL_CreateRenderer(engine_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
     if (engine_renderer == nullptr){
         printf("%s\n", SDL_GetError());
         SDL_Quit();
         exit(1);
     }
+    glContext = SDL_GL_CreateContext(getWindow());
 }
 
 void Engine::draw(signed int x, signed int y, astd::string Sprite) noexcept {

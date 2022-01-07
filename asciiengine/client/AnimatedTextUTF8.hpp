@@ -1,5 +1,4 @@
-#ifndef ANIMATED_TEXT_UTF8_HPP
-#define ANIMATED_TEXT_UTF8_HPP
+#pragma once
 
 #include "../astd/String.hpp"
 #include "../astd/Clock.hpp"
@@ -32,5 +31,3 @@ void AnimatedTextUTF8::renderLast(ascii::Engine *engine, int x, int y) noexcept 
     engine->draw(x, y, texture.c_str());
 }
 }};
-
-#endif // ANIMATED_TEXT_HPP

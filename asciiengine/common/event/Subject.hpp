@@ -1,5 +1,4 @@
-#ifndef SUBJECT_H
-#define SUBJECT_H
+#pragma once
 
 #include "ISubject.hpp"
 #include "Observer.hpp"
@@ -35,4 +34,3 @@ namespace ascii { namespace Listener {
         return *instance;
     }
 }} // namespace ascii::Listener
-#endif // SUBJECT_H

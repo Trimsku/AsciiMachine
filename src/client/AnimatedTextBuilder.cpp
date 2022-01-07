@@ -1,7 +1,6 @@
 #include "../../asciiengine/client/AnimatedTextBuilder.hpp"
 
-namespace ascii::client
-{
+namespace ascii { namespace client {
 
 AnimatedTextBuilder::AnimatedTextBuilder() noexcept {}
 
@@ -22,4 +21,4 @@ void AnimatedTextBuilder::render(ascii::Engine *engine, int x, int y) noexcept {
     }
 }
 
-} // namespace ascii::client
+}} // namespace ascii::client

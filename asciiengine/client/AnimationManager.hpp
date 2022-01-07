@@ -1,5 +1,4 @@
-#ifndef ANIMATION_MANAGER_HPP
-#define ANIMATION_MANAGER_HPP
+#pragma once
 
 #include "AnimatedTexture.hpp"
 #include "../core/Font.hpp"
@@ -20,4 +19,3 @@ public:
 };
 
 }}
-#endif // ANIMATION_MANAGER_HPP

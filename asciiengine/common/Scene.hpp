@@ -1,5 +1,4 @@
-#ifndef SCENE_HPP
-#define SCENE_HPP
+#pragma once
 
 #include "../astd/Container.hpp"
 #include "event/Subject.hpp"
@@ -40,17 +39,17 @@ class IScene {
         virtual void render() = 0;
         virtual void update() = 0;
         template<typename T>
-        bool isConflictingWithOtherObject(T *entity) noexcept;
+        bool isConflictingWithOtherObject(T entity) noexcept;
         // Return nullptr, if scene object not found;
         SceneObject *getSceneObject(const char *name) noexcept;
         inline SceneObject getCollisionEventObject() noexcept;
         void addObject(SceneObject object) noexcept;
 };
 template<typename T>
-bool IScene::isConflictingWithOtherObject(T *entity) noexcept {
+bool IScene::isConflictingWithOtherObject(T entity) noexcept {
     for(int i = 0; i < objects.size(); i++) {
-        bool collisionX = entity->getX() + entity->getW() >= objects[i].x && objects[i].x + objects[i].w >= entity->getX();
-        bool collisionY = entity->getY() + entity->getH() >= objects[i].y && objects[i].y + objects[i].h >= entity->getY();
+        bool collisionX = entity.getX() + entity.getW() >= objects[i].x && objects[i].x + objects[i].w >= entity.getX();
+        bool collisionY = entity.getY() + entity.getH() >= objects[i].y && objects[i].y + objects[i].h >= entity.getY();
         if(collisionX && collisionY && objects[i].isPushable) return true; 
         else if(collisionX && collisionY && !objects[i].isPushable) {
             ascii::Listener::Subject::getInstance().createMessage("onCollisionEvent");
@@ -64,5 +63,3 @@ SceneObject IScene::getCollisionEventObject() noexcept {
 }
 
 }}
-
-#endif // !SCENE_HPP

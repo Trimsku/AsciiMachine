@@ -35,29 +35,29 @@ void Player::update() noexcept {
     if(is_key_pressed(RIGHT)) {
         x += PLAYER_X_VELOCITY;
         state = ascii::Direction::Right;
-        if(engine->getScene()->isConflictingWithOtherObject(this)) {
+        if(engine->getScene()->isConflictingWithOtherObject(*this)) {
             x -= PLAYER_X_VELOCITY;
             state = ascii::Direction::Stand;
         }
     } else if(is_key_pressed(LEFT)) {
         x -= PLAYER_X_VELOCITY;
         state = ascii::Direction::Left;
-        if(engine->getScene()->isConflictingWithOtherObject(this)) {
+        if(engine->getScene()->isConflictingWithOtherObject(*this)) {
             x += PLAYER_X_VELOCITY;
             state = ascii::Direction::Stand;
         }
     } else { // for events
-        engine->getScene()->isConflictingWithOtherObject(this);
+        engine->getScene()->isConflictingWithOtherObject(*this);
         state = ascii::Direction::Stand;
     }
     if(is_key_pressed(UP) && !engine->isUsingGravity()) {
         y -= PLAYER_Y_VELOCITY;
-        if(engine->getScene()->isConflictingWithOtherObject(this)) {
+        if(engine->getScene()->isConflictingWithOtherObject(*this)) {
             y += PLAYER_Y_VELOCITY;
         }
     } else if(is_key_pressed(DOWN) && !engine->isUsingGravity()) {
         y += PLAYER_Y_VELOCITY;
-        if(engine->getScene()->isConflictingWithOtherObject(this)) {
+        if(engine->getScene()->isConflictingWithOtherObject(*this)) {
             y -= PLAYER_Y_VELOCITY;
         }
     }

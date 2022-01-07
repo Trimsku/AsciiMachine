@@ -5,6 +5,9 @@ Project "AsciiLib"
     -- system
     LinkLibrary "SDL2" 
     LinkLibrary "SDL2_ttf"
+    LinkLibrary "GL"
+    LinkLibrary "GLEW"
+    LinkLibrary "glfw"
 
     AddIncludePath "."
 

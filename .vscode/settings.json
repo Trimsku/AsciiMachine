@@ -38,7 +38,8 @@
         "tuple": "cpp",
         "typeinfo": "cpp",
         "utility": "cpp",
-        "codecvt": "cpp"
+        "codecvt": "cpp",
+        "chrono": "cpp"
     },
     "C_Cpp.errorSquiggles": "Enabled"
 }

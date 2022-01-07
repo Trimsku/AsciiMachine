@@ -1,8 +1,5 @@
-#ifndef CAMERA_HPP
-#define CAMERA_HPP
-
+#pragma once
 #include <SDL2/SDL.h>
-
 
 namespace ascii {
     enum Direction {
@@ -36,5 +33,3 @@ namespace ascii {
         return y - camera.y - h / 2;
     }
 }
-
-#endif // !CAMERA_HPP

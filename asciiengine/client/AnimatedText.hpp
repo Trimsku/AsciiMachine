@@ -1,5 +1,4 @@
-#ifndef ANIMATED_TEXT_HPP
-#define ANIMATED_TEXT_HPP
+#pragma once
 
 #include "../astd/String.hpp"
 #include "../astd/Clock.hpp"
@@ -33,5 +32,3 @@ astd::string AnimatedText::getCurrentText() noexcept {
     return texture.substr(0, currentTick);
 }
 }} // namespace ascii::client;
-
-#endif // ANIMATED_TEXT_HPP

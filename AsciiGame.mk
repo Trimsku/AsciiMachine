@@ -13,6 +13,7 @@ else
 endif
 ARGS += -lSDL2
 ARGS += -lSDL2_ttf
+ARGS += -lGL
 ARGS += -Lbin/Release/ -Wl,-rpath=bin/Release/ -lAsciiLib 
 ARGS += -std=c++14
 ARGS += -I . 

@@ -1,5 +1,4 @@
-#ifndef ISUBJECT_H
-#define ISUBJECT_H
+#pragma once
 #include "Observer.hpp"
 
 namespace ascii { namespace Listener {
@@ -11,5 +10,3 @@ namespace ascii { namespace Listener {
             virtual void Notify() noexcept = 0;
     };
 }} // namespace ascii::Listener
-
-#endif // ISUBJECT_H

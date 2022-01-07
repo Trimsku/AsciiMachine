@@ -1,5 +1,4 @@
-#ifndef ANIMATED_TEXT_BUILDER_UTF_8_HPP
-#define ANIMATED_TEXT_BUILDER_UTF_8_HPP
+#pragma once
 
 #include "../astd/Container.hpp"
 #include "AnimatedTextUTF8.hpp"
@@ -18,6 +17,3 @@ namespace ascii { namespace client {
         return texts[texts.size()].isFinished();
     }
 }}; // namespace ascii::client
-
-
-#endif // !ANIMATED_TEXT_BUILDER_UTF_8_HPP

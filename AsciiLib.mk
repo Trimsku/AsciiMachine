@@ -13,9 +13,11 @@ else
 endif
 ARGS += -lSDL2
 ARGS += -lSDL2_ttf
+ARGS += -lGLEW
+ARGS += -lGL
 ARGS += -std=c++14
 ARGS += -I . 
-OBJS := $(OBJS_DIR)/Clock.o $(OBJS_DIR)/String.o $(OBJS_DIR)/AnimationManager.o $(OBJS_DIR)/AnimatedTexture.o $(OBJS_DIR)/AnimatedText.o $(OBJS_DIR)/AnimatedTextBuilder.o $(OBJS_DIR)/AnimatedTextUTF8.o $(OBJS_DIR)/AnimatedTextBuilderUTF8.o $(OBJS_DIR)/Scene.o $(OBJS_DIR)/Camera.o $(OBJS_DIR)/Subject.o $(OBJS_DIR)/Observer.o $(OBJS_DIR)/StringUtil.o $(OBJS_DIR)/Font.o $(OBJS_DIR)/SDL_FontCache.o $(OBJS_DIR)/Engine.o $(OBJS_DIR)/utf-8.o 
+OBJS := $(OBJS_DIR)/Clock.o $(OBJS_DIR)/String.o $(OBJS_DIR)/AnimationManager.o $(OBJS_DIR)/AnimatedTexture.o $(OBJS_DIR)/AnimatedText.o $(OBJS_DIR)/AnimatedTextBuilder.o $(OBJS_DIR)/AnimatedTextUTF8.o $(OBJS_DIR)/AnimatedTextBuilderUTF8.o $(OBJS_DIR)/Shader.o $(OBJS_DIR)/Scene.o $(OBJS_DIR)/Camera.o $(OBJS_DIR)/Subject.o $(OBJS_DIR)/Observer.o $(OBJS_DIR)/StringUtil.o $(OBJS_DIR)/Font.o $(OBJS_DIR)/SDL_FontCache.o $(OBJS_DIR)/Engine.o $(OBJS_DIR)/utf-8.o 
 BINS := $(BIN_DIR)/libAsciiLib.so
 
 all: create_dirs $(OBJS) $(BINS)
@@ -63,6 +65,10 @@ $(OBJS_DIR)/AnimatedTextUTF8.o: src/client/AnimatedTextUTF8.cpp
 $(OBJS_DIR)/AnimatedTextBuilderUTF8.o: src/client/AnimatedTextBuilderUTF8.cpp
 	$(SILENT) echo Building $@...
 	$(SILENT) $(CXX) -fPIC $(CFLAGS) -c $< -o $@ $(ARGS) -MMD -MP -MF $(OBJS_DIR)/AnimatedTextBuilderUTF8.d
+
+$(OBJS_DIR)/Shader.o: src/client/Shader.cpp
+	$(SILENT) echo Building $@...
+	$(SILENT) $(CXX) -fPIC $(CFLAGS) -c $< -o $@ $(ARGS) -MMD -MP -MF $(OBJS_DIR)/Shader.d
 
 $(OBJS_DIR)/Scene.o: src/common/Scene.cpp
 	$(SILENT) echo Building $@...

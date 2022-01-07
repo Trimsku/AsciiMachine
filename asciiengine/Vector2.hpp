@@ -1,5 +1,4 @@
-#ifndef VECTOR2_HPP
-#define VECTOR2_HPP
+#pragma once
 
 namespace ascii {
     // Vector2 - small vector class
@@ -125,4 +124,3 @@ namespace ascii {
     using Vector2d = Vector2<double>;
     using Vector2_d_l = Vector2<long double>;
 }
-#endif // VECTOR2_HPP

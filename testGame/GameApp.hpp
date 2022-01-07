@@ -1,12 +1,12 @@
 #ifndef GAME_APP_HPP
 #define GAME_APP_HPP
 
+// Add Input class(keyboard wrapper)
+// Add Log class
+// Add getFileResources(Type type, "name");
+
 #include "../asciiengine/core/IApp.hpp"
-#include "../asciiengine/client/AnimationManager.hpp"
-#include "../asciiengine/client/AnimatedTexture.hpp"
-#include "../asciiengine/client/AnimatedTextUTF8.hpp"
-#include "../asciiengine/client/AnimatedTextBuilder.hpp"
-#include "../asciiengine/client/AnimatedTextBuilderUTF8.hpp"
+#include "../asciiengine/client/AsciiClient.hpp"
 #include "../asciiengine/common/event/Subject.hpp"
 #include "../asciiengine/common/event/Observer.hpp"
 #include "scene/MainMenuScene.hpp"
@@ -22,9 +22,10 @@ class GameApp : public ascii::IApp {
         void catchEvents(SDL_Event e) noexcept;
         void close() noexcept;
         bool isClosed() noexcept;
+        ascii::client::Shader getCurrentShader() noexcept override;
     private:
+        ascii::client::Shader shader;
         bool closed = false;
-        int camVelocity = 1, xCamVelocitySummary = 0;
         Player player;
         astd::Clock elapsedTimeInKeyPressing;
         const astd::string GodsEnvoy = ascii::util::getFileResources("resources/textures/GodsEnvoy.txt");

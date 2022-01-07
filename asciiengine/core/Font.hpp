@@ -1,5 +1,4 @@
-#ifndef ASCII_FONT_H
-#define ASCII_FONT_H
+#pragma once
 #include <stdlib.h>
 #include "SDL_FontCache.h"
 #include "../common/util/StringUtil.hpp"
@@ -40,4 +39,3 @@ namespace ascii
         underline = TTF_STYLE_UNDERLINE,
     };
 } // namespace ascii
-#endif // FONT_H

@@ -7,7 +7,7 @@ MainMenuScene::MainMenuScene(ascii::Engine *engine) noexcept : ascii::scene::ISc
                 ascii::scene::createCollisionW(1, engine), 
                 ascii::scene::createCollisionH(25, engine), "left_invisible_wall", true));
     addObject(ascii::scene::SceneObject(1615, 200, 
-                ascii::scene::createCollisionW(1, engine), 
+                ascii::scene::createCollisionW(4, engine), 
                 ascii::scene::createCollisionH(25, engine), "right_invisible_wall", true));
     addObject(ascii::scene::SceneObject(625, 200, 
                 ascii::scene::createCollisionW(3, engine), 

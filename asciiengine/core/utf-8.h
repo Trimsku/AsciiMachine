@@ -19,9 +19,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-
-#ifndef utf8_iter_H
-#define utf8_iter_H
+#pragma once
 
 #include <stdint.h>
 
@@ -58,5 +56,3 @@ uint8_t			unicode_charsize	(uint32_t codepoint); // calculates the number of byt
 
 uint32_t 		utf8_converter		(const char* character, uint8_t size);
 const char* 	unicode_converter	(uint32_t codepoint, uint8_t size);
-
-#endif

@@ -1,10 +1,10 @@
-#ifndef ENGINE_HPP
-#define ENGINE_HPP
+#pragma once
 #include "SDL_FontCache.h"
 #include "Font.hpp"
 #include "utf-8.h"
 #include "../common/Scene.hpp"
 #include "../common/Camera.hpp"
+#include "../client/Shader.hpp"
 
 namespace ascii
 {
@@ -16,6 +16,7 @@ namespace ascii
             ascii::scene::IScene *currentScene = nullptr;
             int screenW, screenH;
             ascii::Camera camera;
+            SDL_GLContext glContext;
         public:
             Engine() noexcept;
             ~Engine() noexcept;
@@ -70,5 +71,3 @@ namespace ascii
 
 #define is_event(event_type) e.type == SDL_##event_type
 #define is_key_pressed(sdl_key) SDL_GetKeyboardState(nullptr)[SDL_SCANCODE_##sdl_key]
-
-#endif // ENGINE_HPP

@@ -1,5 +1,4 @@
-#ifndef ANIMATED_TEXT_BUILDER_HPP
-#define ANIMATED_TEXT_BUILDER_HPP
+#pragma once
 
 #include "../astd/Container.hpp"
 #include "AnimatedText.hpp"
@@ -19,6 +18,3 @@ namespace ascii { namespace client {
         return texts[texts.size()].isFinished();
     }
 }}; // namespace ascii::client
-
-
-#endif // !ANIMATED_TEXT_BUILDER_HPP

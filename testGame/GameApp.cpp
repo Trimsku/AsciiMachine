@@ -30,16 +30,19 @@ void GameApp::update() noexcept {
 }
 
 void GameApp::render(double deltaTime) noexcept {
-    cleanScreen();
     getCamera()->onRendering(deltaTime, player.getState(), PLAYER_X_VELOCITY);
     getScene()->render();
     player.render(deltaTime);
-    presentScreen();
 }
 
 GameApp::GameApp() noexcept : player(this, 100) {
     createWindow("Ascii-G", -1, -1);
+    shader = ascii::client::Shader("resources/shaders/shader.vert", "resources/shaders/shader.frag");
     loadFont("resources/fonts/10894.otf", 60, ascii::style::italic);
     setScene(new game::scene::MainMenuScene(this));
     Options::getInstance().setDebugging(false);
+}
+
+ascii::client::Shader GameApp::getCurrentShader() noexcept {
+    return shader;
 }

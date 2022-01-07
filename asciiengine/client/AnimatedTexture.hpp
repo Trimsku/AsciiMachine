@@ -1,5 +1,4 @@
-#ifndef ANIMATED_TEXTURE_HPP
-#define ANIMATED_TEXTURE_HPP
+#pragma once
 
 #include "../astd/String.hpp"
 #include "../astd/Container.hpp"
@@ -23,4 +22,3 @@ astd::string AnimatedTexture::getCurrentTexture(int animation_tick) noexcept {
     return textures[animation_tick];
 }
 }}
-#endif // !ANIMATED_TEXTURE_HPP
