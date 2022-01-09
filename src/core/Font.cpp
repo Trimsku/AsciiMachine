@@ -17,7 +17,7 @@ void ascii::Font::initializeFont(ascii::Engine* engine, const char* path_to_font
         exit(1);
     }
     if(!FC_LoadFont(font, engine->getRenderer(), path_to_font, size_i, FC_MakeColor(255,255,255,255), style)) {
-        printf(SDL_GetError());
+        printf("%s", SDL_GetError());
         exit(1);
     }
 }

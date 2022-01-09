@@ -31,19 +31,19 @@ public:
     inline int getY() noexcept {
         return y - getH();
     }
-    __always_inline static int getW() noexcept {
+    inline static int getW() noexcept {
         return 75;
     }
-    __always_inline static int getH() noexcept {
+    inline static int getH() noexcept {
         return 200;
     }
-    __always_inline void setX(int x_) noexcept {
+    inline void setX(int x_) noexcept {
         x = x_;
     }
-    __always_inline void setY(int y_) noexcept {
+    inline void setY(int y_) noexcept {
         y = y_;
     }
-    __always_inline const char* getSceneName() noexcept {
+    inline const char* getSceneName() noexcept {
         return ("player" + std::to_string(entityNameCounter)).c_str();
     }
 

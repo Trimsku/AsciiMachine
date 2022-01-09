@@ -17,7 +17,7 @@ IScene::IScene(ascii::Engine *_engine) noexcept {
     engine = _engine;
 }
 
-IScene::~IScene() {}
+IScene::~IScene() noexcept {}
 
 short int createCollisionW(int numbers_of_chars_in_x, Engine *engine) noexcept {
     return ( engine->getFontSize() / 2 ) * numbers_of_chars_in_x;

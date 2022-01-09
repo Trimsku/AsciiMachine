@@ -5,7 +5,7 @@
 #include "../../asciiengine/astd/String.hpp"
 #include "../../asciiengine/core/Engine.hpp"
 
-namespace game::scene {
+namespace game { namespace scene {
 
 class MainMenuScene : public ascii::scene::IScene {
     private:
@@ -25,6 +25,6 @@ class MainMenuScene : public ascii::scene::IScene {
         virtual void update() noexcept override;
 };
 
-}
+}}
 
 #endif // !MAIN_MENU_SCENE_HPP

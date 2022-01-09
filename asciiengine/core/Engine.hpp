@@ -16,7 +16,9 @@ namespace ascii
             ascii::scene::IScene *currentScene = nullptr;
             int screenW, screenH;
             ascii::Camera camera;
+            #ifndef __EMSCRIPTEN__
             SDL_GLContext glContext;
+            #endif
         public:
             Engine() noexcept;
             ~Engine() noexcept;
@@ -68,6 +70,12 @@ namespace ascii
         return engine_font.getSize();
     }
 } // namespace ascii
+
+#ifndef __EMSCRIPTEN__
+#define SDL_WINDOW_SHADER_FLAG | SDL_WINDOW_OPENGL
+#else
+#define SDL_WINDOW_SHADER_FLAG
+#endif
 
 #define is_event(event_type) e.type == SDL_##event_type
 #define is_key_pressed(sdl_key) SDL_GetKeyboardState(nullptr)[SDL_SCANCODE_##sdl_key]

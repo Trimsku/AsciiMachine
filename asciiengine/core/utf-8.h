@@ -21,6 +21,10 @@ SOFTWARE.
 */
 #pragma once
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <stdint.h>
 
 typedef struct utf8_iter {
@@ -56,3 +60,7 @@ uint8_t			unicode_charsize	(uint32_t codepoint); // calculates the number of byt
 
 uint32_t 		utf8_converter		(const char* character, uint8_t size);
 const char* 	unicode_converter	(uint32_t codepoint, uint8_t size);
+
+#ifdef __cplusplus
+}
+#endif

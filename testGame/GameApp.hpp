@@ -43,8 +43,8 @@ class GameApp : public ascii::IApp {
             .addText("[Return]", 50);
 
         ascii::client::AnimatedTextBuilderUTF8 japaneseBoy = ascii::client::AnimatedTextBuilderUTF8()
-            .addText("Ну как, ветер ещё дует?", 35)
-            .addText("А, мальчик из Японии?", 45);
+            .addText(astd::string("Ну как, ветер ещё дует?"), 35)
+            .addText(astd::string("А, мальчик из Японии?"), 45);
 
         astd::string pillar = "[@41, 40, 38]\\|/\n |\n |\n |\n |";
 

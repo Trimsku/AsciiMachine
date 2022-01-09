@@ -21,4 +21,8 @@ void AnimatedTextBuilderUTF8::render(ascii::Engine *engine, int x, int y) noexce
     }
 }
 
+bool AnimatedTextBuilderUTF8::isFinished() noexcept {
+    return texts[texts.size()].isFinished();
+}
+
 }} // namespace ascii::client

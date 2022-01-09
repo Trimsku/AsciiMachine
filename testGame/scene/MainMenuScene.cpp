@@ -1,6 +1,6 @@
 #include "MainMenuScene.hpp"
 
-namespace game::scene {
+namespace game { namespace scene {
 
 MainMenuScene::MainMenuScene(ascii::Engine *engine) noexcept : ascii::scene::IScene(engine) {
     addObject(ascii::scene::SceneObject(-60, 200, 
@@ -64,4 +64,4 @@ void MainMenuScene::update() noexcept {
     }
 }
 
-}
+}}

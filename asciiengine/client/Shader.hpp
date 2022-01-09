@@ -8,6 +8,7 @@
 #include "../common/util/StringUtil.hpp"
 
 #ifndef __APPLE__
+#ifndef __EMSCRIPTEN__
 namespace gl {
 
 static bool isGLExtensionsInitialized = false;
@@ -25,9 +26,16 @@ static PFNGLVALIDATEPROGRAMPROC glValidateProgram;
 static PFNGLGETPROGRAMIVPROC glGetProgramiv;
 static PFNGLGETPROGRAMINFOLOGPROC glGetProgramInfoLog;
 static PFNGLUSEPROGRAMPROC glUseProgram;
+static PFNGLBINDATTRIBLOCATIONPROC glBindAttribLocation;
+static PFNGLVERTEXATTRIBPOINTERPROC glVertexAttribPointer;
+static PFNGLENABLEVERTEXATTRIBARRAYPROC glEnableVertexAttribArray;
+static PFNGLDISABLEVERTEXATTRIBARRAYPROC glDisableVertexAttribArray;
+static PFNGLGENBUFFERSPROC glGenBuffers;
+static PFNGLDELETEBUFFERSPROC glDeleteBuffers;
 
 bool initGLExtensions();
 }
+#endif
 #endif
 
 namespace ascii { namespace client {
@@ -56,6 +64,13 @@ class Shader {
         unsigned int programId;
         bool compile(astd::string &vertShaderSource, astd::string &fragShaderSource);
 };
+
+class VertexBuffer {
+  GLuint id;
+  VertexBuffer();
+  ~VertexBuffer();
+};
+
 }}
 
 #endif

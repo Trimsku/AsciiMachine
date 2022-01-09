@@ -11,9 +11,6 @@ namespace ascii { namespace client {
             AnimatedTextBuilderUTF8() noexcept;
             void render(ascii::Engine *engine, int x, int y) noexcept;
             AnimatedTextBuilderUTF8 addText(astd::string text, int delay) noexcept;
-            inline bool isFinished() noexcept;
+            bool isFinished() noexcept;
     };
-    bool AnimatedTextBuilderUTF8::isFinished() noexcept {
-        return texts[texts.size()].isFinished();
-    }
 }}; // namespace ascii::client

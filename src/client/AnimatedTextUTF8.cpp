@@ -20,4 +20,15 @@ void AnimatedTextUTF8::render(ascii::Engine *engine, int x, int y) noexcept {
     update();
     if(!isFinished()) engine->draw(x, y, getCurrentText().c_str());
 }
+
+bool AnimatedTextUTF8::isFinished() noexcept {
+    return currentTick == -1;
+}
+astd::string AnimatedTextUTF8::getCurrentText() noexcept {
+    return texture.substr(0, currentTick-1);
+}
+void AnimatedTextUTF8::renderLast(ascii::Engine *engine, int x, int y) noexcept {
+    engine->draw(x, y, texture.c_str());
+}
+
 }}

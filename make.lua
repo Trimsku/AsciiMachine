@@ -1,23 +1,23 @@
 Workspace "AsciiMachine"
 
 Project "AsciiLib"
-    SetProjectType "SharedLib"
+    setProjectType "SharedLib"
     -- system
-    LinkLibrary "SDL2" 
-    LinkLibrary "SDL2_ttf"
-    LinkLibrary "GL"
-    LinkLibrary "GLEW"
-    LinkLibrary "glfw"
+    linkLibrary "SDL2" 
+    linkLibrary "SDL2_ttf"
+    linkLibrary "GL"
 
-    AddIncludePath "."
+    addIncludePath "."
 
-    AddCompileOptions( "std=c++14" )
+    addCompileOptions( "std=c++14" )
     Files( "src/astd/*", "src/client/*", "src/common/*.cpp", "src/common/event/*", "src/common/util/*", "src/core/*" )
 
 Project "AsciiGame"
-    SetProjectType "Application"
-    AddLibraryPath "bin/Release/"
-    LinkLibrary "AsciiLib"
+    setProjectType "Application"
+    linkLibrary "AsciiLib"
+    linkLibrary "SDL2" 
+    linkLibrary "SDL2_ttf"
+    linkLibrary "GL"
 
     Files( "testGame/*.cpp", "testGame/scene/*.cpp" )
 

@@ -12,22 +12,13 @@ class AnimatedTextUTF8 {
         int timeBetweenUpdate;
         astd::Clock time;
         astd::string texture;
-        inline astd::string getCurrentText() noexcept;
+        astd::string getCurrentText() noexcept;
     public:
         AnimatedTextUTF8(astd::string texture, int timeBetweenUpdate) noexcept;
         AnimatedTextUTF8() = default;
         void update() noexcept;
         void render(ascii::Engine *engine, int x, int y) noexcept;
-        inline void renderLast(ascii::Engine *engine, int x, int y) noexcept;
-        inline bool isFinished() noexcept;
+        void renderLast(ascii::Engine *engine, int x, int y) noexcept;
+        bool isFinished() noexcept;
 };
-bool AnimatedTextUTF8::isFinished() noexcept {
-    return currentTick == -1;
-}
-astd::string AnimatedTextUTF8::getCurrentText() noexcept {
-    return texture.substr(0, currentTick-1);
-}
-void AnimatedTextUTF8::renderLast(ascii::Engine *engine, int x, int y) noexcept {
-    engine->draw(x, y, texture.c_str());
-}
 }};

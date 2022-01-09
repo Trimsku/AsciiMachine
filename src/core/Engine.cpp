@@ -16,7 +16,11 @@ Engine::Engine() noexcept : engine_font(), camera(this){
     #ifdef __APPLE__
 	    ascii::client::initializeFileSystem();
     #endif
+    #ifdef __EMSCRIPTEN__
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) == -1){
+    #else 
     if (SDL_Init(SDL_INIT_EVERYTHING | SDL_VIDEO_OPENGL ) == -1){
+    #endif
         printf("Unable to init SDL2: %s", SDL_GetError());
         SDL_Quit();
         exit(1);
@@ -26,10 +30,13 @@ Engine::Engine() noexcept : engine_font(), camera(this){
         SDL_Quit();
         exit(1);
     }
-    
+    #ifndef __EMSCRIPTEN__
     if(!SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2")) {
         printf("Cannot set SDL_HINT_RENDER_SCALE_QUALITY to \"1\", report this bug to game developer");
     }
+    #else
+    printf("Sorry, but AsciiMachine(target: emscripten) doesn't support shaders now.");
+    #endif
     SDL_DisplayMode mode;
     SDL_GetDisplayMode(0, 0, &mode);
     screenW = mode.w;
@@ -50,30 +57,34 @@ void Engine::loadFont(const char* path_to_font, int size, int style) noexcept {
 void Engine::createWindow(astd::string name, int width, int height) noexcept {
     if(width == -1 && height == -1) {
         engine_window = SDL_CreateWindow(name.c_str(), SDL_WINDOWPOS_UNDEFINED,
-                        SDL_WINDOWPOS_UNDEFINED, screenW, screenH, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
+                        SDL_WINDOWPOS_UNDEFINED, screenW, screenH, SDL_WINDOW_SHOWN SDL_WINDOW_SHADER_FLAG);
     } else if(width == -1) {
         engine_window = SDL_CreateWindow(name.c_str(), SDL_WINDOWPOS_UNDEFINED,
-                    SDL_WINDOWPOS_UNDEFINED, screenW, height, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
+                    SDL_WINDOWPOS_UNDEFINED, screenW, height, SDL_WINDOW_SHOWN SDL_WINDOW_SHADER_FLAG);
     } else if(height == -1) {
         engine_window = SDL_CreateWindow(name.c_str(), SDL_WINDOWPOS_UNDEFINED,
-                    SDL_WINDOWPOS_UNDEFINED, width, screenH, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
+                    SDL_WINDOWPOS_UNDEFINED, width, screenH, SDL_WINDOW_SHOWN SDL_WINDOW_SHADER_FLAG);
     } else {
         engine_window = SDL_CreateWindow(name.c_str(), SDL_WINDOWPOS_UNDEFINED,
-                    SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
+                    SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_SHOWN SDL_WINDOW_SHADER_FLAG);
     }
     if (engine_window == nullptr){
        printf("Unable to create window: %s", SDL_GetError());
        SDL_Quit();
        exit(1);
     }
+    #ifndef __EMSCRIPTEN__
     SDL_SetHint(SDL_HINT_RENDER_DRIVER, "opengl");
+    #endif
     engine_renderer = SDL_CreateRenderer(engine_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
     if (engine_renderer == nullptr){
         printf("%s\n", SDL_GetError());
         SDL_Quit();
         exit(1);
     }
+    #ifndef __EMSCRIPTEN__
     glContext = SDL_GL_CreateContext(getWindow());
+    #endif
 }
 
 void Engine::draw(signed int x, signed int y, astd::string Sprite) noexcept {
@@ -192,13 +203,18 @@ void Engine::draw(signed int x, signed int y, const char* Sprite) noexcept {
     utf8_iter ITER;
     utf8_init(&ITER, Sprite);
     for(int i = 0; utf8_next(&ITER); i++) {
-        if(Sprite[i] == '[' && Sprite[i+1] == '@' && Sprite[i+2] == 'R' && Sprite[i+3] == ']') {
-            i += 4;
-            r_ = 255;
-            g_ = 255;
-            b_ = 255;
+        if( strcmp(utf8_getchar(&ITER), "[") == 0 && Sprite[i+3] == ']') {
+            if(utf8_next(&ITER) && strcmp(utf8_getchar(&ITER), "@") == 0) {
+                if(utf8_next(&ITER) && strcmp(utf8_getchar(&ITER), "R") == 0) {
+                    if(utf8_next(&ITER) && strcmp(utf8_getchar(&ITER), "]") == 0 ) {
+                        r_ = 255;
+                        g_ = 255;
+                        b_ = 255;
+                    } else { utf8_previous(&ITER); utf8_previous(&ITER); utf8_previous(&ITER); }
+                } else { utf8_previous(&ITER); utf8_previous(&ITER); }
+            } else utf8_previous(&ITER);
         }
-        if(Sprite[i] == '[' && Sprite[i+1] == '@') {
+        /*if(Sprite[i] == '[' && Sprite[i+1] == '@') {
             i+=2;
             while(Sprite[i] == ' ') i++;
             for(; isdigit(Sprite[i]); i++) r+=Sprite[i];
@@ -216,9 +232,8 @@ void Engine::draw(signed int x, signed int y, const char* Sprite) noexcept {
             g_ = atoi(g.c_str());
             b_ = atoi(b.c_str());
             r ="", g = "", b = "";
-        }
-                
-        if(Sprite[i] == '\n') {
+        }*/
+        if( strcmp(utf8_getchar(&ITER), "\n") == 0) {
             y_ += engine_font.getSize();
             x_=x;
             continue;

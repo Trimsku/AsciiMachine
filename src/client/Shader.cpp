@@ -1,5 +1,6 @@
 #include "../../asciiengine/client/Shader.hpp"
 
+#ifndef __EMSCRIPTEN__
 namespace gl {
     bool initGLExtensions() {
         glCreateShader = (PFNGLCREATESHADERPROC)SDL_GL_GetProcAddress("glCreateShader");
@@ -15,13 +16,21 @@ namespace gl {
     	glGetProgramiv = (PFNGLGETPROGRAMIVPROC)SDL_GL_GetProcAddress("glGetProgramiv");
     	glGetProgramInfoLog = (PFNGLGETPROGRAMINFOLOGPROC)SDL_GL_GetProcAddress("glGetProgramInfoLog");
     	glUseProgram = (PFNGLUSEPROGRAMPROC)SDL_GL_GetProcAddress("glUseProgram");
+        glBindAttribLocation = (PFNGLBINDATTRIBLOCATIONPROC)SDL_GL_GetProcAddress("glBindAttribLocation");
+        glVertexAttribPointer = (PFNGLVERTEXATTRIBPOINTERPROC)SDL_GL_GetProcAddress("glVertexAttribPointer");
+        glEnableVertexAttribArray = (PFNGLENABLEVERTEXATTRIBARRAYPROC)SDL_GL_GetProcAddress("glEnableVertexAttribArray");
+        glDisableVertexAttribArray = (PFNGLDISABLEVERTEXATTRIBARRAYPROC)SDL_GL_GetProcAddress("glDisableVertexAttribArray");
+        glGenBuffers = (PFNGLGENBUFFERSPROC)SDL_GL_GetProcAddress("glGenBuffers");
+        glDeleteBuffers = (PFNGLDELETEBUFFERSPROC)SDL_GL_GetProcAddress("glDeleteBuffers");
 
 	    return glCreateShader && glShaderSource && glCompileShader && glGetShaderiv && 
 		    glGetShaderInfoLog && glDeleteShader && glAttachShader && glCreateProgram &&
     		glLinkProgram && glValidateProgram && glGetProgramiv && glGetProgramInfoLog &&
-	    	glUseProgram;
+	    	glUseProgram && glVertexAttribPointer && glEnableVertexAttribArray && glDisableVertexAttribArray &&
+            glGenBuffers && glDeleteBuffers;
     }
 }
+#endif
 
 namespace ascii { namespace client {
 
@@ -30,11 +39,14 @@ Shader::Shader() {
 }
 
 Shader::Shader(astd::string vertShaderFilePath, astd::string fragShaderFilePath) {
+    #ifndef __EMSCRIPTEN__
     SDL_GL_SetAttribute( SDL_GL_CONTEXT_MAJOR_VERSION, 3 );
     SDL_GL_SetAttribute( SDL_GL_CONTEXT_MINOR_VERSION, 2 );
     SDL_GL_SetAttribute( SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE );
+    #endif
     
     #ifndef __APPLE__
+    #ifndef __EMSCRIPTEN__
     if(!gl::isGLExtensionsInitialized) {
         if(!gl::initGLExtensions()) {
             printf("Your device cannot load GLExtensions! Report bug to game developer!");
@@ -43,7 +55,8 @@ Shader::Shader(astd::string vertShaderFilePath, astd::string fragShaderFilePath)
         gl::isGLExtensionsInitialized = true;
     }
     #endif
-
+    #endif
+    #ifndef __EMSCRIPTEN__
     printf("Starting shader loading(vertex_shader: %s, fragment_shader: %s)...\n", vertShaderFilePath.c_str(), fragShaderFilePath.c_str());
     astd::string vertShaderSource, fragShaderSource;
     vertShaderSource = ascii::util::getFileResources(vertShaderFilePath.c_str());
@@ -53,9 +66,11 @@ Shader::Shader(astd::string vertShaderFilePath, astd::string fragShaderFilePath)
         return;
     }
     printf("Shaders loaded successful! (programId: %i)\n", programId);
+    #endif
 }
 
 bool Shader::compile(astd::string &vertShaderSource, astd::string &fragShaderSource) {
+    #ifndef __EMSCRIPTEN__
     const char* vertShaderRawSource = vertShaderSource.c_str();
     const char* fragShaderRawSource = fragShaderSource.c_str();
     GLuint fragShader, vertShader;
@@ -99,14 +114,32 @@ bool Shader::compile(astd::string &vertShaderSource, astd::string &fragShaderSou
     }
     gl::glDeleteShader(vertShader);
     gl::glDeleteShader(vertShader);
+    #endif
     return GL_TRUE;
 }
 
 void Shader::use() {
+    #ifndef __EMSCRIPTEN__
     gl::glUseProgram(programId);
+    #endif
 }
 void Shader::unUse() {
+    #ifndef __EMSCRIPTEN__
     gl::glUseProgram( NULL );
+    #endif
 }
+
+VertexBuffer::VertexBuffer() {
+    #ifndef __EMSCRIPTEN__
+    gl::glGenBuffers(1, &id);
+    #endif
+}
+
+VertexBuffer::~VertexBuffer() {
+    #ifndef __EMSCRIPTEN__
+    gl::glDeleteBuffers(1, &id);
+    #endif
+}
+
 
 }}
