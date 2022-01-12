@@ -3,23 +3,23 @@ Workspace "AsciiMachine"
 Project "AsciiLib"
     setProjectType "SharedLib"
     -- system
-    linkLibrary "SDL2" 
-    linkLibrary "SDL2_ttf"
-    linkLibrary "GL"
+    linkLib "SDL2" 
+    linkLib "SDL2_ttf"
+    linkLib "GL"
 
     addIncludePath "."
 
     addCompileOptions( "std=c++14" )
-    Files( "src/astd/*", "src/client/*", "src/common/*.cpp", "src/common/event/*", "src/common/util/*", "src/core/*" )
+    files( "src/astd/*", "src/client/*", "src/common/*.cpp", "src/common/event/*", "src/common/util/*", "src/core/*" )
 
 Project "AsciiGame"
     setProjectType "Application"
-    linkLibrary "AsciiLib"
-    linkLibrary "SDL2" 
-    linkLibrary "SDL2_ttf"
-    linkLibrary "GL"
+    linkLib "AsciiLib"
+    linkLib "SDL2" 
+    linkLib "SDL2_ttf"
+    linkLib "GL"
 
-    Files( "testGame/*.cpp", "testGame/scene/*.cpp" )
+    files( "testGame/*.cpp", "testGame/scene/*.cpp" )
 
 -- Project "SpriteEditor"
    --  SetProjectType "Application"

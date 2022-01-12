@@ -1,6 +1,8 @@
 #include "spam.hpp"
 #include <sys/stat.h>   // stat
 #include <dirent.h>
+#include <algorithm>
+#include <functional>
 #include <string.h>
 
 std::vector<std::string> libraries_paths = {};
@@ -39,7 +41,6 @@ void addReleaseLibraryPath(const char* path_to_library) {
 }
 
 std::string includeFilesInFolder(const char* folder_files_with_pattern_raw) {
-    //printf("start: includeFilesInFolder\n");
     std::string folder;
     std::string files_and_pattern;
 
@@ -61,7 +62,6 @@ std::string includeFilesInFolder(const char* folder_files_with_pattern_raw) {
     }
     int match_length;
     // pattern for files in current dir
-    //printf("pattern: %s\n", modificated_pattern.c_str());
     re_t pattern = re_compile(modificated_pattern.c_str());
     DIR *dir;
     struct dirent *ent;
@@ -71,11 +71,9 @@ std::string includeFilesInFolder(const char* folder_files_with_pattern_raw) {
             if(re_matchp(pattern, ent->d_name, &match_length) != -1) {
                 if( strcmp(ent->d_name, ".") != 0 && strcmp(ent->d_name, "..") != 0 ) {
                     if(!isInRootDir) files += folder + '/';
-                    //printf("folder: %s, ent->d_name: %s\n", folder.c_str(), ent->d_name);
                     files += ent->d_name;
                     files += ' ';
                 }
-                //printf("\nfiles: %s\n", files.c_str());
             }
         }
         closedir(dir);
@@ -84,7 +82,6 @@ std::string includeFilesInFolder(const char* folder_files_with_pattern_raw) {
         closedir(dir);
         exit(0);
     }
-    //printf("end: includeFilesInFolder\n");
     return files;
 }
 
@@ -103,143 +100,185 @@ std::string includeFile(const char *filenameRaw) {
 
 namespace spam {
 
-Project::Project(std::string _project_name) : name(_project_name) {}
-Project::~Project() {} 
+bool nameComparsion(LinuxProjectGenerator &generator, std::string libName) {
+    return generator.getName() == libName;
+}
 
-void Project::linkLibrary(std::string name) {
+LinuxProjectGenerator::LinuxProjectGenerator(std::string _project_name) noexcept : super(_project_name) {}
+LinuxProjectGenerator::~LinuxProjectGenerator() {} 
+
+void LinuxProjectGenerator::linkLibrary(std::string name) {
     library_names.push_back(name);
 }
 
-void Project::setProjectType(int _projectType) {
+void LinuxProjectGenerator::setProjectType(int _projectType) {
     projectType = _projectType;
 }
-int Project::getProjectType() {
+int LinuxProjectGenerator::getProjectType() {
     return projectType;
 }
 
-void Project::generateFile(int targetOS, spam::Workspace &workspace) {
+void LinuxProjectGenerator::generateFile(Workspace &workspace) {
     FILE *fptr;
     if((fptr = fopen((name + ".mk").c_str(), "w")) != NULL) {
-        std::vector<std::string> objs;
+        std::vector<std::string> objs = astd::split(files, ' ');
+        objs.erase(std::remove_if(objs.begin(), objs.end(), [](std::string str) -> bool { return str.empty(); }), objs.end());
+        std::vector<std::string> filesInVector(objs);
 
-        if(targetOS == TargetType::Linux) {
-            printf("Generating %s.mk for Linux build, generator 'GNU Make 4.0'...\n", name.c_str());
-            sfputs("ifndef verbose");
-	            sfputs("\tSILENT = @");
-            sfputs("endif");
-            sfputs("ifeq ($(config),debug)");
-                sfputs("\tOBJS_DIR := obj/Debug");
-                sfputs("\tBIN_DIR := bin/Debug");
-                sfprintf("\tLIB_PATHS := %s", astd::asString(debug_libraries_paths).c_str());
-                sfprintf("\tARGS := %s", debug_options.c_str());
-                fputs("\tLIBS := ", fptr);
-                for(int i = 0; i < library_names.size(); i++) {
-                    bool isSourced = false;
-                    for(int j = 0; j < workspace.projects.size(); j++) {
-                        if(library_names[i] == workspace.projects[j].name) {
-                            isSourced = true;
-                            fprintf(fptr, "bin/Debug/%s ", library_names[i].c_str());
-                            break;
-                        }
-                    }
-                    if(!isSourced) fprintf(fptr, "-l%s", library_names[i].c_str());
-                }
-            sfputs("\nelse");
-                sfputs("\tOBJS_DIR := obj/Release");
-                sfputs("\tBIN_DIR := bin/Release");
-                sfprintf("\tINCLUDES := %s", astd::asString(include_paths).c_str());
-                fputs("\tOBJS := ", fptr);
-                std::vector<std::string> files_parsed = astd::split(files, ' ');
-                for(int i = 0; i < files_parsed.size(); ++i) {
-                    if(files_parsed[i].find('.') == std::string::npos && !files_parsed[i].empty()) {
-                        printf("In %s: file %s hasn't got extension(.cpp, .cxx, .c)! \n", name.c_str(), files_parsed[i].c_str());
-                        exit(0);
-                    } else if(files_parsed[i].find('.') != std::string::npos && !files_parsed[i].empty()) {
-                        std::string rawObj = astd::split(files_parsed[i], '.')[0] + ".o" + ' ';
-                        std::string obj;
-                        if(rawObj.find_last_of('/') != std::string::npos)
-                            obj = "$(OBJS_DIR)/" + rawObj.substr(rawObj.find_last_of('/')+1, rawObj.size());
-                        else obj = "$(OBJS_DIR)/" + rawObj;
-                        fputs(obj.c_str(), fptr);
-                        objs.push_back(obj);
-                    } else files_parsed.erase(files_parsed.begin() + i);
-                }
+        printf("Generating %s.mk for Linux build, generator 'GNU Make 4.0'...\n", name.c_str());
 
-                fputs("\n\tLIBS := ", fptr);
-                bool isHasGotSourced = false;
-                for(int i = 0; i < library_names.size(); ++i) {
-                    bool isSourced = false;
-                    for(int j = 0; j < workspace.projects.size(); ++j) {
-                        if(library_names[i] == workspace.projects[j].name && workspace.projects[i].name != name) {
-                            isSourced = true;
-                            isHasGotSourced = true;
-                            fprintf(fptr, "bin/Release/lib%s.so ", library_names[i].c_str());
-                            break;
-                        }
-                    }
-                    if(!isSourced) fprintf(fptr, "-l%s ", library_names[i].c_str());
-                }
-                fputs("\n\tLIB_PATHS := ", fptr);
-                for(int i = 0; i < debug_libraries_paths.size(); ++i) fprintf(fptr, "-L %s ", debug_libraries_paths[i].c_str());
-                for(int i = 0; i < libraries_paths.size(); ++i) fprintf(fptr, "-L %s ", libraries_paths[i].c_str());
-
-                fputs("\n\tALL_CPPFLAGS := $(CPP_FLAGS) $(CXX_FLAGS) -MMD -MP $(INCLUDES) ", fptr);
-                fputs( (projectType == ProjectType::Library ? "-fPIC " : ""), fptr);
-                std::vector<std::string> splittedOptions;
-                if(global_options != "") {
-                    splittedOptions = astd::split(global_options, ' ');
-                }
-                if(release_options != "") {
-                    std::vector<std::string> splittedReleaseOptions = astd::split(release_options, ' ');
-                    splittedOptions.insert(splittedOptions.end(), splittedReleaseOptions.begin(), splittedReleaseOptions.end());
-                }
-                for(int i = 0; i < splittedOptions.size(); i++) {
-                    if(splittedOptions[i] != "") fprintf(fptr, "-%s ", splittedOptions[i].c_str());
-                }
-                fputs("\n\tALL_LDFLAGS := $(LDFLAGS) $(LIB_PATHS) ", fptr);
-                if(projectType == ProjectType::Library) fprintf(fptr, "-shared -Wl,-soname=lib%s.so -s ", name.c_str());
-                if(isHasGotSourced)fputs("-Wl,-rpath,'$$ORIGIN' -s", fptr);
-            sfputs("\nendif");
-            sfputs("\nCXX := g++");
-
-            sfprintf("$(BIN_DIR)/%s%s%s: create_dirs $(OBJS)", 
-                    (projectType == ProjectType::Library ? "lib" : ""), 
-                    name.c_str(), 
-                    (projectType == ProjectType::Library ? ".so" : ""));
-            sfputs("\t$(SILENT) $(CXX) $(OBJS) $(ALL_LDFLAGS) $(LIBS) -o $@ ");
-            sfputs("");
-            sfputs("\n.PHONY: create_dirs clean");
-            sfputs("create_dirs:");
-	            sfputs("\t$(SILENT) mkdir -p $(OBJS_DIR)");
-	            sfputs("\t$(SILENT) mkdir -p $(BIN_DIR)");
-            sfputs("clean:");
-	            sfputs("\trm -f $(OBJS_DIR)/*");
-	            sfputs("\trm -f $(BIN_DIR)/*\n");
-        for(int i = 0; i < objs.size(); ++i) {
-            sfprintf("%s: %s", objs[i].c_str(), files_parsed[i].c_str());
-                sfputs("\t$(SILENT) echo Building $@...");
-                sfputs("\t$(SILENT) $(CXX) $(ALL_CPPFLAGS) -o \"$@\" -MF \"$(@:%.o=%.d)\" -c \"$<\" ");
-        }
-            sfputs("-include $(OBJS:%.o=%.d)");
+        push(TargetType::IFNDEF, "verbose");
+            add("SILENT = @");
+        pop();
+        push(TargetType::IFEQ, "$(config)==debug"); {
+            add("OBJS_DIR := obj/Debug\n");
+            add("BIN_DIR := bin/Debug\n");
+            add("INCLUDES := " + astd::asString(include_paths) + '\n');
             
-        } else if(targetOS == TargetType::Windows) {
+            add("OBJS := ");
+            std::transform(objs.begin(), objs.end(), objs.begin(), 
+                [this](std::string str) -> std::string { 
+                int extensionPointStrNumber = str.find_last_of('.');
+                if(extensionPointStrNumber == std::string::npos) {
+                    printf("In %s: file %s hasn't got extension(.cpp, .cxx, .c)! \n", name.c_str(), str.c_str());
+                    exit(0);
+                }
+                std::string obj = str.substr(0, extensionPointStrNumber) + ".o" + ' ';
+                int slashPos = obj.find_last_of('/'); slashPos = slashPos != std::string::npos ? slashPos+1 : 0;
+                obj = "$(OBJS_DIR)/" + obj.substr(slashPos, obj.size());
+                add(obj);
+                return obj;
+            }); 
+            endl();
 
-        } else if(targetOS == TargetType::MacOS) {
+            add("LIBS := ");
+            bool isHasGotSourcedLibs = false;
+            for(std::string lib_name : library_names) {
+                if(std::find_if(workspace.projects.begin(), workspace.projects.end(),  std::bind(nameComparsion,  std::placeholders::_1 , lib_name)) != workspace.projects.end()) {
+                    isHasGotSourcedLibs = true;
+                    add("$(BIN_DIR)/lib" + lib_name + ".so ");
+                } else
+                    add("-l" + lib_name + ' ');
+            } 
+            endl(); 
 
-        } else if(targetOS == TargetType::iOS) {
+            add("LIB_PATHS := ");
+            for(std::string path : debug_libraries_paths) add("-L" + path + ' ');
+            for(std::string path : libraries_paths) add("-L" + path + ' ');
+            endl();
 
-        } else if(targetOS == TargetType::Android) {
+            add("ALL_CPPFLAGS := $(CPP_FLAGS) $(CXX_FLAGS) -MMD -MP $(INCLUDES) ");
+            if(projectType == ProjectType::Library) add("-fPIC ");
 
-        } else if(targetOS == TargetType::Web) {
+            std::vector<std::string> splittedOptions;
+            if(!global_options.empty()) splittedOptions = astd::split(global_options, ' ');
+            if(!debug_options.empty()) {
+                std::vector<std::string> splittedDebugOptions = astd::split(debug_options, ' ');
+                splittedOptions.insert(splittedOptions.end(), splittedDebugOptions.begin(), splittedDebugOptions.end());
+            }
 
+            for(std::string option : splittedOptions) 
+                if(!option.empty()) add('-' + option + ' ');
+            endl();
+
+            add("ALL_LDFLAGS := $(LDFLAGS) $(LIB_PATHS) ");
+            if(projectType == ProjectType::Library) add("-shared -Wl,-soname=lib" + name + ".so -s ");
+            if(isHasGotSourcedLibs) add("-Wl,-rpath,'$$ORIGIN' -s");
+        } push(TargetType::ELSE); {
+            add("OBJS_DIR := obj/Release\n");
+            add("BIN_DIR := bin/Release\n");
+            add("INCLUDES := " + astd::asString(include_paths) + '\n');
+
+            add("OBJS := ");
+            std::transform(objs.begin(), objs.end(), objs.begin(), 
+                [this](std::string str) -> std::string { 
+                int extensionPointStrNumber = str.find_last_of('.');
+                if(extensionPointStrNumber == std::string::npos) {
+                    printf("In %s: file %s hasn't got extension(.cpp, .cxx, .c)! \n", name.c_str(), str.c_str());
+                    exit(0);
+                }
+                std::string obj = str.substr(0, extensionPointStrNumber) + ".o" + ' ';
+                int slashPos = obj.find_last_of('/'); slashPos = slashPos != std::string::npos ? slashPos+1 : 0;
+                obj = "$(OBJS_DIR)/" + obj.substr(slashPos, obj.size());
+                add(obj);
+                return obj;
+            }); 
+            endl();
+
+            add("LIBS := ");
+            bool isHasGotSourcedLibs = false;
+            for(std::string lib_name : library_names) {
+                if(std::find_if(workspace.projects.begin(), workspace.projects.end(), std::bind(nameComparsion,  std::placeholders::_1, lib_name)) != workspace.projects.end()) {
+                    isHasGotSourcedLibs = true;
+                    add("bin/Release/lib" + lib_name + ".so ");
+                } else
+                    add("-l" + lib_name + ' ');
+            } 
+            endl(); 
+
+            add("LIB_PATHS := ");
+            if(!release_libraries_paths.empty()) {
+                for(std::string path : release_libraries_paths) add("-L" + path + ' ');
+            }
+            if(!libraries_paths.empty()) {
+                for(std::string path : libraries_paths) add("-L" + path + ' ');
+            }
+            endl();
+
+            add("ALL_CPPFLAGS := $(CPP_FLAGS) $(CXX_FLAGS) -MMD -MP $(INCLUDES) ");
+            if(projectType == ProjectType::Library) add("-fPIC ");
+
+            std::vector<std::string> splittedOptions;
+            if(!global_options.empty()) splittedOptions = astd::split(global_options, ' ');
+            if(!release_options.empty()) {
+                std::vector<std::string> splittedReleaseOptions = astd::split(release_options, ' ');
+                splittedOptions.insert(splittedOptions.end(), splittedReleaseOptions.begin(), splittedReleaseOptions.end());
+            }
+
+            for(std::string option : splittedOptions) 
+                if(!option.empty()) add('-' + option + ' ');
+            endl();
+
+            add("ALL_LDFLAGS := $(LDFLAGS) $(LIB_PATHS) ");
+            if(projectType == ProjectType::Library) add("-shared -Wl,-soname=lib" + name + ".so -s ");
+            if(isHasGotSourcedLibs) add("-Wl,-rpath,'$$ORIGIN' -s");
+        } pop();
+
+        add("CXX := g++\n");
+        std::string libPreffix = projectType == ProjectType::Library ? "lib" : "";
+        std::string libExtension = projectType == ProjectType::Library ? ".so" : "";
+        std::string bin_name = libPreffix + name + libExtension;
+        push(TargetType::MAKEFILE_TARGET, "[all] { create_dirs $(OBJS) $(BIN_DIR)/" + bin_name + "}"); pop(); endl();
+        push(TargetType::MAKEFILE_TARGET, "[ $(BIN_DIR)/" + bin_name + "] { }");
+            add("$(SILENT) echo Linking $@...\n");
+            add("$(SILENT) $(CXX) $(OBJS) $(ALL_LDFLAGS) $(LIBS) -o $@ "); 
+        pop();
+        endl();
+        push(TargetType::MAKEFILE_TARGET, "[.PHONY] { create_dirs clean }"); pop();
+        push(TargetType::MAKEFILE_TARGET, "[create_dirs]{}");
+	        add("$(SILENT) mkdir -p $(OBJS_DIR)\n");
+	        add("$(SILENT) mkdir -p $(BIN_DIR)");
+        pop();
+        push(TargetType::MAKEFILE_TARGET, "[clean]{}");
+            add("rm -f $(OBJS_DIR)/*\n");
+	        add("rm -f $(BIN_DIR)/*");
+        pop();
+        for(int i = 0; i < objs.size(); ++i) {
+            push(TargetType::MAKEFILE_TARGET, '[' + objs[i] + "]{" + filesInVector[i] + '}');
+                add("$(SILENT) echo Building $@...\n");
+                add("$(SILENT) $(CXX) $(ALL_CPPFLAGS) -o \"$@\" -MF \"$(@:%.o=%.d)\" -c \"$<\" ");
+            pop();
+            endl();
         }
+        add("-include $(OBJS:%.o=%.d)");
+        fputs(getContent().c_str(), fptr);
     } else {
         printf("Can't create %s.mk!", name.c_str());
         exit(0);
     }
 }
 
-std::string Project::getName() {
+std::string LinuxProjectGenerator::getName() {
     return name;
 }
 }
@@ -249,13 +288,13 @@ namespace spam {
 Workspace::Workspace(std::string _name) : name(_name) {}
 Workspace::~Workspace() {}
 
-void Workspace::addProject(spam::Project &project) {
+void Workspace::addProject(spam::LinuxProjectGenerator &project) {
     projects.push_back(project);
 }
 
 void Workspace::generateFile(int targetOS) {
     FILE *fptr;
-    if(targetOS == TargetType::Linux && (fptr = fopen(("Makefile"), "w")) != NULL) {
+    if( (fptr = fopen(("Makefile"), "w")) != NULL ) {
         printf("Note: you can use 'make -j[i]'(when [i] is number of threads) for more fast build\n\n");
         puts("Generating Makefile for Linux build, generator 'GNU Make 4.0'...");
         sfputs("ifndef config");
@@ -293,7 +332,7 @@ void Workspace::generateFile(int targetOS) {
             sfprintf("\t$(SILENT) echo \"\t%s\"", projects[i].getName().c_str());
 
         for(int i = 0; i < projects.size(); i++) {
-            projects[i].generateFile(targetOS, *this);
+            projects[i].generateFile(*this);
         }
     }
 }

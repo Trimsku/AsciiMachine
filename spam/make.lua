@@ -3,7 +3,8 @@ Workspace "AsciiMachine"
 Project "spam"
     setProjectType "Application"
     
-    addIncludePath "."
-    addCompileOptions( "std=c++11", "O2" )
+    addIncludePath "src/"
+    addCompileOptions( "std=c++11", "Os" )
+    addDebugCompileOptions( "g", "O0" )
 
-    Files( "src/*.cpp", "src/lua/onelua.cpp", "src/util/*.c*", "src/astd/*.cpp" )
+    files ( "src/*.cpp", "src/lua/onelua.cpp", "src/util/*.c*", "src/astd/*.cpp", "src/target/*.cpp" )

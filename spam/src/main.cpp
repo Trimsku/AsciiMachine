@@ -52,7 +52,7 @@ static int Project(lua_State * L) {
         ++project_index;
         name = lua_tostring(L, 1);
     } else {
-        spam::Project file(name.c_str());
+        spam::LinuxProjectGenerator file(name.c_str());
         file.setProjectType(projectType);
         file.includeFiles(files.c_str(), " "); // All files;
         for(int i = 0; i < library_names.size(); i++) {
@@ -115,12 +115,12 @@ static int AddReleaseCompileOptions(lua_State * L) {
     return 1;
 }
 static int GetTargetOS(lua_State * L) {
-    if(targetOS == TargetType::Linux) lua_pushstring(L, "linux");
-    else if(targetOS == TargetType::Windows) lua_pushstring(L, "windows");
-    else if(targetOS == TargetType::MacOS) lua_pushstring(L, "macos");
-    else if(targetOS == TargetType::Android) lua_pushstring(L, "android");
-    else if(targetOS == TargetType::iOS) lua_pushstring(L, "ios");
-    else if(targetOS == TargetType::Web) lua_pushstring(L, "web");
+    if(targetOS == OSType::Linux) lua_pushstring(L, "linux");
+    else if(targetOS == OSType::Windows) lua_pushstring(L, "windows");
+    else if(targetOS == OSType::MacOS) lua_pushstring(L, "macos");
+    else if(targetOS == OSType::Android) lua_pushstring(L, "android");
+    else if(targetOS == OSType::iOS) lua_pushstring(L, "ios");
+    else if(targetOS == OSType::Web) lua_pushstring(L, "web");
     else lua_pushstring(L, "none");
     return 1;
 }
@@ -139,12 +139,12 @@ int getTargetOS(std::string targetTypeArgValue) {
     std::string targetTypeArgValueInLC;
     std::transform(targetTypeArgValue.begin(), targetTypeArgValue.end(), targetTypeArgValueInLC.begin(),
             [](unsigned char c){ return std::tolower(c); });
-    if(targetTypeArgValueInLC.compare("linux")) return TargetType::Linux;
-    else if(targetTypeArgValueInLC == std::string("windows")) return TargetType::Windows;
-    else if(targetTypeArgValueInLC == std::string("macos")) return TargetType::MacOS;
-    else if(targetTypeArgValueInLC == std::string("android")) return TargetType::Android;
-    else if(targetTypeArgValueInLC == std::string("ios")) return TargetType::iOS;
-    else if(targetTypeArgValueInLC == std::string("web")) return TargetType::Web;
+    if(targetTypeArgValueInLC.compare("linux")) return OSType::Linux;
+    else if(targetTypeArgValueInLC == std::string("windows")) return OSType::Windows;
+    else if(targetTypeArgValueInLC == std::string("macos")) return OSType::MacOS;
+    else if(targetTypeArgValueInLC == std::string("android")) return OSType::Android;
+    else if(targetTypeArgValueInLC == std::string("ios")) return OSType::iOS;
+    else if(targetTypeArgValueInLC == std::string("web")) return OSType::Web;
     else {
         printf("Your target-os value isn't valid! Valid values: [Linux, Windows, MacOS, Android, iOS, Web]");
         exit(0);
@@ -201,7 +201,7 @@ decl - declaration \n\n\n\
     if( pathToFileArg.getValue() != "." ) {
         path_to_file = pathToFileArg.getValue();
     }
-    targetOS = TargetType::Linux;
+    targetOS = OSType::Linux;
 
     int iErr = 0;
     lua_State *lua = luaL_newstate();
@@ -212,9 +212,15 @@ decl - declaration \n\n\n\
     lua_pushcfunction(lua, ::Files);
     lua_setglobal(lua, "files");
     lua_pushcfunction(lua, ::LinkLibrary);
-    lua_setglobal(lua, "link_library");
+    lua_setglobal(lua, "linkLib");
     lua_pushcfunction(lua, ::AddLibraryPath);
-    lua_setglobal(lua, "libraries_paths");
+    lua_setglobal(lua, "libsPaths");
+    lua_pushcfunction(lua, ::AddCompileOptions);
+    lua_setglobal(lua, "addCompileOptions");
+    lua_pushcfunction(lua, ::AddDebugCompileOptions);
+    lua_setglobal(lua, "addDebugCompileOptions");
+    lua_pushcfunction(lua, ::AddReleaseCompileOptions);
+    lua_setglobal(lua, "addReleaseCompileOptions");
     lua_pushcfunction(lua, ::AddCompileOptions);
     lua_setglobal(lua, "addCompileOptions");
     lua_pushcfunction(lua, ::SetProjectType);
@@ -233,7 +239,7 @@ decl - declaration \n\n\n\
     }
     lua_close (lua);
 
-    spam::Project last_project(name.c_str());
+    spam::LinuxProjectGenerator last_project(name.c_str());
     last_project.setProjectType(projectType);
     last_project.includeFiles(files.c_str(), " "); // All files;
     for(int i = 0; i < library_names.size(); i++)

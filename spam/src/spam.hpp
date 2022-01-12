@@ -9,6 +9,7 @@
 #include "util/regex.h"
 #include "util/GenUUID.hpp"
 #include "astd/Container.hpp"
+#include "IProjectGenerator.hpp"
 
 namespace spman { namespace priv {
 // spman private macros
@@ -31,7 +32,7 @@ extern std::string global_options;
 extern std::string debug_options;
 extern std::string release_options;
 
-enum TargetType {
+enum OSType {
     Linux = 1,
     Windows = 2,
     MacOS = 3, // OSXCross 
@@ -39,6 +40,7 @@ enum TargetType {
     iOS = 6,
     Web = 5, // Emscripten
 };
+
 enum ProjectType {
     Application = 1,
     Library = 2,
@@ -68,17 +70,16 @@ namespace spam
 
     class Workspace;
 
-    class Project {
+    class LinuxProjectGenerator : public IProjectGenerator {
         private:
             std::string files;
-            std::string name;
             int projectType;
             std::vector<std::string> library_names;
         public:
-            Project(std::string project_name);
-            ~Project();
+            LinuxProjectGenerator(std::string project_name) noexcept;
+            ~LinuxProjectGenerator() noexcept;
 
-            void generateFile(int targetOS, spam::Workspace &mainWorkspace);
+            void generateFile(spam::Workspace &mainWorkspace);
 
             template<typename T, typename... Args>
             void includeFiles(T first, Args... args);
@@ -95,13 +96,13 @@ namespace spam
 
     class Workspace {
         private:
-            friend class spam::Project;
-            std::vector<spam::Project> projects;
+            friend class spam::LinuxProjectGenerator;
+            std::vector<spam::LinuxProjectGenerator> projects;
             std::string name;
         public:
             Workspace(std::string name);
             ~Workspace();
-            void addProject(spam::Project &project);
+            void addProject(spam::LinuxProjectGenerator &project);
             void generateFile(int targetOS);
             void createClass();
             inline void setName(std::string new_name) noexcept;
@@ -125,7 +126,7 @@ namespace spam
     }
 
     template<typename T, typename... Args>
-    void Project::includeFiles(T first, Args... args) {
+    void LinuxProjectGenerator::includeFiles(T first, Args... args) {
         files += first;
         files += ' ';
         files += priv::add(args...); 
