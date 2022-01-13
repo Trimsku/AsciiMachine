@@ -3,8 +3,6 @@
 
 // Add Input class(keyboard wrapper)
 // Add Log class
-// Add getFileResources(Type type, "name");
-
 #include "../asciiengine/core/IApp.hpp"
 #include "../asciiengine/client/AsciiClient.hpp"
 #include "../asciiengine/common/event/Subject.hpp"
@@ -20,12 +18,9 @@ class GameApp : public ascii::IApp {
         void update() noexcept;
         void render(double deltaTime) noexcept;
         void catchEvents(SDL_Event e) noexcept;
-        void close() noexcept;
-        bool isClosed() noexcept;
         ascii::client::Shader getCurrentShader() noexcept override;
     private:
         ascii::client::Shader shader;
-        bool closed = false;
         Player player;
         astd::Clock elapsedTimeInKeyPressing;
         const astd::string GodsEnvoy = ascii::util::getFileResources("resources/textures/GodsEnvoy.txt");

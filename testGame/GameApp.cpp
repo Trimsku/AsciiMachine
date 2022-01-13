@@ -6,13 +6,6 @@ void GameApp::catchEvents(SDL_Event e) noexcept {
 
 GameApp::~GameApp() noexcept {}
 
-bool GameApp::isClosed() noexcept {
-    return closed;
-}
-void GameApp::close() noexcept {
-    closed = true;
-}
-
 void GameApp::update() noexcept {
     if ( is_key_pressed(Q) ) close();
     if( is_key_pressed(G) && elapsedTimeInKeyPressing.getEllapsedTime() / 1000.0f > 1.0f ) {

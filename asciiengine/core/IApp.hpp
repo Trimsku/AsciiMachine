@@ -8,16 +8,27 @@
 namespace ascii {
     class IApp : public Engine {
         private: 
-            astd::container<ascii::client::Shader> shaders;
+            astd::container<client::Shader> shaders;
+            bool closed = false;
         public:
             void tick(bool *quit);
             void render(double deltaTime);
             void catchEvents(SDL_Event e, bool *quit);
-            inline void addShader(ascii::client::Shader shader) noexcept;
-            virtual ascii::client::Shader getCurrentShader() = 0;
+            inline void addShader(client::Shader shader) noexcept;
+            virtual client::Shader getCurrentShader() = 0;
+            inline bool isClosed() noexcept;
+            inline void close() noexcept;
+            inline void addShader(client::Shader shader) noexcept;
     };
-    void IApp::addShader(ascii::client::Shader shader) noexcept {
+
+    void IApp::addShader(client::Shader shader) noexcept {
         shaders.push(shader);
+    }
+    void IApp::close() noexcept {
+        closed = true;
+    }
+    bool IApp::isClosed() noexcept {
+        return closed;
     }
 }
 #ifdef __EMSCRIPTEN__
@@ -81,4 +92,5 @@ int main(int argc, char **argv) { \
     SDL_DestroyTexture(texTarget); \
     return 0; \
 }
+
 #endif
