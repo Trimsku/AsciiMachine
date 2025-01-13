@@ -1,5 +1,5 @@
 # Hello! This is AsciiMachine!
-The engine for create ascii games
+The engine to create ascii games
 AsciiMachine tested on Linux.
 
 Project has got small std alternatives and wrappers, i.e: 
